@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/kt3", "destination": "/mobile/", "permanent": false },
+    { "source": "/kt3/", "destination": "/mobile/", "permanent": false }
+  ]
+}

@@ -1,0 +1,87 @@
+/* Hindi Pakhwara — main content; header/footer come from ../kt/styles.css */
+html { background: #fffdfb; }
+body.hp { background: #fffdfb; color: #591416; }
+.hp-main { padding: 72px 0 90px; background: #fffdfb; }
+.hp-wrap { max-width: 1280px; margin: 0 auto; padding: 0 28px; }
+.hp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.hp-banner { width: 100%; height: auto; border: 1px solid #f2dfcc; border-radius: 14px; margin-bottom: 40px; }
+.hp-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; }
+.hp-card { display: flex; flex-direction: column; overflow: hidden; border: 1px solid #f2dfcc; border-radius: 16px; background: linear-gradient(135deg, #fff, #fff7ed); color: #591416; box-shadow: inset 0 1px 0 #ffffffd9, 0 5px 18px #6e330d10; transition: transform .2s, box-shadow .2s; }
+.hp-card:hover, .hp-card:focus-visible { transform: translateY(-4px); box-shadow: 0 8.4px 19.6px #6e330d26; }
+.hp-card:focus-visible { outline: 3px solid #bc0005; outline-offset: 4px; }
+.hp-art { position: relative; display: block; aspect-ratio: 144 / 117; }
+.hp-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: filter .3s; }
+.hp-card:hover .hp-art img { filter: brightness(1.15) drop-shadow(0 0 7px #ffffffb3); }
+.hp-label { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 16px 8px; min-height: 58px; border-top: 1px dashed #f2dfcc; font-size: 1.15rem; font-weight: 500; line-height: 1.45; }
+.hp-label > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hp-go { width: 30px; height: 30px; flex: none; }
+.hp-go circle { fill: none; stroke: #c60006; transition: fill .2s, stroke-opacity .2s; }
+.hp-go path { fill: #c60006; transition: fill .2s; }
+.hp-card:hover .hp-go circle { fill: #c60006; stroke-opacity: 0; }
+.hp-card:hover .hp-go path { fill: #fff7ed; }
+@media (max-width: 899px) { .hp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; } }
+@media (max-width: 599px) {
+  .hp-main { padding: 40px 0 56px; }
+  .hp-wrap { padding: 0 16px; }
+  .hp-banner { margin-bottom: 24px; }
+  .hp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .hp-art { aspect-ratio: 1.15; }
+  .hp-label { padding: 8px 10px 6px; min-height: 48px; font-size: 0.92rem; gap: 6px; }
+  .hp-label > span { white-space: normal; line-height: 1.3; }
+  .hp-go { width: 24px; height: 24px; }
+  .hp .glow-frame { margin-bottom: 24px; }
+}
+@media (prefers-reduced-motion: reduce) { .hp-card, .hp-art img { transition: none; } }
+
+.hp .site-header .header-nav-main a,
+.hp .site-header .chev { color: #591416; }
+.hp .site-header .header-nav-main a:hover { color: #bc0005; }
+.hp .site-header .header-search { background: #fff; border-color: #e2dbd2; }
+.hp .site-header .header-search input { color: #6f6f6f; }
+.hp .site-header .header-search input::placeholder { color: #8a8a8a; }
+.hp .site-header .header-search .search-icon { color: #8a8a8a; }
+.hp .site-header .pill-btn { background: #fff; border-color: #e2c9b3; color: #591416; }
+.hp .site-header .pill-btn:hover { background: #fff1e4; }
+.hp .search-static { color: #8a8a8a; }
+.hp .search-scroll-track span { color: #8a8a8a; }
+.hp .mic-btn { color: #8a8a8a; }
+
+/* Light navbar: always the floating pill (idle = scrolled); logo cross-fades on scroll */
+.hp .site-header,
+.hp .site-header.scrolled { --logo-w: 133px; padding: 10px 20px; background: transparent; border-bottom-color: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.hp .site-header .header-top,
+.hp .site-header.scrolled .header-top { max-width: 1224px; padding: 8px 20px; background: rgba(255, 253, 251, 0.97); border-color: #f2dfcc; box-shadow: 0 10px 30px rgba(110, 51, 13, 0.14); backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%); }
+/* higher specificity than kt/styles.css's site-wide light-theme flatten, so the pill's height/opacity
+   match the dark theme's pill (padding 8px 20px, ~0.94-0.97 opacity) instead of being fully flat */
+html[data-theme="light"] .hp .site-header .header-top,
+html[data-theme="light"] .hp .site-header.scrolled .header-top { padding: 8px 20px; background: rgba(255, 253, 251, 0.94); box-shadow: 0 10px 30px rgba(110, 51, 13, 0.14); }
+
+/* ---------- Dark theme for Hindi Pakhwara (light is the default) ---------- */
+html[data-theme="dark"] .hp, html[data-theme="dark"] { background: #1a0d0a; }
+html[data-theme="dark"] body.hp { color: #f3e3d3; }
+html[data-theme="dark"] .hp-main { background: #1a0d0a; }
+html[data-theme="dark"] .hp .site-header .header-top,
+html[data-theme="dark"] .hp .site-header.scrolled .header-top { background: rgba(30, 12, 10, 0.94); border-color: rgba(255, 220, 180, 0.22); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
+html[data-theme="dark"] .hp .site-header .header-nav-main a,
+html[data-theme="dark"] .hp .site-header .chev { color: #fff; }
+html[data-theme="dark"] .hp .site-header .header-nav-main a:hover { color: #FFDD70; }
+html[data-theme="dark"] .hp .site-header .header-search { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.25); }
+html[data-theme="dark"] .hp .site-header .header-search input { color: #fff; }
+html[data-theme="dark"] .hp .site-header .header-search input::placeholder { color: rgba(255, 255, 255, 0.7); }
+html[data-theme="dark"] .hp .site-header .header-search .search-icon { color: rgba(255, 255, 255, 0.8); }
+html[data-theme="dark"] .hp .site-header .pill-btn { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.35); color: #fff; }
+html[data-theme="dark"] .hp .site-header .pill-btn:hover { background: rgba(255, 255, 255, 0.22); }
+html[data-theme="dark"] .hp .search-static { color: rgba(255, 255, 255, 0.7); }
+html[data-theme="dark"] .hp .search-scroll-track span { color: rgba(255, 255, 255, 0.85); }
+html[data-theme="dark"] .hp .mic-btn { color: #fff; }
+html[data-theme="dark"] .hp-banner { border-color: rgba(255, 220, 180, 0.2); }
+html[data-theme="dark"] .hp-card { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.14); color: #f3e3d3; box-shadow: none; }
+html[data-theme="dark"] .hp-label { border-top-color: rgba(255, 255, 255, 0.16); }
+html[data-theme="dark"] .hp-go circle { stroke: #FFE7A3; }
+html[data-theme="dark"] .hp-go path { fill: #FFE7A3; }
+html[data-theme="dark"] .hp-card:hover .hp-go circle { fill: #FFE7A3; }
+html[data-theme="dark"] .hp-card:hover .hp-go path { fill: #3a0b0f; }
+html[data-theme="dark"] .hp-art { background: #f7e9d7; }
+
+/* edge-to-edge: keep the floating navbar below the phone's status bar / notch */
+.hp .site-header, .hp .site-header.scrolled { padding-top: calc(10px + env(safe-area-inset-top)); }

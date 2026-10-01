@@ -1,0 +1,26 @@
+/* Order confirmation page */
+.ord-main { padding: 40px 0 70px; display: flex; justify-content: center; }
+.ord { width: 100%; max-width: 560px; margin: 0 auto; }
+.ord-card { padding: 36px 30px 30px; border-radius: 22px; text-align: center; background: #fff7ec; border: 1px solid #e6cdae; box-shadow: 0 18px 40px rgba(122, 58, 29, 0.14); }
+html[data-theme="dark"] .ord-card { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.14); box-shadow: none; }
+.ord-tick { width: 66px; height: 66px; margin: 0 auto 16px; border-radius: 50%; display: grid; place-items: center; background: #2f7a4c; color: #fff; }
+html[data-theme="dark"] .ord-tick { background: #4fae76; }
+.ord-tick svg { width: 32px; height: 32px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.ord-card h1 { margin: 0 0 8px; font-size: 1.6rem; font-weight: 600; }
+.ord-sub { margin: 0 0 22px; opacity: 0.75; font-size: 0.95rem; }
+.ord-box { text-align: left; padding: 16px 18px; border-radius: 14px; background: rgba(160, 54, 31, 0.06); margin-bottom: 18px; }
+html[data-theme="dark"] .ord-box { background: rgba(255, 255, 255, 0.05); }
+.ord-row { display: flex; justify-content: space-between; gap: 14px; padding: 9px 0; border-bottom: 1px dotted rgba(160, 54, 31, 0.2); font-size: 0.88rem; }
+html[data-theme="dark"] .ord-row { border-bottom-color: rgba(255, 255, 255, 0.14); }
+.ord-row:last-child { border-bottom: 0; }
+.ord-row span { opacity: 0.65; }
+.ord-row b { font-weight: 600; text-align: right; }
+.ord-row--total { padding-top: 12px; margin-top: 4px; border-top: 1px solid rgba(160, 54, 31, 0.25); font-size: 1.05rem; }
+html[data-theme="dark"] .ord-row--total { border-top-color: rgba(255, 255, 255, 0.22); }
+.ord-row--total b { color: #a0361f; }
+html[data-theme="dark"] .ord-row--total b { color: #ffab98; }
+.ord-note { margin: 0 0 20px; font-size: 0.78rem; opacity: 0.55; }
+.ord-actions .bk-btn { padding: 12px 28px; }
+.ord-missing { padding: 60px 16px; text-align: center; }
+.ord-missing p { opacity: 0.7; margin: 8px 0 20px; }
+@media (max-width: 600px) { .ord-card { padding: 28px 18px 22px; } }

@@ -1,0 +1,7 @@
+/* Set 2: the hero artwork carries its own text, so no overlay styles are needed. */
+
+/* Offer tiers: yellow accents use #FFE174 on this page (dark theme) */
+html[data-theme="dark"] .offer-amount,
+html[data-theme="dark"] .offer-amount span { color: #FFE174; }
+html[data-theme="dark"] .offer-perk-list li::before { background: #FFE174; color: #4a1a0a; }
+html[data-theme="dark"] .offer-discount-pill--highlight { background: #FFE174; border-color: transparent; }

@@ -1,0 +1,53 @@
+/* Checkout page */
+.co-main { padding-top: 30px; padding-bottom: 60px; }
+.co-title { margin: 0 0 22px; font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 600; }
+.co-grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 32px; align-items: start; }
+.co-card { padding: 20px 22px; margin-bottom: 18px; border-radius: 18px; background: #fff7ec; border: 1px solid #e6cdae; }
+html[data-theme="dark"] .co-card { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.14); }
+.co-card h2 { margin: 0 0 16px; font-size: 1.05rem; font-weight: 600; }
+.co-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.co-fields label { display: flex; flex-direction: column; gap: 6px; font-size: 0.82rem; font-weight: 500; opacity: 0.85; }
+.co-fields .co-span2 { grid-column: 1 / -1; }
+.co-fields input { padding: 11px 13px; border-radius: 10px; border: 1px solid #e6cdae; background: #fff; color: inherit; font: 400 0.95rem 'Google Sans Flex', 'Noto Sans Devanagari', sans-serif; }
+.co-fields input:focus { outline: 2px solid #a0361f; outline-offset: 1px; }
+html[data-theme="dark"] .co-fields input { background: rgba(0, 0, 0, 0.25); border-color: rgba(255, 255, 255, 0.2); }
+html[data-theme="dark"] .co-fields input:focus { outline-color: #f28b7d; }
+.co-pay { display: flex; flex-wrap: wrap; gap: 10px; }
+.co-pay__opt { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; border: 1.5px solid #e6cdae; cursor: pointer; font-size: 0.9rem; font-weight: 500; }
+.co-pay__opt:has(input:checked) { border-color: #a0361f; background: rgba(160, 54, 31, 0.08); }
+html[data-theme="dark"] .co-pay__opt { border-color: rgba(255, 255, 255, 0.2); }
+html[data-theme="dark"] .co-pay__opt:has(input:checked) { border-color: #f28b7d; background: rgba(122, 167, 245, 0.14); }
+.co-note { margin: 14px 0 0; font-size: 0.78rem; opacity: 0.6; }
+
+.co-summary { position: sticky; top: 100px; padding: 20px 22px; border-radius: 18px; background: #fff7ec; border: 1px solid #e6cdae; }
+html[data-theme="dark"] .co-summary { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.14); }
+.co-summary h2 { margin: 0 0 14px; font-size: 1.05rem; font-weight: 600; }
+.co-lines { list-style: none; margin: 0 0 14px; padding: 0; max-height: 260px; overflow-y: auto; }
+.co-lines li { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px dotted rgba(160, 54, 31, 0.2); }
+html[data-theme="dark"] .co-lines li { border-bottom-color: rgba(255, 255, 255, 0.14); }
+.co-lines img { width: 40px; height: 60px; object-fit: cover; border-radius: 4px; }
+.co-line__info { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.co-line__info b { font-size: 0.85rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.co-line__info span { font-size: 0.74rem; opacity: 0.65; }
+.co-lines strong { font-size: 0.85rem; color: #a0361f; white-space: nowrap; }
+html[data-theme="dark"] .co-lines strong { color: #ffab98; }
+.co-offer { margin-bottom: 12px; padding: 9px 12px; border-radius: 12px; font-size: 0.82rem; font-weight: 600; background: linear-gradient(135deg, #cfe0ff, #b3d0ff); color: #0c1a33; }
+.co-sum { margin: 0 0 14px; display: grid; gap: 5px; }
+.co-sum div { display: flex; justify-content: space-between; font-size: 0.9rem; }
+.co-sum dt, .co-sum dd { margin: 0; }
+.co-save dd { color: #2f7a4c; font-weight: 600; }
+html[data-theme="dark"] .co-save dd { color: #7fd6a0; }
+.co-total { padding-top: 8px; margin-top: 3px; border-top: 1px solid rgba(160, 54, 31, 0.2); font-size: 1.1rem !important; font-weight: 700; }
+html[data-theme="dark"] .co-total { border-top-color: rgba(255, 255, 255, 0.2); }
+.co-place { width: 100%; padding: 13px 18px; font-size: 0.98rem; }
+.co-secure { display: flex; align-items: center; gap: 6px; justify-content: center; margin: 12px 0 0; font-size: 0.76rem; opacity: 0.6; }
+.co-secure svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.co-empty { text-align: center; padding: 70px 0; grid-column: 1 / -1; }
+.co-empty h2 { margin: 0 0 8px; }
+.co-empty p { margin: 0 0 20px; opacity: 0.7; }
+
+@media (max-width: 900px) {
+  .co-grid { grid-template-columns: 1fr; }
+  .co-summary { position: static; order: -1; }
+  .co-fields { grid-template-columns: 1fr; }
+}
