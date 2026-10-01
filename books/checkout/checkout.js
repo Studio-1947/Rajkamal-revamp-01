@@ -66,8 +66,18 @@
       if (!e.target.reportValidity()) return;
       var fd = new FormData(e.target), name = fd.get("name");
       var orderId = "RK" + Date.now().toString().slice(-8);
+      var addr = [fd.get("addr"), fd.get("city"), fd.get("state") + " " + fd.get("pin")].filter(Boolean).join(", ");
       try {
-        sessionStorage.setItem("rk-last-order", JSON.stringify({ id: orderId, name: name, total: payable, items: ids.length, pay: fd.get("pay"), addr: [fd.get("addr"), fd.get("city"), fd.get("state") + " " + fd.get("pin")].filter(Boolean).join(", ") }));
+        sessionStorage.setItem("rk-last-order", JSON.stringify({ id: orderId, name: name, total: payable, items: ids.length, pay: fd.get("pay"), addr: addr }));
+      } catch (err) {}
+      /* remember the order in localStorage so the My Account page can list it (design preview only) */
+      try {
+        var rec = { local: true, id: orderId, date: new Date().toISOString().slice(0, 10), eta: new Date(Date.now() + 5 * 86400000).toISOString().slice(0, 10),
+          total: payable, pay: fd.get("pay"), status: "transit", addr: addr,
+          items: ids.map(function (id) { var b = prices[id] || [id, "", 0, 0, id]; return { id: id, qty: counts[id], price: b[2], disc: b[3], img: "../books/covers/" + id + ".jpg" }; }) };
+        var past = JSON.parse(localStorage.getItem("rk-orders") || "[]");
+        past.unshift(rec);
+        localStorage.setItem("rk-orders", JSON.stringify(past.slice(0, 20)));
       } catch (err) {}
       S.clear();
       location.href = "../order/?id=" + orderId + "&from=" + encodeURIComponent(from);

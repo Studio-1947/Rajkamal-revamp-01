@@ -237,6 +237,15 @@
   Store.refresh();
   window.addEventListener("storage", Store.refresh);
 
+  /* My Account: the header's account button opens the account page */
+  var accountUrl = (function () {
+    var s = document.querySelector('script[src*="mobile-nav.js"]');
+    var base = s ? s.src.replace(/kt\/mobile-nav\.js.*$/, "") : "";
+    return base + "account/";
+  })();
+  var accountBtn = icons.querySelector(".pill-btn--account");
+  if (accountBtn) accountBtn.addEventListener("click", function () { location.href = accountUrl; });
+
   /* ---- bottom tab bar (phones only): docked out of sight, slides into view once the page is scrolled ---- */
   (function () {
     var ROOT = (function () {
@@ -317,8 +326,8 @@
           '<span class="mobile-profile__label">Appearance<i>Light / dark mode</i></span>' +
           '<span class="mobile-profile__switch" id="mobileProfileThemeVal" role="switch" aria-checked="false"><i>Light</i><b class="mobile-profile__knob"></b><i>Dark</i></span>' +
         '</button>' +
-        '<a class="mobile-profile__row" href="#" data-act="account"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"/></svg></span><span class="mobile-profile__label">My Account</span></a>' +
-        '<a class="mobile-profile__row" href="#" data-act="orders"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg></span><span class="mobile-profile__label">My Orders</span></a>' +
+        '<a class="mobile-profile__row" href="' + ROOT + 'account/" data-act="account"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"/></svg></span><span class="mobile-profile__label">My Account</span></a>' +
+        '<a class="mobile-profile__row" href="' + ROOT + 'account/?tab=orders" data-act="orders"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg></span><span class="mobile-profile__label">My Orders</span></a>' +
         '<button type="button" class="mobile-profile__row" data-act="wish"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-9.3-9.3C1.5 8 3.4 5 6.5 5c1.9 0 3.3 1 4.1 2.3h.8C12.2 6 13.6 5 15.5 5c3.1 0 5 3 3.8 6.2-1.8 4.7-9.3 9.3-9.3 9.3z"/></svg></span><span class="mobile-profile__label">Wishlist</span></button>' +
         '<button type="button" class="mobile-profile__row" data-act="cart"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2.5 3h2l2.3 12.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6"/></svg></span><span class="mobile-profile__label">Cart</span></button>' +
         '<a class="mobile-profile__row" href="' + ROOT + 'books/?c=khud-se-judein&from=kt" data-act="books"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span><span class="mobile-profile__label">All Books</span></a>' +
@@ -351,7 +360,7 @@
       } else if (row.dataset.act === "wish") { setProfile(false); Store.openWishlist(); }
       else if (row.dataset.act === "cart") { setProfile(false); Store.openCart(true); }
       else if (row.dataset.act === "account" || row.dataset.act === "orders") {
-        e.preventDefault(); setProfile(false); Store.toast("Account pages aren’t part of this preview");
+        setProfile(false); // real href now — navigates to the account page
       }
     });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !profileSheet.hidden) setProfile(false); });
