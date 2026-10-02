@@ -1,0 +1,23 @@
+/* 404 page (root 404.html) — copy as on the live site, in the catalogue's colours. */
+.nf-main { padding: 70px 0 90px; }
+.nf { display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 720px; }
+.nf-code { margin: 0; font-size: clamp(5.5rem, 16vw, 9.5rem); font-weight: 600; line-height: 1; letter-spacing: -0.02em; color: #a0361f; }
+html[data-theme="dark"] .nf-code { color: #ffab98; }
+.nf-title { margin: 18px 0 8px; font-size: clamp(1.6rem, 4vw, 2.3rem); font-weight: 600; }
+.nf-sub { margin: 0; font-size: 1.02rem; opacity: 0.85; }
+.nf-hi { margin: 6px 0 0; font-size: 0.95rem; opacity: 0.7; }
+.nf-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 28px; }
+.nf-actions .bk-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 170px; padding: 12px 22px; font-size: 0.95rem; text-decoration: none; }
+.nf-actions .bk-btn--buy { color: #fff; }
+html[data-theme="dark"] .nf-actions .bk-btn--buy { color: #3a0d08; }
+.nf-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 30px; padding-top: 24px; border-top: 1px dotted rgba(160, 54, 31, 0.35); }
+html[data-theme="dark"] .nf-links { border-top-color: rgba(255, 255, 255, 0.2); }
+.nf-links a { padding: 7px 14px; border-radius: 999px; border: 1px solid #e6cdae; color: inherit; font-size: 0.86rem; font-weight: 500; text-decoration: none; }
+html[data-theme="dark"] .nf-links a { border-color: rgba(255, 255, 255, 0.16); }
+.nf-links a:hover { border-color: #a0361f; color: #a0361f; }
+html[data-theme="dark"] .nf-links a:hover { border-color: #ffab98; color: #ffab98; }
+@media (max-width: 720px) {
+  .nf-main { padding: 48px 0 64px; }
+  .nf-actions { flex-direction: column; width: 100%; max-width: 320px; }
+  .nf-actions .bk-btn { width: 100%; }
+}

@@ -1,0 +1,141 @@
+/* Phase 6: Forms — Contact us, Publish with us, Work with us, Report an issue.
+   Shared layout. Hero, cards and buttons come from kt/content.css (cnt-*). */
+
+.fm-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+  gap: 26px;
+  align-items: start;
+  margin-top: 26px;
+}
+
+/* left column: contact / info cards */
+.fm-side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fm-card {
+  background: var(--cnt-card);
+  border: 1px solid var(--cnt-border);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.fm-card h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--cnt-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fm-card h3 svg { flex: none; color: var(--cnt-accent); }
+
+.fm-card p { margin: 0 0 4px; font-size: 0.88rem; line-height: 1.6; color: var(--cnt-mute); }
+.fm-card p:last-child { margin-bottom: 0; }
+.fm-card a { color: var(--cnt-accent); text-decoration: underline; text-underline-offset: 3px; }
+html[data-theme="dark"] .fm-card a { color: var(--cnt-accent); }
+
+/* right column: the form card */
+.fm-formcard {
+  background: var(--cnt-card);
+  border: 1px solid var(--cnt-border);
+  border-radius: 18px;
+  padding: 24px;
+}
+
+.fm-sect {
+  margin: 0 0 14px;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--cnt-text);
+  padding-bottom: 8px;
+  border-bottom: 1px dotted var(--cnt-border);
+}
+.fm-sect:not(:first-child) { margin-top: 26px; }
+
+.fm-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+
+.fm-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; min-width: 0; }
+
+.fm-field label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--cnt-text);
+}
+
+.fm-field label i { font-style: normal; opacity: 0.6; font-weight: 500; }
+
+.fm-field input,
+.fm-field select,
+.fm-field textarea {
+  width: 100%;
+  padding: 11px 13px;
+  border-radius: 12px;
+  border: 1px solid var(--cnt-border);
+  background: #fffdfb;
+  color: var(--cnt-text);
+  font: 400 0.92rem "Google Sans Flex", "Noto Sans Devanagari", system-ui, sans-serif;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fm-field textarea { resize: vertical; min-height: 110px; }
+
+.fm-field input:focus,
+.fm-field select:focus,
+.fm-field textarea:focus {
+  outline: none;
+  border-color: var(--cnt-accent);
+  box-shadow: 0 0 0 3px rgba(160, 54, 31, 0.14);
+}
+
+.fm-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237d5e53' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  padding-right: 36px;
+}
+
+/* validation */
+.fm-field .fm-err { display: none; font-size: 0.76rem; color: #c0392b; }
+.fm-field.is-bad input,
+.fm-field.is-bad select,
+.fm-field.is-bad textarea { border-color: #c0392b; box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.12); }
+.fm-field.is-bad .fm-err { display: block; }
+
+/* declaration checkbox */
+.fm-check { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 14px; }
+.fm-check input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--cnt-accent); flex: none; }
+.fm-check label { font-size: 0.85rem; line-height: 1.55; color: var(--cnt-mute); cursor: pointer; }
+.fm-check.is-bad label { color: #c0392b; }
+
+.fm-note { margin: 0 0 16px; font-size: 0.8rem; color: var(--cnt-mute); }
+
+/* success panel */
+.fm-done { display: none; text-align: center; padding: 26px 10px; }
+.fm-formcard.is-done .fm-done { display: block; }
+.fm-formcard.is-done form { display: none; }
+
+.fm-done .fm-tick {
+  width: 62px; height: 62px; margin: 0 auto 14px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(47, 122, 76, 0.14); color: #2f7a4c; font-size: 1.9rem;
+}
+.fm-done h3 { margin: 0 0 6px; font-size: 1.15rem; color: var(--cnt-text); }
+.fm-done p { margin: 0 auto 18px; max-width: 46ch; font-size: 0.9rem; line-height: 1.6; color: var(--cnt-mute); }
+
+@media (max-width: 860px) {
+  .fm-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .fm-row { grid-template-columns: 1fr; }
+  .fm-formcard { padding: 18px 16px; }
+}

@@ -82,12 +82,12 @@
     var local = LOCAL[b.id];
     var url = local ? siteURL("../books/product/?id=" + encodeURIComponent(b.id) + "&c=" + encodeURIComponent(local) + "&from=home") : SITE + "/products/" + b.id;
     var tgt = local ? "" : ' target="_blank" rel="noopener noreferrer"';
-    var price = b.p != null ? '<span class="hm-price"><strong>' + fmt(b.p) + '</strong>' + (b.m && b.m > b.p ? '<s>' + fmt(b.m) + '</s>' : '') + '</span>' : "";
-    var off = b.off ? '<span class="hm-off">' + b.off + '% off</span>' : "";
+    var off = b.off ? ' <span class="hm-off">' + b.off + '% off</span>' : "";
+    var price = b.p != null ? '<span class="hm-price"><strong>' + fmt(b.p) + '</strong>' + (b.m && b.m > b.p ? '<s>' + fmt(b.m) + '</s>' : '') + off + '</span>' : "";
     var actions = b.oos
       ? '<div class="hm-actions"><span class="hm-oos">Out of stock</span></div>'
       : '<div class="hm-actions bk-actions" data-id="' + esc(b.id) + '"><button type="button" class="bk-btn bk-btn--cart" data-act="cart">Add to cart</button><button type="button" class="bk-btn bk-btn--wish" data-act="wish" aria-label="Add to wishlist" aria-pressed="' + (window.RKStore && RKStore.isWished(b.id) ? "true" : "false") + '">' + HEART + '</button><button type="button" class="bk-btn bk-btn--buy" data-act="buy">Buy now</button></div>';
-    return '<article class="hm-card"' + monthAttr + '><a class="hm-cover" href="' + esc(url) + '"' + tgt + ' aria-label="' + esc(b.t) + '"><img src="' + esc(homeImg(b.img)) + '" alt="' + esc(b.t) + ' — cover" loading="lazy" width="300" height="440">' + off + '</a>' +
+    return '<article class="hm-card"' + monthAttr + '><a class="hm-cover" href="' + esc(url) + '"' + tgt + ' aria-label="' + esc(b.t) + '"><img src="' + esc(homeImg(b.img)) + '" alt="' + esc(b.t) + ' — cover" loading="lazy" width="300" height="440"></a>' +
       '<div class="hm-info"><h3 class="hm-name"><a href="' + esc(url) + '"' + tgt + '>' + esc(b.t) + '</a></h3><p class="hm-author">' + esc(b.a || b.c) + '</p><p class="hm-cat">' + esc(b.a ? b.c : "") + '</p>' + price + actions + '</div></article>';
   }
   function slug(s) { return "hm-sec-" + s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
@@ -99,13 +99,10 @@
       '<button type="button" class="hm-month is-on" data-month="" role="tab" aria-selected="true">All</button>' +
       months.map(function (m) { return '<button type="button" class="hm-month" data-month="' + esc(m) + '" role="tab" aria-selected="false">' + esc(m) + '</button>'; }).join("") +
       '</div>' : "";
-    var isCompact = k === "Bestsellers" || k === "Children Books" || k === "हिन्दी दिवस";
-    var exploreHref = k === "Bestsellers" ? siteURL("../books/?c=bestsellers&from=home") : SITE + t[2];
-    var exploreBtn = isCompact ? '<a class="hm-explore-all" href="' + esc(exploreHref) + '"' + (k === "Bestsellers" ? "" : ' target="_blank" rel="noopener noreferrer"') + '>Explore All ' + esc(t[1]) + '</a>' : "";
     html += '<section class="hm-sec' + (idx % 2 ? " hm-sec--alt" : "") + '" id="' + slug(k) + '"><div class="hm-wrap"><header class="hm-head"><div><p class="hm-eyebrow">' + esc(t[0]) + '</p><h2>' + esc(t[1]) + '</h2></div>' +
       '<div class="hm-ctl"><a class="hm-all" href="' + SITE + t[2] + '" target="_blank" rel="noopener noreferrer">View all ↗</a><button type="button" class="hm-nav" data-dir="-1" aria-label="Scroll left">←</button><button type="button" class="hm-nav" data-dir="1" aria-label="Scroll right">→</button></div></header>' +
       monthBar +
-      '<div class="hm-shelf" tabindex="0">' + H.sections[k].map(card).join("") + '</div>' + exploreBtn + '</div></section>';
+      '<div class="hm-shelf" tabindex="0">' + H.sections[k].map(card).join("") + '</div></div></section>';
   });
   root.innerHTML = html;
 

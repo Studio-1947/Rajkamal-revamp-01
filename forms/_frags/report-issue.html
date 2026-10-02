@@ -1,0 +1,87 @@
+<main class="hp-main cnt-main">
+  <div class="hp-wrap">
+    <div class="cnt-topbar">
+      <nav class="pd-crumbs" aria-label="Breadcrumb">
+        <a href="../home/">Home</a><span>/</span><b>Report an Issue</b>
+      </nav>
+    </div>
+
+    <section class="cnt-hero">
+      <p class="cnt-hero__eyebrow">Report an Issue • समस्या दर्ज करें</p>
+      <h1 class="cnt-hero__title">Report an Issue / Tell us what happened</h1>
+      <p class="cnt-hero__sub">A damaged book, a missing parcel, a payment that didn't go through — tell us and we will make it right.</p>
+    </section>
+
+    <div class="fm-grid">
+      <aside class="fm-side">
+        <div class="fm-card">
+          <h3>Order problems</h3>
+          <p>If your question is about where your parcel is, check <a href="../track/">Track Your Order</a> first — it usually answers delivery questions instantly.</p>
+        </div>
+        <div class="fm-card">
+          <h3>What to include</h3>
+          <p>Your order ID (if you have one), what went wrong, and photos of a damaged book if possible — it helps us resolve things in one go.</p>
+        </div>
+        <div class="fm-card">
+          <h3>Urgent?</h3>
+          <p>Call us on 011 4263 8228 (Mon–Sat, 10 am – 6 pm) or email <a href="mailto:info@rajkamalprakashan.com">info@rajkamalprakashan.com</a>.</p>
+        </div>
+      </aside>
+
+      <div class="fm-formcard" id="fmCard">
+        <form class="fm-form" id="fmForm" data-fm="report-issue" novalidate>
+          <div class="fm-row">
+            <div class="fm-field">
+              <label for="r-order">Order ID <i>(optional)</i></label>
+              <input type="text" id="r-order" name="orderid" data-rule="code" placeholder="e.g. RKP1234567">
+            </div>
+            <div class="fm-field">
+              <label for="r-type">What went wrong? <i>*</i></label>
+              <select id="r-type" name="issuetype" required>
+                <option value="">Choose an issue…</option>
+                <option>Damaged book received</option>
+                <option>Wrong or missing item</option>
+                <option>Delivery is delayed</option>
+                <option>Payment deducted, order not placed</option>
+                <option>Refund not received</option>
+                <option>Problem on the website</option>
+                <option>Something else</option>
+              </select>
+              <span class="fm-err">Please choose an issue type.</span>
+            </div>
+          </div>
+          <div class="fm-field">
+            <label for="r-desc">Describe the problem <i>*</i></label>
+            <textarea id="r-desc" name="description" rows="5" placeholder="What happened, and when?" required></textarea>
+            <span class="fm-err">Please describe the problem.</span>
+          </div>
+          <div class="fm-row">
+            <div class="fm-field">
+              <label for="r-name">Your name <i>*</i></label>
+              <input type="text" id="r-name" name="name" autocomplete="name" placeholder="Your name" required>
+              <span class="fm-err">Please enter your name.</span>
+            </div>
+            <div class="fm-field">
+              <label for="r-phone">Phone <i>*</i></label>
+              <input type="tel" id="r-phone" name="phone" autocomplete="tel" placeholder="10-digit mobile number" required>
+              <span class="fm-err">Please enter a valid 10-digit mobile number.</span>
+            </div>
+          </div>
+          <div class="fm-field">
+            <label for="r-email">Email <i>*</i></label>
+            <input type="email" id="r-email" name="email" autocomplete="email" placeholder="you@example.com" required>
+            <span class="fm-err">Please enter a valid email address.</span>
+          </div>
+          <p class="fm-note">Fields marked <i>*</i> are required.</p>
+          <button type="submit" class="cnt-btn cnt-btn--primary">Submit report</button>
+        </form>
+        <div class="fm-done">
+          <div class="fm-tick">✓</div>
+          <h3>Report received — धन्यवाद!</h3>
+          <p>Thank you for telling us. Our support team will look into this and reply within 1–2 working days. Your ticket number is shown in your account.</p>
+          <button type="button" class="cnt-btn cnt-btn--ghost" data-fm-again>Report another issue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

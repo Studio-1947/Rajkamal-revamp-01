@@ -11,8 +11,8 @@
 <script>try{var t=localStorage.getItem("rk-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="kt/styles.css?v=b25">
-<link rel="stylesheet" href="hp/hp.css?v=b3"><link rel="stylesheet" href="books/books.css?v=12"><link rel="stylesheet" href="home/home.css?v=71">
+<link rel="stylesheet" href="kt/styles.css?v=b31">
+<link rel="stylesheet" href="hp/hp.css?v=b3"><link rel="stylesheet" href="books/books.css?v=14"><link rel="stylesheet" href="home/home.css?v=73">
 </head>
 <body class="hp home-page">
 
@@ -49,11 +49,11 @@
     <nav class="header-nav-main">
       <ul>
         <li><a href="#">All Books <svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></a></li>
-        <li><a href="#">Authors <svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></a></li>
-        <li><a href="#">E-Books <svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></a></li>
-        <li><a href="#">Publications <svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></a></li>
-        <li><a href="#">Catalogue <svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></a></li>
-        <li><a href="#">Events <svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></a></li>
+        <li><a href="authors/">Authors</a></li>
+        <li><a href="ebooks/">E-Books</a></li>
+        <li><a href="publications/">Publications <svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></a></li>
+        <li><a href="catalogues/">Catalogue</a></li>
+        <li><a href="events/">Events</a></li>
       </ul>
     </nav>
 
@@ -168,9 +168,9 @@
       <div>
         <h4>About Us</h4>
         <ul>
-          <li><a href="#">The Legacy</a></li>
-          <li><a href="#">Newsletter</a></li>
-          <li><a href="#">FAQ's</a></li>
+          <li><a href="about/">The Legacy</a></li>
+          <li><a href="newsletter/">Newsletter</a></li>
+          <li><a href="faq/">FAQ's</a></li>
         </ul>
       </div>
       <div class="footer-subgroup">
@@ -178,7 +178,7 @@
         <ul>
           <li><a href="#">Work With Us</a></li>
           <li><a href="#">Publish With Us</a></li>
-          <li><a href="#">Publishing Guidelines</a></li>
+          <li><a href="publishing-guidelines/">Publishing Guidelines</a></li>
         </ul>
       </div>
     </div>
@@ -186,7 +186,7 @@
       <div>
         <h4>Support</h4>
         <ul>
-          <li><a href="#">Track Your Order</a></li>
+          <li><a href="track/">Track Your Order</a></li>
           <li><a href="#">Return &amp; Exchange</a></li>
           <li><a href="#">Report an Issue</a></li>
         </ul>
@@ -324,9 +324,11 @@
     sync();
   })();
 </script>
-<script src="kt/mobile-nav.js?v=23"></script>
+<script src="kt/mobile-nav.js?v=30"></script>
+<script src="kt/all-books.js?v=7"></script>
+<script src="kt/forms.js?v=2"></script>
 <script src="books/books-data.js?v=2"></script>
 <script src="home/home-data.js?v=4"></script>
-<script src="home/home.js?v=37"></script>
+<script src="home/home.js?v=39"></script>
 </body>
 </html>

@@ -1,0 +1,116 @@
+<main class="hp-main cnt-main">
+  <div class="hp-wrap">
+    <div class="cnt-topbar">
+      <nav class="pd-crumbs" aria-label="Breadcrumb">
+        <a href="../home/">Home</a><span>/</span><b>Publish With Us</b>
+      </nav>
+    </div>
+
+    <section class="cnt-hero">
+      <p class="cnt-hero__eyebrow">Send Us Your Manuscript • पुस्तक-प्रकाशन के लिए</p>
+      <h1 class="cnt-hero__title">Publish With Us / पुस्तक-प्रकाशन के लिए</h1>
+      <p class="cnt-hero__sub">Since 1947 we have published voices that shaped Hindi literature. If you have a manuscript — a novel, poetry, essays, translation, or academic work — we would love to read it.</p>
+    </section>
+
+    <div class="fm-grid">
+      <aside class="fm-side">
+        <div class="fm-card">
+          <h3>What happens next</h3>
+          <p>1. Our editorial team reviews every proposal that reaches us.</p>
+          <p>2. If it fits our list, an editor contacts you for the full manuscript.</p>
+          <p>3. We reply to every submission — please allow 4–6 weeks.</p>
+        </div>
+        <div class="fm-card">
+          <h3>Before you send</h3>
+          <p>Please send only original, unpublished work that is not under consideration elsewhere. For poetry, a sample of 15–20 poems is enough to begin.</p>
+          <p>Prefer email? Write to <a href="mailto:info@rajkamalprakashan.com?subject=Manuscript%20Proposal">info@rajkamalprakashan.com</a>.</p>
+        </div>
+      </aside>
+
+      <div class="fm-formcard" id="fmCard">
+        <form class="fm-form" id="fmForm" data-fm="publish-with-us" novalidate>
+          <h3 class="fm-sect">प्रस्तावित पुस्तक की जानकारी / About your proposed book</h3>
+          <div class="fm-row">
+            <div class="fm-field">
+              <label for="p-title">Book title <i>*</i></label>
+              <input type="text" id="p-title" name="booktitle" placeholder="Working title of your book" required>
+              <span class="fm-err">Please enter the book title.</span>
+            </div>
+            <div class="fm-field">
+              <label for="p-cat">Category</label>
+              <select id="p-cat" name="category">
+                <option>Fiction / उपन्यास-कहानी</option>
+                <option>Poetry / कविता</option>
+                <option>Essays &amp; criticism / निबंध-आलोचना</option>
+                <option>Memoir &amp; biography / संस्मरण-जीवनी</option>
+                <option>History &amp; politics / इतिहास-राजनीति</option>
+                <option>Translation / अनुवाद</option>
+                <option>Children's books / बाल साहित्य</option>
+                <option>Academic &amp; textbook / शैक्षिक</option>
+                <option>Other / अन्य</option>
+              </select>
+            </div>
+          </div>
+          <div class="fm-field">
+            <label for="p-syn">Short synopsis <i>*</i></label>
+            <textarea id="p-syn" name="synopsis" rows="5" placeholder="What is the book about? 150–300 words is ideal." required></textarea>
+            <span class="fm-err">Please add a short synopsis.</span>
+          </div>
+          <div class="fm-row">
+            <div class="fm-field">
+              <label for="p-words">Approximate length <i>(in words)</i></label>
+              <input type="text" id="p-words" name="qty" inputmode="numeric" placeholder="e.g. 60000">
+            </div>
+            <div class="fm-field">
+              <label for="p-link">Link to sample chapters <i>(Google Drive / Dropbox)</i></label>
+              <input type="url" id="p-link" name="samplelink" placeholder="https://…">
+            </div>
+          </div>
+
+          <h3 class="fm-sect">लेखक / प्रस्तावक की जानकारी / About you</h3>
+          <div class="fm-row">
+            <div class="fm-field">
+              <label for="p-name">Full name <i>*</i></label>
+              <input type="text" id="p-name" name="name" autocomplete="name" placeholder="Your name" required>
+              <span class="fm-err">Please enter your name.</span>
+            </div>
+            <div class="fm-field">
+              <label for="p-phone">Phone <i>*</i></label>
+              <input type="tel" id="p-phone" name="phone" autocomplete="tel" placeholder="10-digit mobile number" required>
+              <span class="fm-err">Please enter a valid 10-digit mobile number.</span>
+            </div>
+          </div>
+          <div class="fm-row">
+            <div class="fm-field">
+              <label for="p-email">Email <i>*</i></label>
+              <input type="email" id="p-email" name="email" autocomplete="email" placeholder="you@example.com" required>
+              <span class="fm-err">Please enter a valid email address.</span>
+            </div>
+            <div class="fm-field">
+              <label for="p-city">City</label>
+              <input type="text" id="p-city" name="city" placeholder="e.g. Patna">
+            </div>
+          </div>
+          <div class="fm-field">
+            <label for="p-bio">About you <i>(a few lines)</i></label>
+            <textarea id="p-bio" name="bio" rows="3" placeholder="Previously published work, if any…"></textarea>
+          </div>
+
+          <h3 class="fm-sect">घोषणा / Declaration</h3>
+          <div class="fm-check" id="p-check">
+            <input type="checkbox" id="p-decl" required>
+            <label for="p-decl">यह पांडुलिपि मेरी मौलिक रचना है और किसी अन्य प्रकाशक के पास विचाराधीन नहीं है। I confirm this work is original and is not under consideration with any other publisher. <i>*</i></label>
+          </div>
+          <p class="fm-note">Fields marked <i>*</i> are required.</p>
+          <button type="submit" class="cnt-btn cnt-btn--primary">Send proposal</button>
+        </form>
+        <div class="fm-done">
+          <div class="fm-tick">✓</div>
+          <h3>Proposal received — धन्यवाद!</h3>
+          <p>Our editors will review your proposal and get back to you within 4–6 weeks. Please don't send the full manuscript until an editor asks for it.</p>
+          <button type="button" class="cnt-btn cnt-btn--ghost" data-fm-again>Send another proposal</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

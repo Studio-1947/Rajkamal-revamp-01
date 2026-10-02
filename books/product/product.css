@@ -12,8 +12,8 @@ html[data-theme="dark"] .pd-share:hover { background: rgba(255, 255, 255, 0.1); 
 .pd-crumbs b { font-weight: 600; }
 .pd-crumbs span { opacity: 0.5; }
 .pd { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 40px; align-items: start; }
-.pd-cover { position: sticky; top: 100px; aspect-ratio: 1 / 1; border-radius: 0; overflow: hidden; background: #efe3d3; box-shadow: none; }
-.pd-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pd-cover { position: sticky; top: 100px; aspect-ratio: 2 / 3; border-radius: 0; overflow: hidden; background: #efe3d3; box-shadow: none; } /* frame matches the covers (~2:3) so the art reaches edge to edge — still never cropped */
+.pd-cover img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .pd-cover__fallback { display: none; }
 .pd-cover.no-img { display: grid; place-items: center; padding: 20px; text-align: center; font-weight: 600; font-size: 1.4rem; color: #fff; background: linear-gradient(155deg, #8a3a2a, #4a1a12); }
 .pd-cover.no-img .pd-cover__fallback { display: block; }
@@ -73,3 +73,6 @@ html[data-theme="dark"] .pd-table div { border-bottom-color: rgba(255, 255, 255,
   .pd-actions .bk-btn--cart, .pd-actions .bk-btn--buy { flex: 1 1 auto; padding: 10px 10px; }
   .pd-actions { grid-template-columns: none; display: flex; gap: 8px; }
 }
+.pd-author__link { color: inherit; text-decoration: underline; text-decoration-color: rgba(160, 54, 31, 0.4); text-underline-offset: 3px; }
+.pd-author__link:hover { color: #a0361f; text-decoration-color: currentColor; }
+html[data-theme="dark"] .pd-author__link:hover { color: #ffab98; }
