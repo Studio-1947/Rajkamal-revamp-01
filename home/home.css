@@ -54,8 +54,9 @@ html[data-theme="dark"] .hm-all { color: #ffab98; }
 .hm-card[hidden] { display: none; }
 html[data-theme="dark"] .hm-card { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.14); box-shadow: none; }
 .hm-cover { position: relative; display: block; aspect-ratio: 1 / 1; background: #efe3d3; overflow: hidden; }
-.hm-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.hm-off { position: absolute; top: 10px; left: 10px; padding: 3px 9px; border-radius: 999px; background: var(--rk-red); color: #fff; font-size: 0.68rem; font-weight: 500; }
+.hm-cover img { width: 100%; height: 100%; object-fit: contain; display: block; } /* whole cover; discount sits by the price */
+.hm-off { display: inline-block; padding: 2px 8px; border-radius: 999px; background: rgba(160, 54, 31, 0.12); color: #a0361f; font-size: 0.7rem; font-weight: 600; vertical-align: middle; }
+html[data-theme="dark"] .hm-off { background: rgba(158, 193, 255, 0.16); color: #ffab98; }
 .hm-info { display: flex; flex-direction: column; gap: 4px; padding: 12px 12px 14px; flex: 1; }
 .hm-name { margin: 0; font-size: 0.95rem; font-weight: 500; line-height: 1.3; height: 2.6em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .hm-name a { color: inherit; }
@@ -75,14 +76,14 @@ html[data-theme="dark"] .hm-price strong { color: #ffab98; }
 html[data-theme="dark"] .hm-oos { background: rgba(255, 255, 255, 0.08); }
 .hm > .hm-sec:last-child { padding-bottom: 56px; }
 
-/* Hindi Divas: a fixed grid (5 x 2 = 10 on desktop, no swipe) instead of a horizontal-scroll shelf */
-#hm-sec- .hm-nav { display: none; }
-#hm-sec- .hm-shelf {
-  display: grid; grid-auto-flow: row; grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 16px; overflow: visible; scroll-snap-type: none; padding: 4px 2px 18px;
-}
-@media (max-width: 720px) {
-  #hm-sec- .hm-shelf { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+/* Hindi Divas: a fixed grid (5 x 2 = 10 on desktop, no swipe); on phones it uses the same
+   scroll shelf + card style as every other section */
+@media (min-width: 721px) {
+  #hm-sec- .hm-nav { display: none; }
+  #hm-sec- .hm-shelf {
+    display: grid; grid-auto-flow: row; grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px; overflow: visible; scroll-snap-type: none; padding: 4px 2px 18px;
+  }
 }
 
 @media (max-width: 900px) { .hm-tilegrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -99,59 +100,8 @@ html[data-theme="dark"] .hm-oos { background: rgba(255, 255, 255, 0.08); }
   .hm-name { font-size: 0.86rem; }
 }
 
-/* Phones: Bestsellers, Children Books and Hindi Diwas show 3 products per row (compact grid) instead of a horizontal-scroll shelf */
-@media (max-width: 720px) {
-  #hm-sec-bestsellers .hm-shelf,
-  #hm-sec-children-books .hm-shelf,
-  #hm-sec- .hm-shelf {
-    display: grid; grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px; overflow: visible; scroll-snap-type: none; padding: 4px 2px 8px;
-  }
-  #hm-sec-bestsellers .hm-card, #hm-sec-children-books .hm-card, #hm-sec- .hm-card { width: auto; }
-  #hm-sec-bestsellers .hm-info, #hm-sec-children-books .hm-info, #hm-sec- .hm-info { padding: 7px 7px 9px; gap: 3px; }
-  #hm-sec-bestsellers .hm-name, #hm-sec-children-books .hm-name, #hm-sec- .hm-name { font-size: 0.68rem; height: 2.15em; line-height: 1.25; }
-  #hm-sec-bestsellers .hm-author, #hm-sec-children-books .hm-author, #hm-sec- .hm-author,
-  #hm-sec-bestsellers .hm-cat, #hm-sec-children-books .hm-cat, #hm-sec- .hm-cat { display: none; }
-  #hm-sec-bestsellers .hm-price, #hm-sec-children-books .hm-price, #hm-sec- .hm-price { flex-wrap: wrap; gap: 3px; margin: 2px 0 2px; min-height: 0; }
-  #hm-sec-bestsellers .hm-price strong, #hm-sec-children-books .hm-price strong, #hm-sec- .hm-price strong { font-size: 0.78rem; }
-  #hm-sec-bestsellers .hm-price s, #hm-sec-children-books .hm-price s, #hm-sec- .hm-price s { font-size: 0.62rem; }
-  #hm-sec-bestsellers .hm-off, #hm-sec-children-books .hm-off, #hm-sec- .hm-off { font-size: 0.56rem; padding: 2px 6px; top: 6px; left: 6px; }
-
-  /* cart, buy now and wishlist together in one compact icon row */
-  #hm-sec-bestsellers .hm-actions, #hm-sec-children-books .hm-actions, #hm-sec- .hm-actions {
-    display: flex; justify-content: space-between; gap: 4px; margin: 4px 0 0; grid-template-columns: none;
-  }
-  #hm-sec-bestsellers .hm-actions .bk-btn, #hm-sec-children-books .hm-actions .bk-btn, #hm-sec- .hm-actions .bk-btn {
-    flex: 1 1 0; width: auto; height: 26px; padding: 0; border-radius: 999px;
-    display: inline-flex; align-items: center; justify-content: center; font-size: 0;
-  }
-  #hm-sec-bestsellers .hm-actions .bk-btn svg, #hm-sec-children-books .hm-actions .bk-btn svg, #hm-sec- .hm-actions .bk-btn svg { width: 13px; height: 13px; }
-  #hm-sec-bestsellers .hm-actions .bk-btn--buy, #hm-sec-children-books .hm-actions .bk-btn--buy, #hm-sec- .hm-actions .bk-btn--buy { display: none; }
-  #hm-sec-bestsellers .hm-actions .bk-btn--cart, #hm-sec-children-books .hm-actions .bk-btn--cart, #hm-sec- .hm-actions .bk-btn--cart { order: 2; }
-  #hm-sec-bestsellers .hm-actions .bk-btn--wish, #hm-sec-children-books .hm-actions .bk-btn--wish, #hm-sec- .hm-actions .bk-btn--wish { order: 3; }
-  #hm-sec-bestsellers .hm-actions .bk-btn--cart::before, #hm-sec-children-books .hm-actions .bk-btn--cart::before, #hm-sec- .hm-actions .bk-btn--cart::before,
-  #hm-sec-bestsellers .hm-actions .bk-btn--buy::before, #hm-sec-children-books .hm-actions .bk-btn--buy::before, #hm-sec- .hm-actions .bk-btn--buy::before {
-    content: ""; width: 13px; height: 13px; background: currentColor;
-  }
-  #hm-sec-bestsellers .hm-actions .bk-btn--cart::before, #hm-sec-children-books .hm-actions .bk-btn--cart::before, #hm-sec- .hm-actions .bk-btn--cart::before {
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='21' r='1.4'/%3E%3Ccircle cx='18' cy='21' r='1.4'/%3E%3Cpath d='M2.5 3h2l2.3 12.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6'/%3E%3C/svg%3E") center / contain no-repeat;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='21' r='1.4'/%3E%3Ccircle cx='18' cy='21' r='1.4'/%3E%3Cpath d='M2.5 3h2l2.3 12.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6'/%3E%3C/svg%3E") center / contain no-repeat;
-  }
-  #hm-sec-bestsellers .hm-actions .bk-btn--buy::before, #hm-sec-children-books .hm-actions .bk-btn--buy::before, #hm-sec- .hm-actions .bk-btn--buy::before {
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M9 7h8v8'/%3E%3C/svg%3E") center / contain no-repeat;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M9 7h8v8'/%3E%3C/svg%3E") center / contain no-repeat;
-  }
-
-  /* only the first 9 cards show; the rest wait behind "Explore All" */
-  #hm-sec-bestsellers .hm-card:nth-child(n+10), #hm-sec-children-books .hm-card:nth-child(n+10), #hm-sec- .hm-card:nth-child(n+10) { display: none; }
-  .hm-explore-all {
-    display: block; margin: 14px 2px 4px; padding: 13px; border-radius: 999px; text-align: center;
-    font: 600 0.9rem 'Google Sans Flex', 'Noto Sans Devanagari', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    color: #fff; background: #a0361f;
-  }
-  html[data-theme="dark"] .hm-explore-all { background: #f28b7d; color: #3a0d08; }
-}
-@media (min-width: 721px) { .hm-explore-all { display: none; } }
+/* (the old compact 3-per-row phone grid for Bestsellers / Children Books / Hindi Divas was removed —
+   every section now uses the same scroll shelf and the same card style on phones) */
 .hm-heroSec .hm-nav { display: inline-block; }
 @media (max-width: 720px) { .hm-heroSec .hm-nav { display: none; } }
 
@@ -206,7 +156,7 @@ html[data-theme="dark"] .hm-results { background: #2a1811; color: #f6e7d6; borde
 .hm-results a { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 12px; color: inherit; }
 .hm-results a:hover { background: rgba(160, 54, 31, 0.08); }
 html[data-theme="dark"] .hm-results a:hover { background: rgba(255, 255, 255, 0.08); }
-.hm-results img { width: 34px; height: 50px; object-fit: cover; border-radius: 3px; flex: none; }
+.hm-results img { width: 34px; height: 50px; object-fit: contain; border-radius: 3px; flex: none; }
 .hm-results span { display: flex; flex-direction: column; min-width: 0; }
 .hm-results b { font-size: 0.92rem; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .hm-results i { font-style: normal; font-size: 0.78rem; opacity: 0.7; }

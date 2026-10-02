@@ -25,7 +25,7 @@ html[data-theme="dark"] .co-summary { background: rgba(255, 255, 255, 0.06); bor
 .co-lines { list-style: none; margin: 0 0 14px; padding: 0; max-height: 260px; overflow-y: auto; }
 .co-lines li { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px dotted rgba(160, 54, 31, 0.2); }
 html[data-theme="dark"] .co-lines li { border-bottom-color: rgba(255, 255, 255, 0.14); }
-.co-lines img { width: 40px; height: 60px; object-fit: cover; border-radius: 4px; }
+.co-lines img { width: 40px; height: 60px; object-fit: contain; background: #f1e8dd; border-radius: 4px; }
 .co-line__info { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .co-line__info b { font-size: 0.85rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .co-line__info span { font-size: 0.74rem; opacity: 0.65; }

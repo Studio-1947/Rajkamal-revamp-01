@@ -22,6 +22,14 @@
   var col = C[cslug] || C[foundCol];
   var slug = C[cslug] ? cslug : foundCol;
 
+  /* author names link to their author page when they have one */
+  function authorLinks(names) {
+    var AU = window.RK_AUTHORS || [];
+    return names.split(/\s*,\s*/).map(function (n) {
+      var hit = AU.filter(function (x) { return x.match.indexOf(n) >= 0 || x.name === n; })[0];
+      return hit ? '<a class="pd-author__link" href="../../authors/author/?id=' + encodeURIComponent(hit.id) + '">' + esc(n) + '</a>' : esc(n);
+    }).join(", ");
+  }
   document.title = title + " | Rajkamal Offers";
   var crumbs = document.getElementById("pdCrumbs");
   crumbs.innerHTML = '<a href="../../' + esc(/^kt[23]?$|^hp$|^mobile$/.test(from) ? from : "kt") + '/">Home</a><span>/</span><a href="../?c=' + esc(slug) + '&from=' + esc(from) + '&t=' + encodeURIComponent(col.name) + '">' + esc(col.name) + '</a><span>/</span><b>' + esc(title) + '</b>';
@@ -44,7 +52,7 @@
     '<div class="pd-main">' +
       (d.cat ? '<span class="pd-chip">' + esc(d.cat) + '</span>' : '') +
       '<h1 class="pd-title">' + esc(title) + '</h1>' +
-      '<p class="pd-author">by <b>' + esc(author) + '</b></p>' +
+      '<p class="pd-author">by <b>' + authorLinks(author) + '</b></p>' +
       '<div class="pd-price"><strong>' + fmt(price) + '</strong><s>' + fmt(list) + '</s><span class="bk-off">' + disc + '% off</span></div>' +
       (save ? '<p class="pd-save">You save ' + fmt(save) + ' · Free delivery on this offer</p>' : '') +
       '<div class="pd-meta">' + (d.fmt ? '<span class="pd-pill">' + esc(d.fmt) + '</span>' : '') + (d.lang ? '<span class="pd-pill">' + esc(d.lang) + '</span>' : '') + (d.pages ? '<span class="pd-pill">' + d.pages + ' pages</span>' : '') + stock + '</div>' +

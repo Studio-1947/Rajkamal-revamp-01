@@ -92,7 +92,7 @@ html[data-theme="dark"] .bk-btn--wish.is-on { color: #ff6a5b; border-color: #ff6
 /* real cover images; the generated cover text only shows if a picture is missing */
 .bk-cover { aspect-ratio: 1 / 1; padding: 0; background: #efe3d3; box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25); }
 .bk-cover::after { display: none; }
-.bk-cover__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+.bk-cover__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; border-radius: inherit; } /* the whole cover, never cropped */
 .bk-cover__pub, .bk-cover__title, .bk-cover__author { visibility: hidden; position: relative; }
 .bk-cover.no-img { padding: 10% 8%; background: linear-gradient(155deg, hsl(var(--h) 55% 38%), hsl(var(--h) 60% 22%)); }
 .bk-cover.no-img .bk-cover__pub, .bk-cover.no-img .bk-cover__title, .bk-cover.no-img .bk-cover__author { visibility: visible; }
@@ -124,6 +124,9 @@ html[data-theme="dark"] .bk-btn--wish.is-on { color: #ff6a5b; border-color: #ff6
 .bk-cover { border-radius: 0; box-shadow: none; align-self: stretch; }
 .bk-cover__img { border-radius: 0; }
 .bk-info { padding: 16px 18px 16px 18px; }
+/* side-by-side cards: the cover fills its own column at the card's height. (A forced 1:1 square stretched to the
+   card's height came out wider than the column and slid under the title and price.) */
+@media (min-width: 721px) { .bk-cover { aspect-ratio: auto; width: 100%; min-width: 0; min-height: 180px; } }
 @media (max-width: 720px) {
   .bk-card { grid-template-columns: 1fr; gap: 0; padding: 0; border-radius: 14px; }
   .bk-cover { width: 100%; }
@@ -175,3 +178,7 @@ html[data-theme="dark"] .bk-pop__apply { background: #ffab98; color: #3a0d08; }
   .bk-filt { padding: 8px 12px; font-size: 0.8rem; }
   .bk-pop { position: fixed; left: 16px; right: 16px; top: auto; bottom: 16px; max-height: 70vh; overflow-y: auto; }
 }
+
+/* covers are shown whole: the space around a cover is a soft neutral fill */
+.bk-cover:not(.no-img) { background: #f1e8dd; }
+html[data-theme="dark"] .bk-cover:not(.no-img) { background: rgba(255, 255, 255, 0.06); }

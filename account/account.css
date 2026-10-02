@@ -89,7 +89,7 @@ html[data-theme="dark"] .acc-chip--transit { color: #ffab98; }
 html[data-theme="dark"] .acc-chip--done { color: #7fd6a0; }
 .acc-order__items { display: flex; flex-wrap: wrap; gap: 12px; padding: 14px 16px; }
 .acc-oi { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 10px; align-items: center; min-width: 200px; flex: 1 1 220px; }
-.acc-oi img { width: 44px; height: 66px; object-fit: cover; border-radius: 4px; background: #efe3d3; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18); }
+.acc-oi img { width: 44px; height: 66px; object-fit: contain; border-radius: 4px; background: #efe3d3; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18); }
 .acc-oi__t { min-width: 0; font-size: 0.84rem; font-weight: 600; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .acc-oi__m { font-size: 0.72rem; opacity: 0.6; }
 .acc-order__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 16px; border-top: 1px dotted rgba(160, 54, 31, 0.3); }
@@ -112,7 +112,7 @@ html[data-theme="dark"] .acc-wl__chip.is-on { color: #3a0d08; background: #ffab9
 .acc-books { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
 .acc-book { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 12px; align-items: start; padding: 12px; border-radius: 14px; background: #fff; border: 1px solid #e6cdae; }
 html[data-theme="dark"] .acc-book { background: rgba(0, 0, 0, 0.2); border-color: rgba(255, 255, 255, 0.14); }
-.acc-book img { width: 56px; height: 84px; object-fit: cover; border-radius: 4px; background: #efe3d3; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18); }
+.acc-book img { width: 56px; height: 84px; object-fit: contain; border-radius: 4px; background: #efe3d3; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18); }
 .acc-book__t { min-width: 0; }
 .acc-book__t a { color: inherit; font-size: 0.88rem; font-weight: 600; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .acc-book__t a:hover { text-decoration: underline; }
@@ -228,6 +228,29 @@ html[data-theme="dark"] .acc-modal__box { background: #2a1811; color: #f6e7d6; b
 .acc-modal__x svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
 html[data-theme="dark"] .acc-modal__x { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
 
+/* ---- confirm logout popup ---- */
+.acc-modal__box--confirm { width: min(440px, 100%); padding: 32px 24px 28px; text-align: center; }
+.acc-modal__box--confirm .acc-modal__x { position: absolute; top: 14px; right: 14px; }
+.acc-logout-modal__content { display: flex; flex-direction: column; align-items: center; }
+.acc-logout-modal__ic { display: inline-flex; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 50%; background: rgba(160, 54, 31, 0.12); color: #a0361f; margin-bottom: 16px; }
+.acc-logout-modal__ic svg { width: 28px; height: 28px; }
+html[data-theme="dark"] .acc-logout-modal__ic { background: rgba(242, 139, 125, 0.18); color: #f28b7d; }
+.acc-logout-modal__content h2 { margin: 0 0 10px; font-size: 1.35rem; font-weight: 600; color: inherit; }
+.acc-logout-modal__content p { margin: 0 0 24px; font-size: 0.92rem; line-height: 1.5; opacity: 0.75; max-width: 340px; }
+.acc-logout-actions { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; margin-top: 6px; }
+.acc-logout-actions .acc-btn { flex: 1 1 0; min-width: 120px; padding: 12px 20px; font-size: 0.92rem; font-weight: 600; border-radius: 999px; text-align: center; justify-content: center; display: inline-flex; align-items: center; cursor: pointer; }
+.acc-logout-actions .acc-btn--primary { background: #a0361f; color: #fff; border: 1.5px solid #a0361f; }
+.acc-logout-actions .acc-btn--primary:hover { background: #8a2d18; }
+html[data-theme="dark"] .acc-logout-actions .acc-btn--primary { background: #f28b7d; border-color: #f28b7d; color: #3a0d08; }
+html[data-theme="dark"] .acc-logout-actions .acc-btn--primary:hover { filter: brightness(1.1); }
+.acc-logout-actions .acc-btn--ghost { background: transparent; border: 1.5px solid #e6cdae; color: inherit; }
+.acc-logout-actions .acc-btn--ghost:hover { background: rgba(160, 54, 31, 0.08); }
+html[data-theme="dark"] .acc-logout-actions .acc-btn--ghost { border-color: rgba(255, 255, 255, 0.2); }
+@media (max-width: 480px) {
+  .acc-logout-actions { flex-direction: column; gap: 10px; }
+  .acc-logout-actions .acc-btn { width: 100%; }
+}
+
 /* ---- responsive: tablets --- */
 @media (max-width: 900px) {
   .acc-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
@@ -275,3 +298,16 @@ html[data-theme="dark"] .acc-modal__x { background: rgba(255, 255, 255, 0.08); b
   .acc-modal__box { border-radius: 18px 18px 0 0; width: 100%; max-height: 88vh; }
 }
 @media (prefers-reduced-motion: reduce) { .acc-btn, .acc-nav, .acc-toast { transition: none; } }
+
+/* signed out: one centred card, no account menu */
+.acc-out { display: grid; place-items: center; padding: 24px 0 8px; }
+.acc-out__card { width: 100%; max-width: 520px; text-align: center; }
+.acc-out__card h1 { margin: 10px 0 6px; font-size: 1.5rem; font-weight: 600; }
+.acc-out__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 6px 0 4px; }
+.acc-out__actions .acc-btn { min-width: 150px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+@media (max-width: 720px) { .acc-out__actions { flex-direction: column; } .acc-out__actions .acc-btn { width: 100%; } }
+
+/* link to the gift card shop, above the gift card tab */
+.acc-gc-buy { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 12px; padding: 9px 16px; border-radius: 999px; background: #a0361f; color: #fff !important; font-weight: 600; font-size: 0.88rem; text-decoration: none; }
+.acc-gc-buy:hover { filter: brightness(1.08); }
+html[data-theme="dark"] .acc-gc-buy { background: #f28b7d; color: #3a0d08 !important; }

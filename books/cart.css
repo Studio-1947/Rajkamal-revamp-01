@@ -29,7 +29,7 @@ html[data-theme="dark"] .rkc__icon { background: rgba(255, 255, 255, 0.08); bord
 .rkc__item { position: relative; display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(160, 54, 31, 0.14); align-items: start; }
 html[data-theme="dark"] .rkc__item { border-bottom-color: rgba(255, 255, 255, 0.12); }
 .rkc__cover { display: block; aspect-ratio: 1 / 1; border-radius: 6px 9px 9px 6px; overflow: hidden; background: #efe3d3; box-shadow: 0 5px 12px rgba(0, 0, 0, 0.22); }
-.rkc__cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rkc__cover img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .rkc__info { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
 .rkc__name { font-weight: 600; font-size: 0.95rem; line-height: 1.3; color: inherit; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .rkc__author { font-size: 0.78rem; opacity: 0.65; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

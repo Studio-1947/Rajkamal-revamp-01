@@ -7,6 +7,15 @@
   var data = window.RK_COLLECTIONS || {};
   var col = data[slug] || data["khud-se-judein"];
   var MIN = 40;
+  /* ?g=<genre> (from the All Books menu): a genre page, or g=all for the whole catalogue.
+     The mock data has no genre tags yet, so a genre shows a mix drawn from every collection. */
+  var genre = q.get("g"), eyebrow = null;
+  if (genre) {
+    var gHit = (window.RK_GENRES || []).filter(function (g) { return g.slug === genre; })[0];
+    col = { name: genre === "all" ? "All Books" : gHit ? gHit.name : genre.replace(/-/g, " "), books: [] };
+    eyebrow = genre === "all" ? "Rajkamal Prakashan" : "Browse by Genre";
+    if (genre === "all") MIN = Infinity;
+  }
 
   function fmt(n) { return "₹" + (Math.round(n * 100) / 100).toLocaleString("en-IN", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); }
   function mrp(price, disc) { return Math.round(price / (1 - disc / 100)); }
@@ -78,7 +87,7 @@
     var html;
     if (isDefault) {
       html = own.map(card).join("");
-      if (filler.length) html += '<h2 class="bk-more">More from Rajkamal Prakashan</h2>' + filler.map(card).join("");
+      if (filler.length) html += (own.length ? '<h2 class="bk-more">More from Rajkamal Prakashan</h2>' : "") + filler.map(card).join("");
     } else if (list.length) {
       html = list.map(card).join("");
     } else {
@@ -181,7 +190,7 @@
   apply();
 
   document.getElementById("bkTitle").textContent = title || col.name;
-  document.getElementById("bkCollection").textContent = col.name;
+  document.getElementById("bkCollection").textContent = eyebrow || col.name;
   document.title = (title || col.name) + " | Catalogue";
   var back = document.getElementById("bkBack");
   back.setAttribute("href", "../" + (/^kt[23]?$|^hp$|^mobile$/.test(from) ? from : "kt") + "/");

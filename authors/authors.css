@@ -1,0 +1,161 @@
+/* Authors directory + author pages — same cream cards, red accent and dotted rules as the catalogue */
+.au-main { --au-accent: #a0361f; --au-card: #fff7ec; --au-border: #e6cdae; --au-soft: rgba(160, 54, 31, 0.08); }
+html[data-theme="dark"] .au-main { --au-accent: #ffab98; --au-card: rgba(255, 255, 255, 0.06); --au-border: rgba(255, 255, 255, 0.14); --au-soft: rgba(255, 255, 255, 0.08); }
+.au-main a { color: inherit; }
+
+/* ---------- directory ---------- */
+.au-head { margin-bottom: 20px; }
+.au-tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+.au-search { flex: 1 1 320px; max-width: 520px; display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 16px; border: 1px solid var(--au-border); border-radius: 999px; background: var(--au-card); opacity: 0.95; }
+.au-search svg { flex: none; opacity: 0.55; }
+.au-search:focus-within { border-color: var(--au-accent); box-shadow: 0 0 0 3px var(--au-soft); }
+.au-search input { flex: 1; min-width: 0; border: none; outline: none; background: none; color: inherit; font: inherit; font-size: 16px; }
+.au-search input::placeholder { color: inherit; opacity: 0.5; }
+.au-sort { display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 6px 0 16px; border: 1px solid var(--au-border); border-radius: 999px; background: var(--au-card); font-size: 0.85rem; }
+.au-sort span { opacity: 0.6; }
+.au-sort select { height: 100%; border: none; outline: none; background: none; color: inherit; font: 600 0.88rem 'Google Sans Flex', 'Noto Sans Devanagari', system-ui, sans-serif; cursor: pointer; padding-right: 8px; }
+html[data-theme="dark"] .au-sort select option { background: #241109; }
+
+.au-chips { display: flex; gap: 8px; overflow-x: auto; margin: 0 0 22px; padding-bottom: 4px; scrollbar-width: none; }
+.au-chips::-webkit-scrollbar { display: none; }
+.au-chip { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid var(--au-border); border-radius: 999px; background: transparent; color: inherit; font: 500 0.86rem 'Google Sans Flex', 'Noto Sans Devanagari', system-ui, sans-serif; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+.au-chip i { font-style: normal; font-size: 0.74rem; opacity: 0.55; }
+.au-chip:hover { background: var(--au-soft); }
+.au-chip[aria-pressed="true"] { background: var(--au-accent); border-color: var(--au-accent); color: #fff; }
+html[data-theme="dark"] .au-chip[aria-pressed="true"] { color: #2a120a; }
+.au-chip[aria-pressed="true"] i { opacity: 0.8; }
+
+.au-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; }
+.au-card {
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px;
+  padding: 10px 10px 16px; border-radius: 18px; text-decoration: none;
+  background: var(--au-card); border: 1px solid var(--au-border); box-shadow: 0 8px 20px rgba(122, 58, 29, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+html[data-theme="dark"] .au-card { box-shadow: none; }
+.au-card:hover, .au-card:focus-visible { transform: translateY(-3px); border-color: var(--au-accent); box-shadow: 0 14px 28px rgba(122, 58, 29, 0.16); outline: none; }
+html[data-theme="dark"] .au-card:hover { background: rgba(255, 255, 255, 0.1); }
+/* the whole photo, never cropped. Cards: a square frame (most author photos are square) and a blurred copy of the
+   photo fills the sides of taller portraits, so every card keeps the same shape. Author page: the frame takes the photo's own shape. */
+.au-photo, .ap-photo { position: relative; display: block; width: 100%; overflow: hidden; isolation: isolate; background: #e9dccb; }
+.au-photo { aspect-ratio: 1; }
+.au-photo { margin-bottom: 14px; border-radius: 12px; }
+html[data-theme="dark"] .au-photo, html[data-theme="dark"] .ap-photo { background: #2a1a12; }
+.au-photo::before { content: ""; position: absolute; inset: -30px; z-index: 0; background: var(--img) center / cover no-repeat; filter: blur(22px) saturate(0.85) brightness(1.05); }
+.au-photo img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; object-fit: contain; }
+.ap-photo img { position: relative; z-index: 1; display: block; width: 100%; height: auto; }
+.ap-photo.no-img { aspect-ratio: 4 / 5; }
+.au-photo b, .ap-photo b { position: absolute; inset: 0; z-index: 0; display: grid; place-items: center; color: #fff; font-weight: 600; background: linear-gradient(155deg, #8a3a2a, #4a1a12); }
+.au-photo b { font-size: 2rem; }
+.au-photo:not(.no-img) b, .ap-photo:not(.no-img) b { display: none; }
+.au-name { align-self: stretch; display: flex; justify-content: center; min-width: 0; font-size: 1.08rem; font-weight: 600; line-height: 1.5; }
+.au-name > span { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.au-hi { align-self: stretch; font-size: 0.88rem; line-height: 1.5; opacity: 0.7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.au-role { margin-top: 6px; font-size: 0.8rem; color: var(--au-accent); font-weight: 500; }
+.au-meta { display: flex; gap: 6px; margin-top: auto; padding-top: 12px; font-size: 0.74rem; }
+.au-meta span { padding: 3px 10px; border-radius: 999px; background: var(--au-soft); }
+.au-empty { margin: 40px 0; text-align: center; opacity: 0.8; }
+.au-empty button { border: none; background: none; color: var(--au-accent); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
+.au-main .bk-note a { text-decoration: underline; }
+
+@media (max-width: 720px) {
+  .au-tools { gap: 8px; }
+  .au-search { flex-basis: 100%; max-width: none; height: 44px; }
+  .au-sort { height: 40px; }
+  .au-chips { margin: 0 -16px 16px; padding: 0 16px 4px; }
+  .au-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .au-card { padding: 8px 8px 14px; border-radius: 14px; }
+  .au-photo { margin-bottom: 10px; border-radius: 10px; }
+  .au-name { font-size: 0.96rem; }
+  .au-hi { font-size: 0.8rem; }
+  .au-role { font-size: 0.74rem; }
+  /* phones: the two badges become one line ("1917–1964 · 12 books") so they never wrap and break the row */
+  .au-meta { gap: 0; padding-top: 10px; font-size: 0.7rem; white-space: nowrap; opacity: 0.75; }
+  .au-meta span { padding: 0; background: none; }
+  .au-meta span + span::before { content: "·"; margin: 0 5px; }
+}
+
+/* ---------- author page ---------- */
+.ap-hero { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 40px; align-items: center; padding: 28px; border-radius: 24px; background: var(--au-card); border: 1px solid var(--au-border); }
+.ap-photo { border-radius: 18px; box-shadow: 0 18px 40px rgba(122, 58, 29, 0.18); }
+.ap-photo b { font-size: 3.4rem; }
+.ap-intro .pd-title { margin-bottom: 2px; }
+.ap-hi { margin: 0 0 18px; font-size: 1.2rem; opacity: 0.75; }
+.ap-intro { min-width: 0; }
+/* facts: one strip of three equal cells, the same shape for every author */
+.ap-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 560px; margin: 0 0 22px; border: 1px solid var(--au-border); border-radius: 14px; background: var(--au-soft); }
+.ap-stats div { min-width: 0; display: flex; flex-direction: column; gap: 3px; padding: 12px 16px; }
+.ap-stats div + div { border-left: 1px solid var(--au-border); }
+.ap-stats dt { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
+.ap-stats dd { margin: 0; font-size: 0.98rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+.ap-cta { display: flex; flex-wrap: wrap; gap: 10px; }
+.ap-cta .bk-btn { flex: 0 1 auto; display: inline-flex; align-items: center; justify-content: center; padding: 11px 20px; text-decoration: none; }
+.ap-cta .bk-btn--buy { color: #fff; }
+html[data-theme="dark"] .ap-cta .bk-btn--buy { color: #3a0d08; }
+
+.ap-about { margin-top: 36px; }
+.ap-about p { margin: 0 0 14px; line-height: 1.8; font-size: 1.02rem; opacity: 0.92; max-width: 72ch; }
+.ap-about .ap-writes { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 18px 0 0; opacity: 1; }
+.ap-writes > span { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; margin-right: 4px; }
+.ap-writes .pd-pill { text-decoration: none; }
+.ap-writes .pd-pill:hover { opacity: 1; color: var(--au-accent); }
+
+/* notable works + honours: two equal columns, tops aligned */
+.ap-details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; align-items: start; }
+.ap-details--one { grid-template-columns: minmax(0, 1fr); }
+.ap-details h2 { font-size: 1.05rem; }
+.ap-awards, .ap-works { list-style: none; margin: 0; padding: 0; }
+.ap-works { display: grid; grid-template-columns: minmax(0, 1fr); }
+.ap-details--one .ap-works { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px; }
+.ap-works li { border-bottom: 1px dotted var(--au-border); font-size: 0.94rem; }
+.ap-works li > span, .ap-works a { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 42px; padding: 8px 0; }
+.ap-works a { text-decoration: none; font-weight: 500; }
+.ap-works a em { flex: none; font-style: normal; font-size: 0.74rem; font-weight: 600; color: var(--au-accent); padding: 3px 10px; border-radius: 999px; background: var(--au-soft); }
+.ap-works a:hover { color: var(--au-accent); }
+.ap-awards { display: flex; flex-direction: column; }
+.ap-awards li { display: flex; align-items: center; gap: 10px; min-height: 42px; padding: 8px 0; border-bottom: 1px dotted var(--au-border); font-size: 0.94rem; font-weight: 500; }
+.ap-awards li::before { content: "★"; flex: none; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--au-soft); color: #c99512; font-size: 0.72rem; }
+
+.ap-books { margin-top: 44px; scroll-margin-top: 100px; }
+.ap-books h2, .ap-more h2 { margin: 0 0 16px; font-size: 1.3rem; font-weight: 600; }
+.ap-books h2 span { display: inline-block; margin-left: 6px; padding: 1px 10px; border-radius: 999px; background: var(--au-soft); color: var(--au-accent); font-size: 0.85rem; vertical-align: middle; }
+.ap-none { opacity: 0.8; }
+.ap-none a { color: var(--au-accent); text-decoration: underline; }
+
+.ap-pager { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: center; margin: 48px 0 0; padding: 18px 0; border-top: 1px dotted var(--au-border); border-bottom: 1px dotted var(--au-border); }
+.ap-pager a { display: flex; flex-direction: column; gap: 2px; text-decoration: none; padding: 8px 12px; border-radius: 12px; }
+.ap-pager a:hover { background: var(--au-soft); }
+.ap-pager a span { font-size: 0.78rem; opacity: 0.6; }
+.ap-pager a b { font-weight: 600; }
+.ap-pager a[rel="next"] { text-align: right; }
+.ap-pager .ap-pager__all { padding: 9px 18px; border: 1.5px solid var(--au-accent); border-radius: 999px; color: var(--au-accent); font-weight: 600; font-size: 0.88rem; }
+.ap-more { margin-top: 40px; }
+.au-grid--more { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+@media (max-width: 900px) {
+  .ap-details, .ap-details--one .ap-works { grid-template-columns: minmax(0, 1fr); }
+  .au-grid--more { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .ap-hero { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 14px; padding: 22px 14px 16px; border-radius: 20px; }
+  .ap-photo { width: 150px; border-radius: 14px; }
+  .ap-intro { width: 100%; }
+  .ap-intro .pd-chip { margin-bottom: 8px; }
+  .ap-intro .pd-title { font-size: 1.6rem; }
+  .ap-hi { margin-bottom: 14px; font-size: 1.05rem; }
+  .ap-stats { margin: 0 0 14px; max-width: none; }
+  .ap-stats div { padding: 10px 6px; align-items: center; text-align: center; }
+  .ap-stats dt { font-size: 0.6rem; letter-spacing: 0.06em; }
+  .ap-stats dd { font-size: 0.8rem; }
+  .ap-cta { flex-direction: column; gap: 8px; }
+  .ap-cta .bk-btn { width: 100%; padding: 11px 14px; font-size: 0.86rem; }
+  .ap-about { margin-top: 26px; }
+  .ap-about p { font-size: 0.98rem; line-height: 1.7; }
+  .ap-details .pd-sec { margin-top: 22px; }
+  .ap-books { margin-top: 32px; }
+  .ap-pager { grid-template-columns: 1fr 1fr; }
+  .ap-pager .ap-pager__all { grid-column: 1 / -1; grid-row: 2; justify-self: center; }
+  .ap-pager a { padding: 6px 4px; }
+}
+@media (max-width: 380px) { .au-name { font-size: 0.86rem; } }
+@media (prefers-reduced-motion: reduce) { .au-card, .au-photo img { transition: none; } }

@@ -1,0 +1,42 @@
+<script>
+(function () {
+  var card = document.getElementById("fmCard"), form = document.getElementById("fmForm");
+  if (!form) return;
+  var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, PHONE = /^[6-9]\d{9}$/, CODE = /^[A-Z0-9-]{4,}$/;
+  function mark(el, pass) { var f = el.closest(".fm-field, .fm-check"); if (f) f.classList.toggle("is-bad", !pass); return pass; }
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var ok = true, first = null, data = { type: form.dataset.fm, at: new Date().toISOString() };
+    form.querySelectorAll("input, select, textarea").forEach(function (el) {
+      if (el.type === "checkbox") {
+        var okC = el.required ? el.checked : true;
+        okC = mark(el, okC); ok = ok && okC; if (!okC && !first) first = el; return;
+      }
+      var v = (el.value || "").trim(), req = el.required, pass = true;
+      if (req && !v) pass = false;
+      else if (v && el.type === "email") pass = EMAIL.test(v);
+      else if (v && el.type === "tel") pass = PHONE.test(v) || /^\+\d{8,15}$/.test(v);
+      else if (v && el.name === "orderid") pass = CODE.test(v);
+      if (el.closest(".fm-field")) mark(el, pass);
+      ok = ok && pass; if (!pass && !first) first = el;
+      if (pass && v) data[el.name || el.id] = v;
+    });
+    if (!ok) { if (first) first.focus(); return; }
+    try {
+      var all = JSON.parse(localStorage.getItem("rk-form-subs") || "[]");
+      all.unshift(data);
+      localStorage.setItem("rk-form-subs", JSON.stringify(all.slice(0, 50)));
+    } catch (x) {}
+    card.classList.add("is-done");
+    if (window.RKStore && RKStore.toast) RKStore.toast("Submitted — we'll be in touch");
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+  document.querySelectorAll("[data-fm-again]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      form.reset();
+      form.querySelectorAll(".is-bad").forEach(function (f) { f.classList.remove("is-bad"); });
+      card.classList.remove("is-done");
+    });
+  });
+})();
+</script>

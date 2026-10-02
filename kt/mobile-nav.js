@@ -215,7 +215,7 @@
   icons.insertBefore(wishBtn, cartBtn || icons.firstChild);
   var cartUrl = (function () {
     var s = document.querySelector('script[src*="mobile-nav.js"]');
-    return s ? s.src.replace(/kt\/mobile-nav\.js.*$/, "books/cart.js?v=8") : null;
+    return s ? s.src.replace(/kt\/mobile-nav\.js.*$/, "books/cart.js?v=9") : null;
   })();
   Store.openCart = function (full) {
     if (window.RKCart) return window.RKCart.open(full);
@@ -275,6 +275,10 @@
         '<h2 class="mobile-search-sheet__title">Search</h2>' +
         '<button type="button" class="mobile-search-sheet__row" data-pop-act="books"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M12 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M7 4.5c1.6-1 3.4-1 5 0"/><circle cx="16.3" cy="15.3" r="3.3"/><path d="m18.7 17.7 2 2"/></svg></span><span>Search by Book Names</span></button>' +
         '<button type="button" class="mobile-search-sheet__row" data-pop-act="cat"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span><span>Search by Categories</span></button>' +
+        '<button type="button" class="mobile-search-sheet__row" data-pop-act="authors"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 14.8c1.9.7 3.2 2.4 3.5 5.2"/></svg></span><span>Browse Authors</span></button>' +
+        '<button type="button" class="mobile-search-sheet__row" data-pop-act="ebooks"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M9 6h6M9 10h6M9 14h3"/></svg></span><span>E-Books</span></button>' +
+        '<button type="button" class="mobile-search-sheet__row" data-pop-act="collections"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h4v15H4zM10 3h4v17h-4z"/><path d="m16.5 5.5 3.8-1 3 14.5-3.8 1z"/></svg></span><span>Collections</span></button>' +
+        '<button type="button" class="mobile-search-sheet__row" data-pop-act="publications"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg></span><span>Publications</span></button>' +
         '<button type="button" class="mobile-search-sheet__row" data-pop-act="offers"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v6c0 5 4 8.5 9 9 5-.5 9-4 9-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span><span>Best Offers</span></button>' +
         '<button type="button" class="mobile-search-sheet__row" data-pop-act="all"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span><span>All Sections</span></button>' +
       '</div>';
@@ -294,9 +298,17 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
         setTimeout(function () { setSearch(true); if (input) input.focus(); }, 350);
       } else if (act.dataset.popAct === "cat") {
-        location.href = ROOT + "books/?c=khud-se-judein&from=kt";
+        if (window.RKAllBooks) window.RKAllBooks.open(); else location.href = ROOT + "books/?g=all";
+      } else if (act.dataset.popAct === "collections") {
+        location.href = ROOT + "collections/";
+      } else if (act.dataset.popAct === "publications") {
+        location.href = ROOT + "publications/";
+      } else if (act.dataset.popAct === "ebooks") {
+        location.href = ROOT + "ebooks/";
+      } else if (act.dataset.popAct === "authors") {
+        location.href = ROOT + "authors/";
       } else if (act.dataset.popAct === "offers") {
-        location.href = ROOT + "kt/";
+        location.href = ROOT + "offers/";
       } else if (act.dataset.popAct === "all") {
         location.href = ROOT + "home/";
       }
@@ -326,11 +338,13 @@
           '<span class="mobile-profile__label">Appearance<i>Light / dark mode</i></span>' +
           '<span class="mobile-profile__switch" id="mobileProfileThemeVal" role="switch" aria-checked="false"><i>Light</i><b class="mobile-profile__knob"></b><i>Dark</i></span>' +
         '</button>' +
-        '<a class="mobile-profile__row" href="' + ROOT + 'account/" data-act="account"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"/></svg></span><span class="mobile-profile__label">My Account</span></a>' +
-        '<a class="mobile-profile__row" href="' + ROOT + 'account/?tab=orders" data-act="orders"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg></span><span class="mobile-profile__label">My Orders</span></a>' +
-        '<button type="button" class="mobile-profile__row" data-act="wish"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-9.3-9.3C1.5 8 3.4 5 6.5 5c1.9 0 3.3 1 4.1 2.3h.8C12.2 6 13.6 5 15.5 5c3.1 0 5 3 3.8 6.2-1.8 4.7-9.3 9.3-9.3 9.3z"/></svg></span><span class="mobile-profile__label">Wishlist</span></button>' +
+        '<a class="mobile-profile__row" href="' + ROOT + 'auth/login/" data-act="signin" data-when="out"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5M15 12H3"/></svg></span><span class="mobile-profile__label">Sign in<i>Track orders, wishlist & rewards</i></span></a>' +
+        '<a class="mobile-profile__row" href="' + ROOT + 'auth/register/" data-act="register" data-when="out"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="8" r="4"/><path d="M2.5 20c1.4-3.8 4.4-6 7.5-6 1.4 0 2.8.4 4 1.2"/><path d="M19 15v6M16 18h6"/></svg></span><span class="mobile-profile__label">Create account</span></a>' +
+        '<a class="mobile-profile__row" href="' + ROOT + 'account/" data-act="account" data-when="in"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"/></svg></span><span class="mobile-profile__label">My Account</span></a>' +
+        '<a class="mobile-profile__row" href="' + ROOT + 'account/?tab=orders" data-act="orders" data-when="in"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg></span><span class="mobile-profile__label">My Orders</span></a>' +
+        '<button type="button" class="mobile-profile__row" data-act="wish" data-when="in"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-9.3-9.3C1.5 8 3.4 5 6.5 5c1.9 0 3.3 1 4.1 2.3h.8C12.2 6 13.6 5 15.5 5c3.1 0 5 3 3.8 6.2-1.8 4.7-9.3 9.3-9.3 9.3z"/></svg></span><span class="mobile-profile__label">Wishlist</span></button>' +
         '<button type="button" class="mobile-profile__row" data-act="cart"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2.5 3h2l2.3 12.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6"/></svg></span><span class="mobile-profile__label">Cart</span></button>' +
-        '<a class="mobile-profile__row" href="' + ROOT + 'books/?c=khud-se-judein&from=kt" data-act="books"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span><span class="mobile-profile__label">All Books</span></a>' +
+        '<a class="mobile-profile__row" href="' + ROOT + 'books/?g=all" data-act="books"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span><span class="mobile-profile__label">All Books</span></a>' +
         '<a class="mobile-profile__row" href="https://wa.me/" target="_blank" rel="noopener noreferrer" data-act="help"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.3 8.3 0 0 1-4-1L3 20l1.2-5.5a8.3 8.3 0 0 1-1.1-4.2A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5Z"/></svg></span><span class="mobile-profile__label">Help via WhatsApp</span></a>' +
       '</div>';
     document.body.appendChild(profileSheet);
@@ -340,9 +354,16 @@
       var val = profileSheet.querySelector("#mobileProfileThemeVal");
       if (val) { val.classList.toggle("is-dark", dark); val.setAttribute("aria-checked", String(dark)); }
     }
+    /* signed out: hide My Account / My Orders / Wishlist and offer Sign in / Create account (same flag as the account page) */
+    function syncSignedIn() {
+      var on = true;
+      try { var v = JSON.parse(localStorage.getItem("rk-signed-in") || "null"); on = v !== false; } catch (e) {}
+      profileSheet.querySelectorAll("[data-when]").forEach(function (r) { r.hidden = (r.getAttribute("data-when") === "in") !== on; });
+    }
     function setProfile(open) {
       profileSheet.hidden = !open;
       if (open) {
+        syncSignedIn();
         syncThemeSwitch();
         requestAnimationFrame(function () { profileSheet.classList.add("is-open"); });
       } else {
@@ -359,6 +380,7 @@
         syncThemeSwitch();
       } else if (row.dataset.act === "wish") { setProfile(false); Store.openWishlist(); }
       else if (row.dataset.act === "cart") { setProfile(false); Store.openCart(true); }
+      else if (row.dataset.act === "books" && window.RKAllBooks) { e.preventDefault(); setProfile(false); window.RKAllBooks.open(); }
       else if (row.dataset.act === "account" || row.dataset.act === "orders") {
         setProfile(false); // real href now — navigates to the account page
       }
