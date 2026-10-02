@@ -39,7 +39,7 @@ html[data-theme="dark"] .bk-card:hover { background: rgba(255, 255, 255, 0.1); }
 .bk-price strong { font-size: 1.1rem; font-weight: 600; color: #a0361f; }
 html[data-theme="dark"] .bk-price strong { color: #ffab98; }
 .bk-price s { font-size: 0.85rem; opacity: 0.55; }
-.bk-off { font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: rgba(160, 54, 31, 0.12); color: #a0361f; }
+.bk-off { white-space: nowrap; font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: rgba(160, 54, 31, 0.12); color: #a0361f; }
 html[data-theme="dark"] .bk-off { background: rgba(158, 193, 255, 0.16); color: #ffab98; }
 .bk-view { display: none; margin-top: 4px; align-self: flex-start; font-size: 0.85rem; font-weight: 600; padding: 7px 14px; border-radius: 999px; border: 1px solid currentColor; color: #a0361f; transition: background 0.2s, color 0.2s; }
 .bk-view:hover { background: #a0361f; color: #fff; }

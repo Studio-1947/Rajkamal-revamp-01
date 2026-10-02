@@ -100,9 +100,13 @@
       months.map(function (m) { return '<button type="button" class="hm-month" data-month="' + esc(m) + '" role="tab" aria-selected="false">' + esc(m) + '</button>'; }).join("") +
       '</div>' : "";
     html += '<section class="hm-sec' + (idx % 2 ? " hm-sec--alt" : "") + '" id="' + slug(k) + '"><div class="hm-wrap"><header class="hm-head"><div><p class="hm-eyebrow">' + esc(t[0]) + '</p><h2>' + esc(t[1]) + '</h2></div>' +
-      '<div class="hm-ctl"><a class="hm-all" href="' + SITE + t[2] + '" target="_blank" rel="noopener noreferrer">View all ↗</a><button type="button" class="hm-nav" data-dir="-1" aria-label="Scroll left">←</button><button type="button" class="hm-nav" data-dir="1" aria-label="Scroll right">→</button></div></header>' +
+      '<div class="hm-ctl"><a class="hm-all" href="' + SITE + t[2] + '" target="_blank" rel="noopener noreferrer">View all ↗</a></div></header>' +
       monthBar +
-      '<div class="hm-shelf" tabindex="0">' + H.sections[k].map(card).join("") + '</div></div></section>';
+      /* arrows sit on the shelf's own left / right edges (large screens); phones swipe, with a small position bar */
+      '<div class="hm-rail is-start"><button type="button" class="hm-nav hm-nav--prev" data-dir="-1" aria-label="Scroll left"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>' +
+      '<div class="hm-shelf" tabindex="0">' + H.sections[k].map(card).join("") + '</div>' +
+      '<button type="button" class="hm-nav hm-nav--next" data-dir="1" aria-label="Scroll right"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>' +
+      '<div class="hm-progress" aria-hidden="true"><i></i></div></div></div></section>';
   });
   root.innerHTML = html;
 
@@ -217,7 +221,7 @@
       return;
     }
     var n = e.target.closest(".hm-nav");
-    if (n) { var sh = n.closest(".hm-sec").querySelector(".hm-shelf"); sh.scrollBy({ left: +n.dataset.dir * sh.clientWidth * 0.85, behavior: "smooth" }); return; }
+    if (n) { var sh = n.closest(".hm-sec").querySelector(".hm-shelf"); sh.scrollBy({ left: +n.dataset.dir * sh.clientWidth * 0.85, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); return; }
     var btn = e.target.closest(".bk-btn");
     if (!btn) return;
     var S = window.RKStore, id = btn.closest(".bk-actions").getAttribute("data-id");
@@ -242,4 +246,19 @@
       }, 260);
     }, 2000);
   }
+
+  /* shelves: hide the arrow at each end, and move the phone position bar as the shelf scrolls */
+  function railState(sh) {
+    var rail = sh.parentNode; if (!rail || !rail.classList.contains("hm-rail")) return;
+    var max = sh.scrollWidth - sh.clientWidth, x = sh.scrollLeft;
+    rail.classList.toggle("is-start", x <= 4); rail.classList.toggle("is-end", x >= max - 4); rail.classList.toggle("no-scroll", max <= 4);
+    var bar = rail.querySelector(".hm-progress i");
+    if (bar && sh.scrollWidth) { bar.style.width = (sh.clientWidth / sh.scrollWidth * 100) + "%"; bar.style.transform = "translateX(" + (x / sh.clientWidth * 100) + "%)"; }
+  }
+  document.querySelectorAll(".hm-rail .hm-shelf").forEach(function (sh) {
+    var raf; sh.addEventListener("scroll", function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(function () { railState(sh); }); }, { passive: true });
+    railState(sh);
+  });
+  window.addEventListener("resize", function () { document.querySelectorAll(".hm-rail .hm-shelf").forEach(railState); });
+  document.addEventListener("click", function (e) { if (e.target.closest(".hm-month")) setTimeout(function () { document.querySelectorAll(".hm-rail .hm-shelf").forEach(railState); }, 60); });
 })();
