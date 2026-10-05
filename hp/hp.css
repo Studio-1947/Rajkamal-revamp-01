@@ -85,3 +85,53 @@ html[data-theme="dark"] .hp-art { background: #f7e9d7; }
 
 /* edge-to-edge: keep the floating navbar below the phone's status bar / notch */
 .hp .site-header, .hp .site-header.scrolled { padding-top: calc(10px + env(safe-area-inset-top)); }
+
+/* ---------- Navbar: part of the page at the top, a floating pill once you scroll ----------
+   Idle (top of page): no pill, border or shadow — the nav sits on the page background.
+   Scrolled: the pill, border and shadow fade in (kt/styles.css animates them).
+   Search box: sized to fit its longest placeholder, "Search by Publishers", in both states.
+   The current section's menu item is highlighted (.is-current, set by kt/mobile-nav.js). */
+html[data-theme] .hp .site-header:not(.scrolled) .header-top {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.hp .site-header .header-top { gap: 22px; }
+.hp .site-header .header-nav-main ul { gap: 4px; }
+.hp .site-header .header-nav-main a { padding: 6px 9px; border-radius: 999px; transition: color 0.2s ease, background-color 0.2s ease; }
+.hp .site-header .header-search,
+.hp .site-header.scrolled .header-search { flex: 0 0 250px; }
+.hp .site-header .header-icons { gap: 8px; }
+
+.hp .site-header .header-nav-main a.is-current { color: #bc0005; background: rgba(188, 0, 5, 0.08); }
+.hp .site-header .header-nav-main a.is-current .chev { color: #bc0005; }
+html[data-theme="dark"] .hp .site-header .header-nav-main a.is-current,
+html[data-theme="dark"] .hp .site-header .header-nav-main a.is-current .chev { color: #FFDD70; }
+html[data-theme="dark"] .hp .site-header .header-nav-main a.is-current { background: rgba(255, 221, 112, 0.12); }
+
+/* narrower laptops: emblem-only logo and tighter spacing, so all six menu items still fit on one row */
+@media (min-width: 981px) and (max-width: 1279px) {
+  .hp .site-header .logo, .hp .site-header.scrolled .logo { width: 38px; }
+  .hp .site-header .logo-img--top { opacity: 0; }
+  .hp .site-header .logo-img--scrolled { opacity: 1; }
+  .hp .site-header .header-top { gap: 16px; }
+  .hp .site-header .header-nav-main ul { gap: 2px; }
+  .hp .site-header .header-nav-main a { padding: 6px 7px; }
+  .hp .site-header .header-icons { gap: 6px; }
+  .hp .site-header .pill-btn { width: 34px; height: 34px; }
+}
+@media (min-width: 981px) and (max-width: 1120px) {
+  .hp .site-header .header-top { gap: 12px; }
+  .hp .site-header .header-nav-main ul { gap: 0; }
+  .hp .site-header .header-nav-main a { padding: 6px 5px; font-size: 0.83rem; }
+  .hp .site-header .header-icons { gap: 5px; }
+  .hp .site-header .pill-btn { width: 32px; height: 32px; }
+}
+@media (min-width: 981px) and (max-width: 1040px) {
+  .hp .site-header, .hp .site-header.scrolled { padding-left: 10px; padding-right: 10px; }
+  html[data-theme] .hp .site-header .header-top, html[data-theme] .hp .site-header.scrolled .header-top { padding-left: 14px; padding-right: 14px; }
+  .hp .site-header .header-nav-main a { padding: 6px 4px; }
+  .hp .site-header .header-icons { gap: 4px; }
+}

@@ -51,7 +51,7 @@
   var top = '<section class="hm-top"><div class="hm-wrap hm-top__grid">' +
     '<div class="hm-intro"><h1 class="hm-intro__title">\u0938\u093e\u0925 <span class="hm-cycle"><span class="hm-cycle__word" id="hmCycleWord">\u091c\u0941\u0921\u093c\u0947\u0902</span></span></h1><p class="hm-intro__sub">\u0939\u0930 \u0915\u093f\u0924\u093e\u092c \u092e\u0947\u0902 \u0939\u0948 \u090f\u0915 \u0928\u0908 \u0926\u0941\u0928\u093f\u092f\u093e</p>' +
     '<form class="hm-search" id="hmSearch" role="search" autocomplete="off">' +
-      '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input id="hmQ" type="search" placeholder="Search by title…" aria-label="Search books"><button type="button" class="hm-mic" id="hmMic" aria-label="Voice search" title="Voice search"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 19v3"/></svg></button><button type="submit" aria-label="Search">→</button><div class="hm-results" id="hmRes" hidden></div></form></div>' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span class="hm-field"><input id="hmQ" type="search" placeholder=" " aria-label="Search by title, author, publisher or category"><span class="hm-ph" aria-hidden="true">Search by <span class="hm-ph__win"><span class="hm-ph__track"><span>Title</span><span>Author</span><span>Publisher</span><span>Category</span><span>Title</span></span></span></span></span><button type="button" class="hm-mic" id="hmMic" aria-label="Voice search" title="Voice search"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 19v3"/></svg></button><button type="submit" aria-label="Search">→</button><div class="hm-results" id="hmRes" hidden></div></form></div>' +
     '<div class="hm-feat">' + bigHtml + eventHtml +
     '<div class="hm-feat__card hm-carousel" id="hmSmall" aria-roledescription="carousel" aria-label="New releases"><div class="hm-carousel__track" id="hmSmallTrack">' +
       NEWREL.map(function (img, i) { return '<a class="hm-carousel__slide' + (i ? '' : ' on') + '" href="' + SMALL_HREF + '"><img src="' + esc(img) + '" alt="' + esc(SMALL_T) + '" loading="lazy"></a>'; }).join("") +
@@ -61,25 +61,73 @@
   var html = top;
 
   /* ---- collection tiles: simple line-art icons instead of photos, label inside the box ---- */
-  var TILE_ICONS = {
-    "author-of-the-week": '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/><path d="M17 4.5c1 .4 1.7 1.3 1.7 2.5S18 9.1 17 9.5"/>',
-    "must-read": '<path d="M4 5.5c2.4-1.4 5.2-1.4 7.5 0v14c-2.3-1.4-5.1-1.4-7.5 0v-14z"/><path d="M19.5 5.5c-2.3-1.4-5.1-1.4-7.5 0v14c2.4-1.4 5.2-1.4 7.5 0v-14z"/>',
-    "deal-of-the-day": '<path d="M12 2 3.5 10.5a2 2 0 0 0 0 2.8l7.2 7.2a2 2 0 0 0 2.8 0l8.5-8.5V3.5A1.5 1.5 0 0 0 20.5 2H12z"/><circle cx="16.5" cy="7.5" r="1.5"/>',
-    "representative-poem": '<path d="M20 4c-6 0-11 5-13 12-1 3.3.7 5 4 4 7-2 12-7 12-13a3 3 0 0 0-3-3z"/><path d="M11 15 4 22"/>',
-    "representative-stories": '<path d="M3 6h11v13H3z"/><path d="M14 8h7v11h-7"/><path d="M6.5 10h5M6.5 13h5M6.5 16h5"/>',
-    "children-books": '<circle cx="12" cy="7" r="4"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/><path d="M9 7c0-1.5 1-2.5 2-2.5M15 7c0-1.5-1-2.5-2-2.5"/>',
-    "read-more-save-more": '<path d="M4 5.5c2.4-1.4 5.2-1.4 7.5 0v14c-2.3-1.4-5.1-1.4-7.5 0v-14z"/><path d="M19.5 5.5c-2.3-1.4-5.1-1.4-7.5 0v14c2.4-1.4 5.2-1.4 7.5 0v-14z"/><circle cx="19" cy="6" r="3.4" fill="currentColor" stroke="none"/><text x="19" y="8.1" font-size="4.4" text-anchor="middle" fill="#fff" font-family="sans-serif">%</text>'
-  };
-  html += '<section class="hm-sec hm-tiles"><div class="hm-wrap"><div class="hm-tilegrid">' + H.tiles.map(function (t) {
-    var icon = TILE_ICONS[t.slug] || '<circle cx="12" cy="12" r="8"/>';
-    return '<a class="hm-tile" href="' + SITE + '/collections/' + esc(t.slug) + '" target="_blank" rel="noopener noreferrer"><span class="hm-tile__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + icon + '</svg><span class="hm-tile__label">' + esc(t.name) + '</span></span></a>';
+  /* collection tiles: one warm palette, each card with its own traditional line motif (drawn in currentColor) */
+  var MOTIFS = (function () {
+    function rot(n, step, shape, cx, cy) { var o = ""; for (var i = 0; i < n; i++) o += '<g transform="rotate(' + i * step + " " + cx + " " + cy + ')">' + shape + "</g>"; return o; }
+    return [
+      /* mandala */
+      '<circle cx="50" cy="50" r="6"/><circle cx="50" cy="50" r="12"/><circle cx="50" cy="50" r="31"/><circle cx="50" cy="50" r="46"/>' +
+        rot(12, 30, '<path d="M50 38Q57 26 50 13Q43 26 50 38Z"/>', 50, 50) + rot(24, 15, '<circle cx="50" cy="11.5" r="1.2" fill="currentColor"/>', 50, 50) +
+        rot(12, 30, '<path d="M44 4Q50 -1 56 4" transform="rotate(15 50 50)"/>', 50, 50),
+      /* paisley (buta) */
+      '<path d="M48 92C18 86 12 52 34 34C50 21 74 24 74 44C74 58 58 62 52 54C47 47 54 40 60 44"/>' +
+        '<path d="M48 84C26 78 22 54 38 40C51 30 67 33 67 46C67 54 59 56 56 52"/>' +
+        '<path d="M44 74C33 70 31 56 40 48"/><circle cx="60" cy="44" r="2" fill="currentColor"/>' +
+        rot(9, 20, '<circle cx="45" cy="18" r="1.3" fill="currentColor"/>', 45, 50),
+      /* lotus */
+      '<path d="M50 82C40 64 41 44 50 26C59 44 60 64 50 82Z"/>' +
+        '<path d="M50 82C34 72 25 58 24 40C38 46 47 60 50 82Z"/><path d="M50 82C66 72 75 58 76 40C62 46 53 60 50 82Z"/>' +
+        '<path d="M50 82C30 80 14 70 8 56C24 54 40 64 50 82Z"/><path d="M50 82C70 80 86 70 92 56C76 54 60 64 50 82Z"/>' +
+        '<path d="M20 88Q50 80 80 88"/><path d="M30 94Q50 88 70 94"/><circle cx="50" cy="18" r="2" fill="currentColor"/>',
+      /* jaali lattice */
+      (function () { var o = ""; for (var y = 0; y <= 100; y += 20) for (var x = 0; x <= 100; x += 20) o += '<circle cx="' + x + '" cy="' + y + '" r="10"/><circle cx="' + (x + 10) + '" cy="' + (y + 10) + '" r="2" fill="currentColor"/>'; return o; })(),
+      /* kolam: dot grid with looping lines */
+      (function () { var o = ""; for (var y = 14; y <= 86; y += 18) for (var x = 14; x <= 86; x += 18) o += '<circle cx="' + x + '" cy="' + y + '" r="1.6" fill="currentColor"/>';
+        return o + '<path d="M50 5L95 50L50 95L5 50Z" stroke-linejoin="round"/><path d="M50 23L77 50L50 77L23 50Z"/>' +
+          '<path d="M32 23Q41 14 50 23Q59 14 68 23M32 77Q41 86 50 77Q59 86 68 77M23 32Q14 41 23 50Q14 59 23 68M77 32Q86 41 77 50Q86 59 77 68"/>'; })(),
+      /* toran: scalloped garland with hanging leaves */
+      (function () { var o = '<path d="M0 8H100"/><path d="M0 12H100"/>'; for (var x = 0; x < 100; x += 20) o += '<path d="M' + x + ' 12Q' + (x + 10) + ' 30 ' + (x + 20) + ' 12"/>' + (x === 40 ? "" : '<path d="M' + (x + 10) + ' 21V30"/><path d="M' + (x + 10) + ' 30C' + (x + 5) + ' 37 ' + (x + 7) + ' 44 ' + (x + 10) + ' 47C' + (x + 13) + ' 44 ' + (x + 15) + ' 37 ' + (x + 10) + ' 30Z"/>'); return o; })() /* no centre leaf: the name sits there */
+    ];
+  })();
+  /* every name on exactly two balanced lines, so all six cards match */
+  function twoLines(name) {
+    var w = String(name).trim().split(/\s+/);
+    if (w.length < 2) return [name, "\u00a0"];
+    var best = 1, diff = Infinity;
+    for (var i = 1; i < w.length; i++) {
+      var d = Math.abs(w.slice(0, i).join(" ").length - w.slice(i).join(" ").length);
+      if (d < diff) { diff = d; best = i; }
+    }
+    return [w.slice(0, best).join(" "), w.slice(best).join(" ")];
+  }
+  html += '<section class="hm-sec hm-tiles"><div class="hm-wrap"><div class="hm-tilegrid">' + H.tiles.map(function (t, i) {
+    var l = twoLines(t.name);
+    return '<a class="hm-tile hm-tile--' + (i % 6 + 1) + '" href="' + SITE + '/collections/' + esc(t.slug) + '" target="_blank" rel="noopener noreferrer"><span class="hm-tile__ic"><svg class="hm-tile__motif" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true">' + MOTIFS[i % MOTIFS.length] + '</svg><span class="hm-tile__label"><span>' + esc(l[0]) + '</span><span>' + esc(l[1]) + '</span></span></span></a>';
   }).join("") + '</div></div></section>';
+
+  /* ---- release months ----
+     A book's "month" can be "September", "September 2026" or "2026-09". Without a year it's the latest such month up to
+     today (in October 2026, "December" means December 2025), so the timeline stays in order across New Year. */
+  var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  function monthKey(s) {
+    s = String(s || "").trim(); if (!s) return "";
+    var iso = s.match(/^(\d{4})-(\d{1,2})$/), today = new Date(), y, mi;
+    if (iso) { y = +iso[1]; mi = +iso[2] - 1; }
+    else {
+      var w = s.toLowerCase().split(/[\s,]+/);
+      mi = MONTHS.map(function (n) { return n.slice(0, 3).toLowerCase(); }).indexOf(w[0].slice(0, 3));
+      if (mi < 0) return "";
+      y = /^\d{4}$/.test(w[1] || "") ? +w[1] : (mi > today.getMonth() ? today.getFullYear() - 1 : today.getFullYear());
+    }
+    return y + "-" + (mi < 9 ? "0" : "") + (mi + 1);
+  }
+  function nextKey(key) { var y = +key.slice(0, 4), m = +key.slice(5); m++; if (m > 12) { m = 1; y++; } return y + "-" + (m < 10 ? "0" : "") + m; }
 
   /* ---- shelves ---- */
   function card(b) {
     var local = LOCAL[b.id];
     var url = local ? siteURL("../books/product/?id=" + encodeURIComponent(b.id) + "&c=" + encodeURIComponent(local) + "&from=home") : SITE + "/products/" + b.id;
-    return RKBookCard({ id: b.id, t: b.t, a: b.a || b.c, c: b.a ? b.c : "", p: b.p, m: b.m, off: b.off, oos: b.oos, img: homeImg(b.img), href: url, ext: !local, month: b.month });
+    return RKBookCard({ id: b.id, t: b.t, a: b.a || b.c, c: b.a ? b.c : "", p: b.p, m: b.m, off: b.off, oos: b.oos, img: homeImg(b.img), href: url, ext: !local, month: monthKey(b.month) });
   }
 
   function slug(s) { return "hm-sec-" + s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
@@ -87,10 +135,33 @@
     var t = TITLES[k] || ["", k, ""];
     var months = [];
     H.sections[k].forEach(function (b) { if (b.month && months.indexOf(b.month) === -1) months.push(b.month); });
-    var monthBar = months.length ? '<div class="hm-months" role="tablist" aria-label="Filter by month">' +
-      '<button type="button" class="hm-month is-on" data-month="" role="tab" aria-selected="true">All</button>' +
-      months.map(function (m) { return '<button type="button" class="hm-month" data-month="' + esc(m) + '" role="tab" aria-selected="false">' + esc(m) + '</button>'; }).join("") +
-      '</div>' : "";
+    /* month filter = a full-width timeline you drag (behaviour: "month timeline" further down). Built from the books'
+       months, so new months appear on their own; months in between with no books are shown greyed and skipped. */
+    var monthBar = "", MAXM = 12;
+    var keys = []; H.sections[k].forEach(function (b) { var mk = monthKey(b.month); if (mk && keys.indexOf(mk) < 0) keys.push(mk); });
+    if (keys.length) {
+      keys.sort();
+      var from = keys[0], to = keys[keys.length - 1], run = [];
+      for (var key = from; key <= to; key = nextKey(key)) run.push(key);
+      run = run.slice(-MAXM); /* the most recent 12 months at most (older books still show under All) */
+      var multiYear = run[0].slice(0, 4) !== run[run.length - 1].slice(0, 4);
+      var stops = [{ k: "", name: "All months", full: "All", s: "All", n: H.sections[k].length }].concat(run.map(function (key, j) {
+        var y = key.slice(0, 4), mi = +key.slice(5) - 1, yr = multiYear && (j === 0 || mi === 0) ? " ’" + y.slice(2) : "";
+        return { k: key, name: MONTHS[mi] + " " + y, full: MONTHS[mi] + yr, s: MONTHS[mi].slice(0, 3) + yr,
+                 n: H.sections[k].filter(function (b) { return monthKey(b.month) === key; }).length };
+      }));
+      var last = stops.length - 1, ticks = "", labels = "", PER = last <= 6 ? 8 : last <= 9 ? 4 : 2, NT = last * PER;
+      for (var ti = 0; ti <= NT; ti++) ticks += '<i class="hm-scale__tick' + (ti % PER ? (PER > 2 && ti % (PER / 2) === 0 ? " is-mid" : "") : " is-major") + '" data-f="' + (ti / NT) + '" style="left:' + (ti / NT * 100) + "%;--d:" + ti + '"></i>';
+      stops.forEach(function (st, i) {
+        labels += '<button type="button" class="hm-scale__label' + (i && !st.n ? " is-empty" : "") + '" data-i="' + i + '" style="left:' + (i / last * 100) + "%;--d:" + i + '" tabindex="-1" aria-hidden="true"><span class="hm-scale__full">' + esc(st.full) + '</span><span class="hm-scale__short">' + esc(st.s) + "</span></button>";
+      });
+      monthBar = '<div class="hm-scale is-pre" data-stops="' + esc(JSON.stringify(stops)) + '" style="--p:0">' +
+        '<div class="hm-scale__track" aria-hidden="true"><b class="hm-scale__line"><i class="hm-scale__fill"></i></b>' + ticks + "</div>" +
+        '<div class="hm-scale__handle" aria-hidden="true"><span class="hm-scale__bubble"><b>All months</b><i>' + stops[0].n + ' books</i></span><span class="hm-scale__knob"><i class="hm-scale__ripple"></i></span></div>' +
+        '<input class="hm-scale__input" type="range" min="0" max="' + last + '" step="0.001" value="0" aria-label="Filter new releases by month" aria-valuetext="All months">' +
+        '<div class="hm-scale__labels">' + labels + "</div>" +
+        '<p class="hm-scale__now" aria-live="polite">All months · ' + stops[0].n + " books</p></div>";
+    }
     html += '<section class="hm-sec' + (idx % 2 ? " hm-sec--alt" : "") + '" id="' + slug(k) + '"><div class="hm-wrap"><header class="hm-head"><div><p class="hm-eyebrow">' + esc(t[0]) + '</p><h2>' + esc(t[1]) + '</h2></div>' +
       '<div class="hm-ctl"><a class="hm-all" href="' + SITE + t[2] + '" target="_blank" rel="noopener noreferrer">View all ↗</a></div></header>' +
       monthBar +
@@ -168,7 +239,9 @@
       mic.disabled = true;
       mic.title = "Voice search is not supported in this browser";
     }
-    Object.keys(C).forEach(function (k) { C[k].books.forEach(function (b) { all.push({ b: b, k: k, hay: (b[0] + " " + b[1]).toLowerCase() }); }); });
+    /* matches title, author, category (books-cats.js) and publisher / imprint (books-pubs.js) */
+    var CATS = window.RK_CATS || {}, PUBS = window.RK_PUBS;
+    Object.keys(C).forEach(function (k) { C[k].books.forEach(function (b) { all.push({ b: b, k: k, hay: [b[0], b[1], CATS[b[4]] || "", PUBS ? PUBS.of(b[4]) : ""].join(" ").toLowerCase() }); }); });
     function find(v) {
       v = v.trim().toLowerCase(); if (v.length < 2) return [];
       var seen = {}, out = [];
@@ -205,13 +278,6 @@
 
   /* shelf arrows */
   root.addEventListener("click", function (e) {
-    var mo = e.target.closest(".hm-month");
-    if (mo) {
-      var bar = mo.closest(".hm-months"), shelf = bar.nextElementSibling, month = mo.getAttribute("data-month");
-      bar.querySelectorAll(".hm-month").forEach(function (btn) { var on = btn === mo; btn.classList.toggle("is-on", on); btn.setAttribute("aria-selected", String(on)); });
-      shelf.querySelectorAll(".hm-card").forEach(function (c) { c.hidden = !!month && c.getAttribute("data-month") !== month; });
-      return;
-    }
     var n = e.target.closest(".hm-nav");
     if (n) { var sh = n.closest(".hm-sec").querySelector(".hm-shelf"); sh.scrollBy({ left: +n.dataset.dir * sh.clientWidth * 0.85, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); return; }
     /* card buttons (cart / wishlist / buy) are handled once, site-wide, in kt/book-card.js */
@@ -246,5 +312,106 @@
     railState(sh);
   });
   window.addEventListener("resize", function () { document.querySelectorAll(".hm-rail .hm-shelf").forEach(railState); });
-  document.addEventListener("click", function (e) { if (e.target.closest(".hm-month")) setTimeout(function () { document.querySelectorAll(".hm-rail .hm-shelf").forEach(railState); }, 60); });
+  document.addEventListener("hm:filtered", function () { setTimeout(function () { document.querySelectorAll(".hm-rail .hm-shelf").forEach(railState); }, 60); });
+
+  /* month timeline: an invisible native range input on the line takes pointer / touch / keys; the drawn handle follows it
+     on a spring (a slight ease while dragging, a soft overshoot when it snaps to the nearest month with books).
+     Motion: the line draws in when the section first scrolls into view (ticks and labels follow in a wave, the handle
+     drops in); the handle breathes while idle; ticks swell around it; labels lift as it passes; the bubble tilts with
+     the drag; a ripple marks each snap; the books that leave fade out before the new month's books rise in. */
+  document.querySelectorAll(".hm-scale").forEach(function (sc) {
+    var input = sc.querySelector(".hm-scale__input"), stops = JSON.parse(sc.getAttribute("data-stops")), last = stops.length - 1;
+    var bubble = sc.querySelector(".hm-scale__bubble"), knob = sc.querySelector(".hm-scale__knob"), now = sc.querySelector(".hm-scale__now"), rail = sc.nextElementSibling;
+    var track = sc.querySelector(".hm-scale__track"), ticks = [].slice.call(sc.querySelectorAll(".hm-scale__tick")), labels = [].slice.call(sc.querySelectorAll(".hm-scale__label"));
+    var tickF = ticks.map(function (t) { return +t.dataset.f; });
+    var calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var x = 0, v = 0, target = 0, cur = -1, raf = 0, prev = 0, dragging = false, swapT = 0;
+    function usable(i) { return i === 0 || stops[i].n > 0; }
+    function nearest(f) { /* nearest stop with books to position f (ties go to the newer month) */
+      var best = 0, bd = Infinity;
+      for (var i = 0; i <= last; i++) if (usable(i)) { var d = Math.abs(i - f); if (d <= bd) { bd = d; best = i; } }
+      return best;
+    }
+    function step(i, dir) { for (var j = i + dir; j >= 0 && j <= last; j += dir) if (usable(j)) return j; return i; }
+    function cards(m, animate) {
+      var leaving = [], coming = [];
+      rail.querySelectorAll(".hm-card").forEach(function (c) {
+        var show = !m || c.getAttribute("data-month") === m;
+        if (show && c.hidden) coming.push(c); else if (!show && !c.hidden) leaving.push(c);
+        c.classList.remove("hm-rise", "hm-fall");
+      });
+      function enter() {
+        leaving.forEach(function (c) { c.hidden = true; });
+        coming.forEach(function (c, n) { c.hidden = false; if (animate) { void c.offsetWidth; c.style.animationDelay = (n * 55) + "ms"; c.classList.add("hm-rise"); } });
+        var sh = rail.querySelector(".hm-shelf"); if (sh) sh.scrollTo({ left: 0, behavior: animate ? "smooth" : "auto" });
+        document.dispatchEvent(new Event("hm:filtered"));
+      }
+      clearTimeout(swapT);
+      if (animate && leaving.length) { leaving.forEach(function (c) { c.classList.add("hm-fall"); }); swapT = setTimeout(enter, 170); } else enter();
+    }
+    function apply(i, animate) {
+      if (i === cur) return; cur = i;
+      var st = stops[i], cnt = st.n + (st.n === 1 ? " book" : " books");
+      labels.forEach(function (l) { l.classList.toggle("is-on", +l.dataset.i === i); });
+      input.setAttribute("aria-valuetext", st.name + ", " + cnt);
+      bubble.innerHTML = "<b>" + esc(st.name) + "</b><i>" + cnt + "</i>";
+      bubble.classList.remove("is-swap"); void bubble.offsetWidth; bubble.classList.add("is-swap");
+      now.textContent = st.name + " · " + cnt;
+      cards(st.k, animate !== false && !calm);
+      thin();
+    }
+    function paint() {
+      var p = x / last, w = track.clientWidth || 1;
+      sc.style.setProperty("--p", p);
+      sc.style.setProperty("--tilt", Math.max(-14, Math.min(14, -v * 5)).toFixed(2) + "deg");
+      for (var i = 0; i < ticks.length; i++) { var d = (tickF[i] - p) * w / 34; ticks[i].style.setProperty("--s", (1 + 1.7 * Math.exp(-d * d)).toFixed(3)); }
+      for (var j = 0; j < labels.length; j++) { var e = (j - x) * w / last / 70; labels[j].style.setProperty("--near", Math.exp(-e * e).toFixed(3)); }
+    }
+    function loop(t) {
+      var dt = Math.min(0.032, (t - prev) / 1000 || 0.016); prev = t;
+      var stiff = dragging ? 420 : 200, damp = dragging ? 36 : 17;
+      v += ((target - x) * stiff - v * damp) * dt; x += v * dt;
+      if (Math.abs(target - x) < 0.0005 && Math.abs(v) < 0.001) { x = target; v = 0; paint(); raf = 0; return; }
+      paint(); raf = requestAnimationFrame(loop);
+    }
+    function kick() { if (calm) { x = target; v = 0; paint(); return; } if (!raf) { prev = performance.now(); raf = requestAnimationFrame(loop); } }
+    function ripple() { if (calm) return; knob.classList.remove("is-snap"); void knob.offsetWidth; knob.classList.add("is-snap"); }
+    function go(i) { i = Math.max(0, Math.min(last, i)); if (!usable(i)) i = nearest(i); target = i; input.value = i; apply(i); kick(); ripple(); }
+    /* labels that would collide are hidden — the selected month, then the ends, then months with books win */
+    function thin() {
+      var w = track.clientWidth; if (!w) return;
+      var order = labels.slice().sort(function (a, b) {
+        function rank(l) { var i = +l.dataset.i; return i === cur ? 0 : (i === 0 || i === last) ? 1 : usable(i) ? 2 : 3; }
+        return rank(a) - rank(b);
+      }), placed = [];
+      order.forEach(function (l) {
+        /* where the label really sits: the end labels are shifted to sit flush with the section edges (home.css) */
+        var i = +l.dataset.i, c = i / last * w, lw = l.offsetWidth, r = parseFloat(getComputedStyle(sc).getPropertyValue("--r")) || 14, gap = 8;
+        var lo = i === 0 ? -r : i === last ? c + r - lw : c - lw / 2, hi = lo + lw + gap;
+        var hit = placed.some(function (r) { return lo < r[1] && hi > r[0]; });
+        l.classList.toggle("is-thin", hit);
+        if (!hit) placed.push([lo, hi]);
+      });
+    }
+    input.addEventListener("pointerdown", function () { dragging = true; sc.classList.add("is-drag"); });
+    input.addEventListener("input", function () { target = +input.value; apply(nearest(target)); kick(); });
+    function release() { if (!dragging) return; dragging = false; sc.classList.remove("is-drag"); go(nearest(+input.value)); }
+    input.addEventListener("pointerup", release); input.addEventListener("pointercancel", release); input.addEventListener("change", function () { dragging = true; release(); });
+    input.addEventListener("keydown", function (e) {
+      var i = nearest(+input.value), to = { ArrowLeft: step(i, -1), ArrowDown: step(i, -1), ArrowRight: step(i, 1), ArrowUp: step(i, 1), PageDown: step(i, -1), PageUp: step(i, 1), Home: 0, End: nearest(last) }[e.key];
+      if (to == null) return; e.preventDefault(); go(to);
+    });
+    sc.querySelector(".hm-scale__labels").addEventListener("click", function (e) {
+      var l = e.target.closest(".hm-scale__label"), r = track.getBoundingClientRect();
+      go(l ? +l.dataset.i : nearest((e.clientX - r.left) / r.width * last));
+      input.focus({ preventScroll: true });
+    });
+    window.addEventListener("resize", function () { paint(); thin(); });
+    apply(0, false); paint();
+    /* entrance: draw the timeline the first time it scrolls into view */
+    if (calm || !("IntersectionObserver" in window)) sc.classList.remove("is-pre");
+    else new IntersectionObserver(function (es, ob) { if (es[0].isIntersecting) { sc.classList.remove("is-pre"); sc.classList.add("is-in"); ob.disconnect(); } }, { threshold: 0.4 }).observe(sc);
+  });
+
+
 })();

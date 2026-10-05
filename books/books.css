@@ -192,3 +192,152 @@ html[data-theme="dark"] .bk-cover:not(.no-img) { background: rgba(255, 255, 255,
 /* desktop: the sort / filter row fits, so it doesn't scroll — a scrolling row would clip the Sort and Filter pop-ups
    hanging below it. Phones keep the sideways scroll (their pop-ups are fixed panels) and get the slider bar (kt/strip.js). */
 @media (min-width: 721px) { .bk-filters { overflow: visible; flex-wrap: wrap; } }
+
+/* ---------- sort / filter bar (user): on the title's line on large screens; sticks under the nav as a slim bar ----------
+   The bar keeps one height in both states (no page jump); when stuck it gets a background and a compact title. */
+.bk-bar { --bk-top: 76px; position: sticky; top: var(--bk-top); z-index: 30; margin: 0 0 18px; pointer-events: none; }
+.bk-bar__in { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 6px 0; border-radius: 999px; border: 1px solid transparent;
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, padding 0.25s ease; }
+.bk-bar__in > * { pointer-events: auto; }
+.bk-bar__title { margin: 0 auto 0 0; min-width: 0; display: flex; align-items: baseline; gap: 10px; white-space: nowrap; overflow: hidden; opacity: 0; transform: translateY(4px); pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease; }
+.bk-bar__title b { font-size: 1.02rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; }
+.bk-bar__title span { font-size: 0.82rem; opacity: 0.65; }
+.bk-bar.is-stuck .bk-bar__in { padding: 6px 8px 6px 22px; background: rgba(255, 250, 244, 0.92); border-color: #f0dcc6; box-shadow: 0 10px 28px -10px rgba(110, 51, 13, 0.28); backdrop-filter: blur(14px) saturate(150%); -webkit-backdrop-filter: blur(14px) saturate(150%); }
+.bk-bar.is-stuck .bk-bar__title { opacity: 1; transform: none; }
+html[data-theme="dark"] .bk-bar.is-stuck .bk-bar__in { background: rgba(36, 17, 11, 0.92); border-color: rgba(255, 220, 180, 0.16); box-shadow: 0 10px 28px -10px rgba(0, 0, 0, 0.6); }
+.bk-bar .bk-filters { margin: 0; padding-bottom: 0; flex-wrap: nowrap; }
+.bk-filt__badge { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: #a0361f; color: #fff; font-size: 0.7rem; font-weight: 600; }
+html[data-theme="dark"] .bk-filt__badge { background: #ffab98; color: #3a0d08; }
+.bk-filt--sort span { white-space: nowrap; }
+/* large screens: controls share the title's line (right side); the title block leaves room for them */
+@media (min-width: 1024px) {
+  .bk-head { padding-right: 560px; min-height: 52px; }
+  .bk-bar { margin-top: -78px; }
+  .bk-bar__in { justify-content: flex-end; }
+}
+/* the panels: counts beside each option, options that would leave no books are disabled */
+.bk-pop--filter { min-width: 330px; max-width: min(380px, calc(100vw - 32px)); }
+.bk-pop__chip { display: inline-flex; align-items: center; gap: 6px; transition: background-color 0.15s, border-color 0.15s, color 0.15s; }
+.bk-pop__chip i { font-style: normal; font-size: 0.72rem; opacity: 0.6; }
+.bk-pop__chip:hover:not(:disabled):not(.is-on) { border-color: #a0361f; color: #a0361f; }
+.bk-pop__chip:disabled { opacity: 0.4; cursor: not-allowed; }
+html[data-theme="dark"] .bk-pop__chip:hover:not(:disabled):not(.is-on) { border-color: #ffab98; color: #ffab98; }
+.bk-pop__switch { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 2px 0 12px; padding: 10px 0; border-top: 1px dotted rgba(160, 54, 31, 0.25); cursor: pointer; font-size: 0.88rem; font-weight: 500; }
+html[data-theme="dark"] .bk-pop__switch { border-top-color: rgba(255, 255, 255, 0.2); }
+.bk-pop__switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.bk-pop__switch em { flex: none; position: relative; width: 40px; height: 24px; border-radius: 999px; background: #e6cdae; transition: background 0.2s; }
+.bk-pop__switch em::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); transition: transform 0.2s; }
+.bk-pop__switch input:checked + span + em { background: #a0361f; }
+.bk-pop__switch input:checked + span + em::after { transform: translateX(16px); }
+.bk-pop__switch input:focus-visible + span + em { outline: 2px solid #a0361f; outline-offset: 2px; }
+html[data-theme="dark"] .bk-pop__switch em { background: rgba(255, 255, 255, 0.2); }
+html[data-theme="dark"] .bk-pop__switch input:checked + span + em { background: #ffab98; }
+.bk-pop__clear:disabled { opacity: 0.35; cursor: default; }
+.bk-pop__opt { white-space: nowrap; }
+.bk-empty__clear { margin-left: 6px; padding: 0; border: 0; background: none; color: #a0361f; font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
+html[data-theme="dark"] .bk-empty__clear { color: #ffab98; }
+/* phones: no top nav, so the bar sticks to the top edge, full width; solid background (no blur — the bottom-sheet
+   panels are position: fixed and a blurred parent would trap them) */
+@media (max-width: 720px) {
+  .bk-bar { --bk-top: 0px; top: env(safe-area-inset-top); margin: 0 -16px 14px; }
+  .bk-bar__in { padding: 8px 16px; border-radius: 0; border-width: 0 0 1px; }
+  .bk-bar__title { display: none; }
+  .bk-bar.is-stuck .bk-bar__in { padding: 8px 16px; background: #fffaf4; backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: 0 8px 18px -10px rgba(110, 51, 13, 0.3); }
+  html[data-theme="dark"] .bk-bar.is-stuck .bk-bar__in { background: #1f0f0a; }
+  .bk-bar .bk-filters { flex: 1; min-width: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .bk-bar__in, .bk-bar__title { transition: none; } }
+/* phones: the sort / filter panels open as a sheet above the bottom tab bar (not behind it) */
+@media (max-width: 720px) {
+  .bk-pop { bottom: calc(84px + env(safe-area-inset-bottom)); max-height: calc(100dvh - 120px - env(safe-area-inset-bottom)); z-index: 100; }
+  html.ios-safari .bk-pop { bottom: calc(150px + env(safe-area-inset-bottom)); max-height: calc(100dvh - 190px); }
+  .bk-pop--filter { min-width: 0; max-width: none; }
+}
+.bk-filt__badge[hidden] { display: none; }
+
+/* ---------- title banner (user: "keep the whole banner" rather than a separate nav-like bar) ----------
+   Title, count and sort / filter live in one banner. While you scroll the whole banner stays pinned under the nav as a
+   band in the page's own colour — condensed a little, with a soft shadow underneath. books.js keeps the books below
+   from jumping when it condenses (its bottom margin grows by the height it loses), so sizes change instantly here. */
+.bk-banner { --bk-top: 76px; --bk-page: #fffdfb; position: sticky; top: var(--bk-top); z-index: 30; margin: 0 0 18px; padding: 0 0 4px; }
+html[data-theme="dark"] .bk-banner { --bk-page: #1a0d0a; }
+.bk-banner::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: -28px; right: -28px; /* = the page's side padding */ background: var(--bk-page); }
+.bk-banner::after { content: ""; position: absolute; z-index: -1; top: 100%; left: -28px; right: -28px; height: 18px; background: linear-gradient(rgba(110, 51, 13, 0.12), transparent); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+html[data-theme="dark"] .bk-banner::after { background: linear-gradient(rgba(0, 0, 0, 0.45), transparent); }
+.bk-banner.is-stuck::after { opacity: 1; }
+.bk-banner .bk-head { margin: 0; padding-right: 0; min-height: 0; min-width: 0; }
+/* the old floating-bar look is off: the bar is just the controls inside the banner */
+.bk-banner .bk-bar { position: static; margin: 0; pointer-events: auto; }
+.bk-banner .bk-bar__in, .bk-banner.is-stuck .bk-bar__in { min-height: 0; padding: 0; background: none; border: 0; box-shadow: none; border-radius: 0; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.bk-banner .bk-filters { margin: 0; }
+.bk-banner .bk-bar { margin-top: 14px; }
+/* large screens: title on the left, controls on the right, on one line */
+@media (min-width: 1024px) {
+  .bk-banner { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+  .bk-banner .bk-head { flex: 1 1 auto; }
+  .bk-banner .bk-bar { flex: none; margin: 0 0 2px; }
+  .bk-banner .bk-bar__in { justify-content: flex-end; }
+}
+/* pinned: the same banner, condensed */
+.bk-banner.is-stuck { padding: 12px 0 12px; }
+.bk-banner.is-stuck .bk-eyebrow { margin: 0 0 2px; font-size: 0.68rem; }
+.bk-banner.is-stuck .bk-title { font-size: clamp(1.25rem, 2.2vw, 1.6rem); }
+.bk-banner.is-stuck .bk-count { margin-top: 2px; font-size: 0.82rem; }
+.bk-banner.is-stuck .bk-head > * { animation: bkCondense 0.32s cubic-bezier(0.22, 1, 0.36, 1); }
+@media (min-width: 1024px) { .bk-banner.is-stuck { align-items: center; } .bk-banner.is-stuck .bk-bar { margin: 0; } }
+@keyframes bkCondense { from { opacity: 0.4; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+/* phones: no top nav, so it pins to the top edge; pinned it drops the eyebrow and keeps title + count on one line */
+@media (max-width: 720px) {
+  .bk-banner { --bk-top: 0px; top: env(safe-area-inset-top); }
+  .bk-banner .bk-bar { margin: 12px 0 0; }
+  .bk-banner .bk-bar__in, .bk-banner.is-stuck .bk-bar__in { padding: 0; }
+  .bk-banner.is-stuck { padding: 10px 0 8px; }
+  .bk-banner.is-stuck .bk-eyebrow { display: none; }
+  .bk-banner.is-stuck .bk-head { display: flex; align-items: baseline; gap: 10px; }
+  .bk-banner.is-stuck .bk-title { font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .bk-banner.is-stuck .bk-count { flex: none; margin: 0; font-size: 0.78rem; }
+  .bk-banner.is-stuck .bk-bar { margin-top: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { .bk-banner.is-stuck .bk-head > * { animation: none; } .bk-banner::after { transition: none; } }
+@media (max-width: 599px) { .bk-banner::before, .bk-banner::after { left: -16px; right: -16px; } } /* = the page's side padding there */
+.bk-banner.is-stuck::before { top: calc(-1 * var(--bk-top) - env(safe-area-inset-top)); } /* pinned: the band runs up behind the nav, so no books show between them */
+
+/* round 3 (user): no shadow under the pinned banner; a format segment on the bar; Discount is a dropdown */
+.bk-banner::after, .bk-banner.is-stuck::after { display: none; }
+@media (min-width: 1024px) { .bk-banner { flex-wrap: wrap; row-gap: 14px; } } /* controls drop under the title when they don't fit beside it */
+.bk-seg { flex: none; display: inline-flex; align-items: center; gap: 2px; padding: 3px; border-radius: 999px; border: 1px solid #e6cdae; background: #fff7ec; }
+.bk-seg__opt { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border: 0; border-radius: 999px; background: none; color: inherit; cursor: pointer; white-space: nowrap;
+  font: 600 0.82rem 'Google Sans Flex', 'Noto Sans Devanagari', system-ui, sans-serif; transition: background-color 0.18s ease, color 0.18s ease; }
+.bk-seg__opt i { font-style: normal; font-size: 0.7rem; font-weight: 500; opacity: 0.6; }
+.bk-seg__opt:hover:not(:disabled):not(.is-on) { background: rgba(160, 54, 31, 0.08); }
+.bk-seg__opt.is-on { background: #a0361f; color: #fff; }
+.bk-seg__opt.is-on i { opacity: 0.85; }
+.bk-seg__opt:disabled { opacity: 0.4; cursor: not-allowed; }
+.bk-seg__opt:focus-visible { outline: 2px solid #a0361f; outline-offset: 1px; }
+html[data-theme="dark"] .bk-seg { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.16); }
+html[data-theme="dark"] .bk-seg__opt:hover:not(:disabled):not(.is-on) { background: rgba(255, 255, 255, 0.08); }
+html[data-theme="dark"] .bk-seg__opt.is-on { background: #ffab98; color: #3a0d08; }
+.bk-filt--disc.is-active { color: #a0361f; border-color: #a0361f; }
+html[data-theme="dark"] .bk-filt--disc.is-active { color: #ffab98; border-color: #ffab98; }
+.bk-pop__opt { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.bk-pop__opt i { font-style: normal; font-size: 0.74rem; opacity: 0.55; }
+.bk-pop__opt:disabled { opacity: 0.4; cursor: not-allowed; }
+.bk-pop--disc { min-width: 220px; }
+@media (max-width: 720px) { .bk-seg__opt { padding: 6px 10px; font-size: 0.78rem; } }
+/* phones: the format segment gets its own full-width row on top; the other controls fit one row below (Sort shows its icon) */
+@media (max-width: 720px) {
+  .bk-banner .bk-filters { flex-wrap: wrap; overflow: visible; row-gap: 8px; }
+  .bk-banner .bk-seg { order: -1; flex: 1 1 100%; display: flex; }
+  .bk-banner .bk-seg__opt { flex: 1 1 0; justify-content: center; padding: 7px 4px; }
+  .bk-banner .bk-filt__div { display: none; }
+  .bk-banner .bk-filt { padding: 8px 12px; }
+  .bk-banner .bk-filt--sort span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .bk-banner .bk-filt .bk-filt__chev { display: none; }
+  .bk-banner .bk-filt--chip, .bk-banner .bk-filt--disc { flex: 1 1 auto; justify-content: center; }
+}
+@media (max-width: 400px) { .bk-banner .bk-seg__opt i { display: none; } }
+@media (max-width: 360px) {
+  .bk-banner .bk-filt { padding: 8px 10px; }
+  .bk-banner .bk-filt--filter > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .bk-banner .bk-filt--disc .bk-filt__ic { display: none; }
+}

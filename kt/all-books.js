@@ -547,12 +547,6 @@
           "</i></button>"
         );
       }).join("") +
-      '<a class="ab-menu__all" href="' +
-      href("all") +
-      '">View all books <span aria-hidden="true">→</span></a>' +
-      '<a class="ab-menu__cats" href="' +
-      ROOT +
-      'categories/">All categories</a>' +
       "</div>" +
       '<div class="ab-menu__main">' +
       '<div class="ab-menu__top">' +
@@ -571,8 +565,8 @@
           i +
           '" hidden>' +
           t.items
-            .map(function (g) {
-              return "<li>" + link(g, "ab-menu__link") + "</li>";
+            .map(function (g, n) {
+              return '<li style="--i:' + n + '">' + link(g, "ab-menu__link") + "</li>";
             })
             .join("") +
           "</ul>"
@@ -580,6 +574,14 @@
       }).join("") +
       '<ul class="ab-pane ab-pane--results" hidden></ul>' +
       '<p class="ab-menu__note" hidden></p>' +
+      /* browse-everything links live in the panel's footer, so nothing in the category list looks selected */
+      '<div class="ab-menu__foot"><span>Not sure where to start?</span>' +
+      '<a class="ab-menu__cats" href="' +
+      ROOT +
+      'categories/">All categories</a>' +
+      '<a class="ab-menu__all" href="' +
+      href("all") +
+      '">View all books <span aria-hidden="true">→</span></a></div>' +
       "</div>";
     header.appendChild(menu);
 
@@ -613,6 +615,7 @@
         p.hidden = j !== i;
       });
       title.innerHTML =
+        '<small class="ab-menu__eyebrow">Genres in</small>' +
         esc(THEMES[i].name) +
         " <span>" +
         THEMES[i].items.length +
@@ -629,6 +632,7 @@
         });
         if (active >= 0)
           title.innerHTML =
+            '<small class="ab-menu__eyebrow">Genres in</small>' +
             esc(THEMES[active].name) +
             " <span>" +
             THEMES[active].items.length +
@@ -709,10 +713,12 @@
       }
     }
 
+    /* a click on "All Books" opens the All Books page (hover already shows the menu; ↓ opens it from the keyboard).
+       Only touch screens without hover use the tap to open / close the menu — they reach the page from its footer. */
     trigger.addEventListener("click", function (e) {
-      if (!wide.matches) return;
+      if (!wide.matches || hoverable.matches || e.detail === 0) return;
       e.preventDefault();
-      setOpen(menu.hidden, e.detail === 0); // keyboard "click" (Enter) moves focus into the menu
+      setOpen(menu.hidden, false);
     });
     trigger.addEventListener("keydown", function (e) {
       if (e.key === "ArrowDown") {
