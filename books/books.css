@@ -182,3 +182,13 @@ html[data-theme="dark"] .bk-pop__apply { background: #ffab98; color: #3a0d08; }
 /* covers are shown whole: the space around a cover is a soft neutral fill */
 .bk-cover:not(.no-img) { background: #f1e8dd; }
 html[data-theme="dark"] .bk-cover:not(.no-img) { background: rgba(255, 255, 255, 0.06); }
+
+/* phones: discount tag always on its own line under the price, and the price area keeps one height on every card */
+@media (max-width: 720px) {
+  .bk-price { flex-direction: column; align-items: flex-start; gap: 4px; min-height: 3.3rem; }
+  .bk-price__now { flex-wrap: nowrap; }
+}
+
+/* desktop: the sort / filter row fits, so it doesn't scroll — a scrolling row would clip the Sort and Filter pop-ups
+   hanging below it. Phones keep the sideways scroll (their pop-ups are fixed panels) and get the slider bar (kt/strip.js). */
+@media (min-width: 721px) { .bk-filters { overflow: visible; flex-wrap: wrap; } }

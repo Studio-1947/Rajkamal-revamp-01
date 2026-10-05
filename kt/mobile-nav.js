@@ -1,5 +1,12 @@
 /* Phone navbar: search collapses to an icon and expands on tap; a burger menu holds the links and account icons. */
 (function () {
+  /* iOS Safari (iOS 15+) floats its address bar over the bottom of the page, and pages can't measure it.
+     Flag it so bottom sheets keep their last rows above that bar. Not needed when saved to the home screen. */
+  (function () {
+    var ua = navigator.userAgent, iOS = /iP(hone|od|ad)/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    var safari = /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS/.test(ua); // Chrome/Firefox/Edge on iOS keep their bar at the bottom too, but outside the page
+    if (iOS && !navigator.standalone && !window.matchMedia("(display-mode: standalone)").matches && safari) document.documentElement.classList.add("ios-safari");
+  })();
   var header = document.getElementById("siteHeader");
   if (!header) return;
   var top = header.querySelector(".header-top");
@@ -273,20 +280,30 @@
         '<button type="button" class="mobile-search-sheet__close" data-search-close aria-label="Close"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' +
         '<div class="mobile-search-sheet__grab" data-search-close></div>' +
         '<h2 class="mobile-search-sheet__title">Search</h2>' +
-        '<button type="button" class="mobile-search-sheet__row" data-pop-act="books"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M12 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M7 4.5c1.6-1 3.4-1 5 0"/><circle cx="16.3" cy="15.3" r="3.3"/><path d="m18.7 17.7 2 2"/></svg></span><span>Search by Book Names</span></button>' +
-        '<button type="button" class="mobile-search-sheet__row" data-pop-act="cat"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span><span>Search by Categories</span></button>' +
-        '<button type="button" class="mobile-search-sheet__row" data-pop-act="authors"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 14.8c1.9.7 3.2 2.4 3.5 5.2"/></svg></span><span>Browse Authors</span></button>' +
-        '<button type="button" class="mobile-search-sheet__row" data-pop-act="ebooks"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M9 6h6M9 10h6M9 14h3"/></svg></span><span>E-Books</span></button>' +
-        '<button type="button" class="mobile-search-sheet__row" data-pop-act="collections"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h4v15H4zM10 3h4v17h-4z"/><path d="m16.5 5.5 3.8-1 3 14.5-3.8 1z"/></svg></span><span>Collections</span></button>' +
-        '<button type="button" class="mobile-search-sheet__row" data-pop-act="publications"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg></span><span>Publications</span></button>' +
-        '<button type="button" class="mobile-search-sheet__row" data-pop-act="offers"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v6c0 5 4 8.5 9 9 5-.5 9-4 9-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span><span>Best Offers</span></button>' +
-        '<button type="button" class="mobile-search-sheet__row" data-pop-act="all"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span><span>All Sections</span></button>' +
+        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__find" data-pop-act="books"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M12 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M7 4.5c1.6-1 3.4-1 5 0"/><circle cx="16.3" cy="15.3" r="3.3"/><path d="m18.7 17.7 2 2"/></svg></span><span>Search by Book Names<i>Titles, authors, ISBN</i></span></button>' +
+        '<p class="mobile-search-sheet__label">Browse</p><div class="mobile-search-sheet__grid">' +
+        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="cat"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span><span>Categories</span></button>' +
+        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="authors"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 14.8c1.9.7 3.2 2.4 3.5 5.2"/></svg></span><span>Authors</span></button>' +
+        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="ebooks"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M9 6h6M9 10h6M9 14h3"/></svg></span><span>E-Books</span></button>' +
+        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="collections"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h4v15H4zM10 3h4v17h-4z"/><path d="m16.5 5.5 3.8-1 3 14.5-3.8 1z"/></svg></span><span>Collections</span></button>' +
+        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="publications"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg></span><span>Publications</span></button>' +
+        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="offers"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v6c0 5 4 8.5 9 9 5-.5 9-4 9-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span><span>Offers</span></button>' +
+        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="all"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span><span>All Sections</span></button>' +
+        '</div>' +
       '</div>';
     document.body.appendChild(searchSheet);
+    /* a sheet taller than the screen (small phone / large text) shows a soft fade at the bottom until you reach the end */
+    function sheetCue(panel) {
+      if (!panel || panel.__cue) return; panel.__cue = true;
+      function upd() { panel.classList.toggle("has-more", panel.scrollHeight - panel.clientHeight - panel.scrollTop > 6); }
+      panel.addEventListener("scroll", upd, { passive: true }); window.addEventListener("resize", upd);
+      panel.__cueUpdate = upd;
+    }
+    function cueNow(panel) { if (panel && panel.__cueUpdate) requestAnimationFrame(panel.__cueUpdate); }
     function setSearchSheet(open) {
       searchSheet.hidden = !open;
       searchTab.setAttribute("aria-expanded", String(open));
-      if (open) requestAnimationFrame(function () { searchSheet.classList.add("is-open"); });
+      if (open) { requestAnimationFrame(function () { searchSheet.classList.add("is-open"); }); var ps = searchSheet.querySelector(".mobile-search-sheet__sheet"); sheetCue(ps); ps.scrollTop = 0; cueNow(ps); }
       else searchSheet.classList.remove("is-open");
     }
     searchSheet.addEventListener("click", function (e) {
@@ -366,6 +383,7 @@
         syncSignedIn();
         syncThemeSwitch();
         requestAnimationFrame(function () { profileSheet.classList.add("is-open"); });
+        var pp = profileSheet.querySelector(".mobile-profile__sheet"); sheetCue(pp); pp.scrollTop = 0; cueNow(pp);
       } else {
         profileSheet.classList.remove("is-open");
       }
@@ -430,11 +448,14 @@
   panel.className = "mobile-menu";
   panel.id = "mobileMenu";
   panel.hidden = true;
+  var ROOT_MENU = (function () { var sc = document.querySelector('script[src*="mobile-nav.js"]'); return sc ? sc.src.replace(/kt\/mobile-nav\.js.*$/, "") : "../"; })();
   var html = '<ul class="mobile-menu__links">';
   if (navList) {
     navList.querySelectorAll("li > a").forEach(function (a) {
       var label = a.textContent.replace(/\s+/g, " ").trim();
-      html += '<li><a href="' + (a.getAttribute("href") || "#") + '">' + label + '<span aria-hidden="true">→</span></a></li>';
+      var to = a.getAttribute("href") || "#";
+      if (to === "#" && /^All Books/.test(label)) to = ROOT_MENU + "books/?g=all"; // the All Books menu trigger has no page of its own
+      html += '<li><a href="' + to + '">' + label + '<span aria-hidden="true">→</span></a></li>';
     });
   }
   html += "</ul>";
@@ -442,7 +463,7 @@
   [["pill-btn--help", "WhatsApp"]].forEach(function (pair) {
     var src = icons.querySelector("." + pair[0]);
     if (!src) return;
-    html += '<a href="#" class="mobile-menu__action">' + src.innerHTML + "<span>" + pair[1] + "</span></a>";
+    html += '<a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="mobile-menu__action">' + src.innerHTML + "<span>" + pair[1] + "</span></a>";
   });
   html += "</div>";
   panel.innerHTML = html;

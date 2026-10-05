@@ -20,7 +20,7 @@
 
   function card(a) {
     return '<a class="au-card" href="author/?id=' + encodeURIComponent(a.id) + '">' +
-      '<span class="au-photo" style="--img:url(photos/' + esc(a.id) + '.jpg?v=3)"><img src="photos/' + esc(a.id) + '.jpg?v=3" alt="" width="240" height="300" loading="lazy" decoding="async" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(a.name)) + "</b></span>" +
+      '<span class="au-photo" style="--img:url(' + new URL('photos/' + a.id + '.jpg?v=3', location.href).href + ')"><img src="photos/' + esc(a.id) + '.jpg?v=3" alt="" width="240" height="300" loading="lazy" decoding="async" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(a.name)) + "</b></span>" +
       '<span class="au-name" lang="hi" title="' + esc(a.hi) + '"><span>' + esc(a.hi) + "</span></span>" +
       '<span class="au-role">' + esc(a.role) + "</span>" +
       '<span class="au-meta"><span>' + years(a) + "</span><span>" + a.books + (a.books === 1 ? " book" : " books") + "</span></span>" +

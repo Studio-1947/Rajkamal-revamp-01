@@ -17,11 +17,6 @@
     if (genre === "all") MIN = Infinity;
   }
 
-  function fmt(n) { return "₹" + (Math.round(n * 100) / 100).toLocaleString("en-IN", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); }
-  function mrp(price, disc) { return Math.round(price / (1 - disc / 100)); }
-  var HUES = [12, 24, 36, 172, 200, 262, 318, 350];
-  function hue(str) { var h = 0; for (var i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) | 0; return HUES[Math.abs(h) % HUES.length]; }
-  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
   // own books first, then fill up to 40 from the other collections (round robin, no duplicates)
   var own = col.books.slice(), filler = [];
@@ -42,20 +37,7 @@
 
   function prod(id) { return 'product/?id=' + encodeURIComponent(id) + '&c=' + encodeURIComponent(slug) + '&from=' + encodeURIComponent(from); }
 
-  function card(b) {
-    var h = hue(b[4]);
-    return '<article class="bk-card">' +
-      '<a class="bk-cover" style="--h:' + h + '" href="' + prod(b[4]) + '" aria-label="' + esc(b[0]) + '">' +
-      '<img class="bk-cover__img" src="covers/' + esc(b[4]) + '.jpg" alt="' + esc(b[0]) + ' — cover" width="300" height="456" loading="lazy" decoding="async" onerror="this.parentNode.classList.add(\'no-img\');this.remove()">' +
-      '<span class="bk-cover__pub">राजकमल</span><span class="bk-cover__title">' + esc(b[0]) + '</span><span class="bk-cover__author">' + esc(b[1]) + '</span></a>' +
-      '<div class="bk-info"><h3 class="bk-name"><a href="' + prod(b[4]) + '">' + esc(b[0]) + '</a></h3><p class="bk-author">' + esc(b[1]) + '</p>' +
-      '<p class="bk-price"><span class="bk-price__now"><strong>' + fmt(b[2]) + '</strong><s>' + fmt(mrp(b[2], b[3])) + '</s></span><span class="bk-off">' + b[3] + '% off</span></p>' +
-      '<div class="bk-actions" data-id="' + esc(b[4]) + '">' +
-      '<button type="button" class="bk-btn bk-btn--cart" data-act="cart">Add to cart</button>' +
-      '<button type="button" class="bk-btn bk-btn--wish' + (window.RKStore && window.RKStore.isWished(b[4]) ? ' is-on' : '') + '" data-act="wish" aria-label="Add to wishlist" aria-pressed="' + (window.RKStore && window.RKStore.isWished(b[4]) ? 'true' : 'false') + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.500s-7.500-4.600-9.300-9.300C1.500 8 3.400 5 6.500 5c1.900 0 3.300 1 4.100 2.300h.8C12.200 6 13.600 5 15.500 5c3.100 0 5 3 3.800 6.200-1.800 4.700-9.300 9.300-9.300 9.300z"/></svg></button>' +
-      '<button type="button" class="bk-btn bk-btn--buy" data-act="buy">Buy now</button>' +
-      '</div></div></article>';
-  }
+  function card(b) { return RKBookCard(RKBookCard.fromRow(b, prod(b[4]), "covers/")); } // shared card: kt/book-card.js
 
   var grid = document.getElementById("bkGrid");
   var ALL = own.concat(filler);
@@ -97,21 +79,8 @@
     document.getElementById("bkCount").textContent = list.length + " books" + (isDefault ? "" : " found");
   }
 
-  grid.addEventListener("click", function (e) {
-    var btn = e.target.closest(".bk-btn");
-    if (!btn) return;
-    var wrap = btn.closest(".bk-actions"), id = wrap.getAttribute("data-id"), S = window.RKStore;
-    var name = btn.closest(".bk-card").querySelector(".bk-name").textContent;
-    if (!S) return;
-    if (btn.dataset.act === "cart") { S.addToCart(id); if (window.matchMedia("(max-width: 720px)").matches) S.toast("Added to cart"); else S.openCart(false); }
-    else if (btn.dataset.act === "wish") {
-      var on = S.toggleWish(id);
-      btn.classList.toggle("is-on", on); btn.setAttribute("aria-pressed", String(on));
-      S.toast(on ? "Saved to wishlist" : "Removed from wishlist");
-    } else if (btn.dataset.act === "buy") {
-      S.addToCart(id); S.openCart(window.matchMedia("(max-width: 720px)").matches);
-    }
-  });
+  /* card buttons (cart / wishlist / buy) are handled once, site-wide, in kt/book-card.js */
+
 
   /* ---- filter bar wiring ---- */
   var bar = document.getElementById("bkFilters");

@@ -18,7 +18,6 @@
   function fmt(n) { return "₹" + (Math.round(n * 100) / 100).toLocaleString("en-IN", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); }
   var SITE = "https://www.rajkamalprakashan.com";
   var TITLES = { "हिन्दी दिवस": ["Hindi Divas", "हिन्दी दिवस", "/hindi-divas"], "New Releases": ["Just arrived", "New Releases", "/collections/new-releases"], "Bestsellers": ["Readers' favourites", "Bestsellers", "/collections/bestsellers"], "Award Winners": ["Honoured writing", "Award Winners", "/collections/award-winners"], "Children Books": ["For young readers", "Children Books", "/collections/children-books"], "World Classic": ["Across languages", "World Classic", "/collections/world-classic"], "Magazine": ["Periodicals", "Magazine", "/collections/magazine"] };
-  var HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.3C1.5 8 3.4 5 6.5 5c1.9 0 3.3 1 4.1 2.3h.8C12.2 6 13.6 5 15.5 5c3.1 0 5 3 3.8 6.2-1.8 4.7-9.3 9.3-9.3 9.3z"/></svg>';
 
   /* ---- hero slider ---- */
   var slides = H.slides.map(function (s, i) {
@@ -78,18 +77,11 @@
 
   /* ---- shelves ---- */
   function card(b) {
-    var monthAttr = b.month ? ' data-month="' + esc(b.month) + '"' : "";
     var local = LOCAL[b.id];
     var url = local ? siteURL("../books/product/?id=" + encodeURIComponent(b.id) + "&c=" + encodeURIComponent(local) + "&from=home") : SITE + "/products/" + b.id;
-    var tgt = local ? "" : ' target="_blank" rel="noopener noreferrer"';
-    var off = b.off ? ' <span class="hm-off">' + b.off + '% off</span>' : "";
-    var price = b.p != null ? '<span class="hm-price"><strong>' + fmt(b.p) + '</strong>' + (b.m && b.m > b.p ? '<s>' + fmt(b.m) + '</s>' : '') + off + '</span>' : "";
-    var actions = b.oos
-      ? '<div class="hm-actions"><span class="hm-oos">Out of stock</span></div>'
-      : '<div class="hm-actions bk-actions" data-id="' + esc(b.id) + '"><button type="button" class="bk-btn bk-btn--cart" data-act="cart">Add to cart</button><button type="button" class="bk-btn bk-btn--wish" data-act="wish" aria-label="Add to wishlist" aria-pressed="' + (window.RKStore && RKStore.isWished(b.id) ? "true" : "false") + '">' + HEART + '</button><button type="button" class="bk-btn bk-btn--buy" data-act="buy">Buy now</button></div>';
-    return '<article class="hm-card"' + monthAttr + '><a class="hm-cover" href="' + esc(url) + '"' + tgt + ' aria-label="' + esc(b.t) + '"><img src="' + esc(homeImg(b.img)) + '" alt="' + esc(b.t) + ' — cover" loading="lazy" width="300" height="440"></a>' +
-      '<div class="hm-info"><h3 class="hm-name"><a href="' + esc(url) + '"' + tgt + '>' + esc(b.t) + '</a></h3><p class="hm-author">' + esc(b.a || b.c) + '</p><p class="hm-cat">' + esc(b.a ? b.c : "") + '</p>' + price + actions + '</div></article>';
+    return RKBookCard({ id: b.id, t: b.t, a: b.a || b.c, c: b.a ? b.c : "", p: b.p, m: b.m, off: b.off, oos: b.oos, img: homeImg(b.img), href: url, ext: !local, month: b.month });
   }
+
   function slug(s) { return "hm-sec-" + s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
   Object.keys(H.sections).forEach(function (k, idx) {
     var t = TITLES[k] || ["", k, ""];
@@ -222,13 +214,7 @@
     }
     var n = e.target.closest(".hm-nav");
     if (n) { var sh = n.closest(".hm-sec").querySelector(".hm-shelf"); sh.scrollBy({ left: +n.dataset.dir * sh.clientWidth * 0.85, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); return; }
-    var btn = e.target.closest(".bk-btn");
-    if (!btn) return;
-    var S = window.RKStore, id = btn.closest(".bk-actions").getAttribute("data-id");
-    if (!S) return;
-    if (btn.dataset.act === "cart") { S.addToCart(id); if (matchMedia("(max-width: 720px)").matches) S.toast("Added to cart"); else S.openCart(false); }
-    else if (btn.dataset.act === "wish") { var on = S.toggleWish(id); btn.classList.toggle("is-on", on); btn.setAttribute("aria-pressed", String(on)); S.toast(on ? "Saved to wishlist" : "Removed from wishlist"); }
-    else { S.addToCart(id); S.openCart(matchMedia("(max-width: 720px)").matches); }
+    /* card buttons (cart / wishlist / buy) are handled once, site-wide, in kt/book-card.js */
   });
 
   /* headline word-cycle: "साथ" stays put, one JS-swapped word blinks between जुड़ें / पढ़ें.

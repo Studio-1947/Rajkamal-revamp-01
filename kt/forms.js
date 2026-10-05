@@ -20,12 +20,6 @@
     },
     name: function (v) {
       return v
-        .replace(/[^\p{L}\p{M} .'-]/gu, "")
-        .replace(/\s{2,}/g, " ")
-        .replace(/^\s+/, "");
-    },
-    name: function (v) {
-      return v
         .replace(/\d+/g, "")
         .replace(/[^\p{L}\p{M} .'-]/gu, "")
         .replace(/\s{2,}/g, " ")
@@ -66,22 +60,16 @@
     )
       return "name";
     if (n === "awb" || n === "gcnum") return "code";
-    var n = ((el.name || "") + " " + (el.id || "")).toLowerCase(),
-      ac = (el.getAttribute("autocomplete") || "").toLowerCase();
-    if (
-      el.type === "tel" ||
-      /phone|mobile|contact/.test(n) ||
-      ac.indexOf("tel") === 0
-    )
-      return "phone";
-    if (/pin|pincode|gcpin|otp|amt|amount|qty/.test(n)) {
-      if (!el.getAttribute("maxlength") && /pin/.test(n))
-        el.setAttribute("maxlength", "6");
-      return "digits";
-    }
-    if (/name|fullname|toname|city|state/.test(n) || ac === "name")
-      return "name";
-    if (/awb|gcnum/.test(n)) return "code";
+    /* fallback for fields not listed above: match whole words in the name / id, split on - _ space and camelCase
+       ("r-name", "toName", "billing_city"), so "shipping" doesn't count as "pin" and "contact-email" isn't a phone */
+    var words = ((el.name || "") + " " + (el.id || "")).replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase().split(/[^a-z0-9]+/);
+    function has(list) { return list.some(function (w) { return words.indexOf(w) >= 0; }); }
+    if (has(["email", "mail", "url", "link", "website"])) return null;
+    if (has(["phone", "mobile", "tel", "whatsapp"])) return "phone";
+    if (has(["pin", "pincode", "zip", "otp"])) { if (!el.getAttribute("maxlength") && !has(["otp"])) el.setAttribute("maxlength", "6"); return "digits"; }
+    if (has(["amt", "amount", "qty", "quantity"])) return "digits";
+    if (has(["name", "fullname", "city", "state"])) return "name";
+    if (has(["awb", "gcnum"])) return "code";
     return null;
   }
   function prep(el) {
@@ -209,10 +197,6 @@
 
   /* shared checks for submit-time validation */
   window.RKForms = {
-    nameOk: function (v) {
-      v = String(v || "").trim();
-      return v.length >= 2 && /^[\p{L}\p{M}][\p{L}\p{M} .'-]*$/u.test(v);
-    },
     nameOk: function (v) {
       v = String(v || "").trim();
       return (

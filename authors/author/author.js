@@ -5,12 +5,8 @@
   var idx = -1; A.forEach(function (a, i) { if (a.id === id) idx = i; });
   var root = document.getElementById("ap"), crumbs = document.getElementById("auCrumbs");
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
-  function fmt(n) { return "₹" + (Math.round(n * 100) / 100).toLocaleString("en-IN", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); }
-  function mrp(price, disc) { return Math.round(price / (1 - disc / 100)); }
   function initials(n) { return n.replace(/'[^']*'/g, "").trim().split(/\s+/).map(function (w) { return w[0]; }).slice(0, 2).join(""); }
   function years(a) { return a.died ? a.born + "–" + a.died : "b. " + a.born; }
-  var HUES = [12, 24, 36, 172, 200, 262, 318, 350];
-  function hue(str) { var h = 0; for (var i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) | 0; return HUES[Math.abs(h) % HUES.length]; }
 
   crumbs.innerHTML = '<a href="../../home/">Home</a><span>/</span><a href="../">Authors</a>' + (idx >= 0 ? "<span>/</span><b>" + esc(A[idx].name) + "</b>" : "");
   if (idx < 0) {
@@ -30,23 +26,11 @@
   function prod(x) { return "../../books/product/?id=" + encodeURIComponent(x.b[4]) + "&c=" + encodeURIComponent(x.c) + "&from=kt"; }
   var byTitle = {}; books.forEach(function (x) { byTitle[x.b[0].toLowerCase()] = x; });
 
-  function bookCard(x) {
-    var b = x.b, wished = window.RKStore && window.RKStore.isWished(b[4]);
-    return '<article class="bk-card">' +
-      '<a class="bk-cover" style="--h:' + hue(b[4]) + '" href="' + prod(x) + '" aria-label="' + esc(b[0]) + '">' +
-      '<img class="bk-cover__img" src="../../books/covers/' + esc(b[4]) + '.jpg?v=2" alt="' + esc(b[0]) + ' — cover" width="300" height="456" loading="lazy" decoding="async" onerror="this.parentNode.classList.add(\'no-img\');this.remove()">' +
-      '<span class="bk-cover__pub">राजकमल</span><span class="bk-cover__title">' + esc(b[0]) + '</span><span class="bk-cover__author">' + esc(b[1]) + "</span></a>" +
-      '<div class="bk-info"><h3 class="bk-name"><a href="' + prod(x) + '">' + esc(b[0]) + '</a></h3><p class="bk-author">' + esc(b[1]) + "</p>" +
-      '<p class="bk-price"><span class="bk-price__now"><strong>' + fmt(b[2]) + "</strong><s>" + fmt(mrp(b[2], b[3])) + '</s></span><span class="bk-off">' + b[3] + "% off</span></p>" +
-      '<div class="bk-actions" data-id="' + esc(b[4]) + '">' +
-      '<button type="button" class="bk-btn bk-btn--cart" data-act="cart">Add to cart</button>' +
-      '<button type="button" class="bk-btn bk-btn--wish' + (wished ? " is-on" : "") + '" data-act="wish" aria-label="Add to wishlist" aria-pressed="' + (wished ? "true" : "false") + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.3C1.5 8 3.4 5 6.5 5c1.9 0 3.3 1 4.1 2.3h.8C12.2 6 13.6 5 15.5 5c3.1 0 5 3 3.8 6.2-1.8 4.7-9.3 9.3-9.3 9.3z"/></svg></button>' +
-      '<button type="button" class="bk-btn bk-btn--buy" data-act="buy">Buy now</button>' +
-      "</div></div></article>";
-  }
+  function bookCard(x) { return RKBookCard(RKBookCard.fromRow(x.b, prod(x), "../../books/covers/")); } // shared card: kt/book-card.js
+
   function authorCard(o) {
     return '<a class="au-card au-card--sm" href="?id=' + encodeURIComponent(o.id) + '">' +
-      '<span class="au-photo" style="--img:url(../photos/' + esc(o.id) + '.jpg?v=3)"><img src="../photos/' + esc(o.id) + '.jpg?v=3" alt="" width="240" height="300" loading="lazy" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(o.name)) + "</b></span>" +
+      '<span class="au-photo" style="--img:url(' + new URL('../photos/' + o.id + '.jpg?v=3', location.href).href + ')"><img src="../photos/' + esc(o.id) + '.jpg?v=3" alt="" width="240" height="300" loading="lazy" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(o.name)) + "</b></span>" +
       '<span class="au-name" lang="hi" title="' + esc(o.hi) + '"><span>' + esc(o.hi) + '</span></span><span class="au-role">' + esc(o.role) + "</span></a>";
   }
 
@@ -59,7 +43,7 @@
 
   root.innerHTML =
     '<header class="ap-hero">' +
-      '<div class="ap-photo" style="--img:url(../photos/' + esc(a.id) + '.jpg?v=3)"><img src="../photos/' + esc(a.id) + '.jpg?v=3" alt="' + esc(a.name) + '" width="280" height="350" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(a.name)) + "</b></div>" +
+      '<div class="ap-photo" style="--img:url(' + new URL('../photos/' + a.id + '.jpg?v=3', location.href).href + ')"><img src="../photos/' + esc(a.id) + '.jpg?v=3" alt="' + esc(a.name) + '" width="280" height="350" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(a.name)) + "</b></div>" +
       '<div class="ap-intro">' +
         '<span class="pd-chip">' + esc(a.role) + "</span>" +
         '<h1 class="pd-title">' + esc(a.name) + "</h1>" +
@@ -95,13 +79,7 @@
     "</nav>" +
     '<section class="ap-more"><h2>You may also like</h2><div class="au-grid au-grid--more">' + more.map(authorCard).join("") + "</div></section>";
 
-  root.addEventListener("click", function (e) {
-    var btn = e.target.closest(".bk-btn[data-act]"); if (!btn) return;
-    var bid = btn.closest(".bk-actions").getAttribute("data-id"), S = window.RKStore; if (!S) return;
-    if (btn.dataset.act === "cart") { S.addToCart(bid); if (window.matchMedia("(max-width: 720px)").matches) S.toast("Added to cart"); else S.openCart(false); }
-    else if (btn.dataset.act === "wish") { var on = S.toggleWish(bid); btn.classList.toggle("is-on", on); btn.setAttribute("aria-pressed", String(on)); S.toast(on ? "Saved to wishlist" : "Removed from wishlist"); }
-    else if (btn.dataset.act === "buy") { S.addToCart(bid); S.openCart(window.matchMedia("(max-width: 720px)").matches); }
-  });
+  /* card buttons (cart / wishlist / buy) are handled once, site-wide, in kt/book-card.js */
   /* ← / → keys step through authors — only when focus is on the page itself, not in a field or an open menu */
   document.addEventListener("keydown", function (e) {
     var ae = document.activeElement;

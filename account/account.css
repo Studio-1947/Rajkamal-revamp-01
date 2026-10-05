@@ -311,3 +311,17 @@ html[data-theme="dark"] .acc-logout-actions .acc-btn--ghost { border-color: rgba
 .acc-gc-buy { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 12px; padding: 9px 16px; border-radius: 999px; background: #a0361f; color: #fff !important; font-weight: 600; font-size: 0.88rem; text-decoration: none; }
 .acc-gc-buy:hover { filter: brightness(1.08); }
 html[data-theme="dark"] .acc-gc-buy { background: #f28b7d; color: #3a0d08 !important; }
+
+/* phones/tablets: match the content pages' section strip — the bordered box is the scrolling strip itself and the
+   slider bar (kt/strip.js) sits underneath it, outside the border */
+@media (max-width: 900px) {
+  .acc-side { padding: 0; border: 0; background: none; box-shadow: none; }
+  html[data-theme="dark"] .acc-side { background: none; }
+  /* same box + chips as .cnt-side on About / FAQ / policies (colours from kt/content.css) */
+  .acc-side ul { padding: 6px; gap: 6px; border: 1px solid #eddccc; border-radius: 18px; background: #fffcf8; }
+  html[data-theme="dark"] .acc-side ul { border-color: rgba(255, 230, 205, 0.16); background: #27140d; }
+  .acc-nav { padding: 8px 14px; font-size: 0.85rem; border-color: #eddccc; background: transparent; }
+  html[data-theme="dark"] .acc-nav { border-color: rgba(255, 230, 205, 0.16); background: transparent; }
+  .rk-strip--acc { --strip-r: 18px; --strip-bg: #fffcf8; }
+  html[data-theme="dark"] .rk-strip--acc { --strip-bg: #27140d; }
+}
