@@ -26,9 +26,13 @@
     isbn: d.isbn, ed: d.ed, year: d.year, reprint: d.reprint, wt: d.wt, dim: d.dim ? String(d.dim).split(",").filter(Boolean).join(" × ") : null, stock: d.stock, pub: "Rajkamal Prakashan", publisher: "Rajkamal Prakashan" }];
   /* open on the format the catalogue (and cart) price refers to, else the live default */
   var cur = formats.filter(function (f) { return f.p && Math.abs(f.p - found[2]) < 0.6; })[0] || formats.filter(function (f) { return f.def; })[0] || formats[0];
-  var base = cur; // the catalogue format: its front cover is the local copy in ../covers/
-  var ORDER = { Hardcover: 1, Paperback: 2, "E-Book": 3 };
-  formats.sort(function (a, b) { return (ORDER[a.t] || 9) - (ORDER[b.t] || 9); });
+  /* Paperback · Hardcover · E-Book are always offered (in that order); one the book doesn't come in shows greyed out
+     as "Not available". Magazines / text books / combos keep just their own format. */
+  var CORE = ["Paperback", "Hardcover", "E-Book"];
+  function coreName(t) { return /^paperback/i.test(t) ? "Paperback" : /^hardcover/i.test(t) ? "Hardcover" : /e-?book/i.test(t) ? "E-Book" : null; }
+  if (formats.some(function (f) { return coreName(f.t); }))
+    CORE.forEach(function (n) { if (!formats.some(function (f) { return coreName(f.t) === n; })) formats.push({ t: n, missing: true }); });
+  formats.sort(function (a, b) { var x = CORE.indexOf(coreName(a.t)), y = CORE.indexOf(coreName(b.t)); return (x < 0 ? 9 : x) - (y < 0 ? 9 : y); });
   function isEbook(f) { return /e-?book/i.test(f.t); }
   function off(f) { return f.m && f.p && f.m > f.p ? Math.round((f.m - f.p) / f.m * 100) : 0; }
   function inStock(f) { return isEbook(f) || f.stock == null || f.stock > 0; }
@@ -54,7 +58,7 @@
 
   var I = {
     cart: '<svg class="bk-btn__ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1.6"/><circle cx="18" cy="21" r="1.6"/><path d="M1 1h3.2l2.6 13.4a2 2 0 0 0 2 1.6h9.4a2 2 0 0 0 2-1.6L22 6H6"/></svg>',
-    heart: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.3C1.5 8 3.4 5 6.5 5c1.9 0 3.3 1 4.1 2.3h.8C12.2 6 13.6 5 15.5 5c3.1 0 5 3 3.8 6.2-1.8 4.7-9.3 9.3-9.3 9.3z"/></svg>',
+    heart: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>',
     bolt: '<svg class="bk-btn__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>',
     ship: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>',
     orig: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>',
@@ -63,12 +67,16 @@
     tag: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.4"/></svg>'
   };
 
+  var shots = [], shotAt = 0; /* the photos of the format on screen, and which one is showing */
   function gallery(f) {
-    var imgs = (f.imgs || []).slice();
-    if (!imgs.length || f === base) imgs = ["../covers/" + id + ".jpg"].concat(imgs.slice(1)); // local front cover for the catalogue format
-    return '<div class="pd-cover"><img id="pdMainImg" referrerpolicy="no-referrer" src="' + esc(imgs[0]) + '" alt="' + esc(title) + " — " + esc(f.t) + ' cover" width="300" height="456" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><span class="pd-cover__fallback">' + esc(title) + "</span></div>" +
+    /* the live site's photos (~830px) look sharp in the big half-width frame; our local cover (~300px) is the fallback */
+    var imgs = (f.imgs || []).slice(), local = "../covers/" + id + ".jpg";
+    if (!imgs.length) imgs = [local];
+    shots = imgs; shotAt = 0;
+    var fb = ' data-fb="' + esc(local) + '" onerror="if(this.dataset.fb&&this.src.indexOf(this.dataset.fb)<0){this.src=this.dataset.fb;this.removeAttribute(\'data-fb\')}else{' ;
+    return '<div class="pd-cover" role="button" tabindex="0" aria-label="Open photo ' + "full screen" + '" aria-haspopup="dialog"><img id="pdMainImg" referrerpolicy="no-referrer" src="' + esc(imgs[0]) + '" alt="' + esc(title) + " — " + esc(f.t) + ' cover" width="600" height="900"' + fb + 'this.parentNode.classList.add(\'no-img\');this.remove()}"><span class="pd-cover__fallback">' + esc(title) + "</span></div>" +
       (imgs.length > 1 ? '<div class="pd-thumbs" role="list" aria-label="' + esc(f.t) + ' photos">' + imgs.map(function (u, i) {
-        return '<button type="button" class="pd-thumb' + (i ? "" : " is-on") + '" data-img="' + esc(u) + '" role="listitem" aria-label="Photo ' + (i + 1) + " of " + imgs.length + '"' + (i ? "" : ' aria-current="true"') + '><img src="' + esc(u) + '" alt="" loading="lazy" referrerpolicy="no-referrer"></button>';
+        return '<button type="button" class="pd-thumb' + (i ? "" : " is-on") + '" data-img="' + esc(u) + '" role="listitem" aria-label="Photo ' + (i + 1) + " of " + imgs.length + '"' + (i ? "" : ' aria-current="true"') + '><img src="' + esc(u) + '" alt="" loading="lazy" referrerpolicy="no-referrer"' + (i ? "" : fb + 'this.remove()}"') + "></button>";
       }).join("") + "</div>" : "");
   }
   function actions(f) {
@@ -114,6 +122,7 @@
         '<div class="pd-price"><strong>' + (f.p != null ? fmt(f.p) : "—") + "</strong>" + (o ? "<s>" + fmt(f.m) + '</s><span class="bk-off">' + o + "% off</span>" : "") + "</div>" +
         (formats.length > 1 ? '<div class="pd-formats" role="radiogroup" aria-label="Format">' + formats.map(function (x, i) {
           var on = x === f;
+          if (x.missing) return '<button type="button" class="pd-format is-missing" role="radio" aria-checked="false" aria-disabled="true" disabled><b>' + esc(x.t) + "</b><span>Not available</span></button>";
           return '<button type="button" class="pd-format' + (on ? " is-on" : "") + (inStock(x) ? "" : " is-oos") + '" role="radio" aria-checked="' + on + '" data-fmt="' + i + '"><b>' + esc(x.t) + "</b><span>" + (x.p != null ? fmt(x.p) : "") + (inStock(x) ? "" : " · Out of stock") + "</span></button>";
         }).join("") + "</div>" : '<div class="pd-meta"><span class="pd-pill">' + esc(f.t) + "</span>" + ((F.lang || d.lang) ? '<span class="pd-pill">' + esc(F.lang || d.lang) + "</span>" : "") + ((F.pages || d.pages) ? '<span class="pd-pill">' + (F.pages || d.pages) + " pages</span>" : "") + "</div>") +
         actions(f) +
@@ -136,16 +145,91 @@
     if (fb) { cur = formats[+fb.dataset.fmt]; render(); var nf = root.querySelector('[data-fmt="' + fb.dataset.fmt + '"]'); if (nf) nf.focus(); return; }
     var th = e.target.closest(".pd-thumb");
     if (th) {
-      var main = document.getElementById("pdMainImg"); if (main) main.src = th.dataset.img;
-      root.querySelectorAll(".pd-thumb").forEach(function (t) { var on = t === th; t.classList.toggle("is-on", on); if (on) t.setAttribute("aria-current", "true"); else t.removeAttribute("aria-current"); });
+      var main = document.getElementById("pdMainImg"); if (main) { main.setAttribute("data-fb", "../covers/" + id + ".jpg"); main.src = th.dataset.img; }
+      root.querySelectorAll(".pd-thumb").forEach(function (t, i) { var on = t === th; if (on) shotAt = i; t.classList.toggle("is-on", on); if (on) t.setAttribute("aria-current", "true"); else t.removeAttribute("aria-current"); });
       return;
     }
+    if (e.target.closest(".pd-cover") && !e.target.closest(".pd-cover.no-img")) { lightbox(shotAt); return; }
     var btn = e.target.closest(".bk-btn[data-act]"); if (!btn) return;
     var S = window.RKStore; if (!S) return;
     if (btn.dataset.act === "cart") { S.addToCart(id); if (phone()) S.toast("Added to cart"); else S.openCart(false); }
     else if (btn.dataset.act === "wish") { var on = S.toggleWish(id); btn.classList.toggle("is-on", on); btn.setAttribute("aria-pressed", String(on)); S.toast(on ? "Saved to wishlist" : "Removed from wishlist"); }
     else if (btn.dataset.act === "buy") { S.addToCart(id); S.openCart(phone()); }
   });
+
+  root.addEventListener("keydown", function (e) {
+    if ((e.key === "Enter" || e.key === " ") && e.target.classList && e.target.classList.contains("pd-cover")) { e.preventDefault(); lightbox(shotAt); }
+  });
+
+  /* ---- full-screen photo viewer: arrows / ← → / swipe to move, click the photo to zoom 2× at that spot (move to pan),
+     Esc / ✕ / the dark area to close; focus returns to the photo ---- */
+  function lightbox(start) {
+    if (!shots.length) return;
+    var at = start || 0, zoom = false, opener = document.activeElement, local = "../covers/" + id + ".jpg";
+    var lb = document.createElement("div");
+    lb.className = "pd-lb"; lb.setAttribute("role", "dialog"); lb.setAttribute("aria-modal", "true"); lb.setAttribute("aria-label", "Photos of " + title);
+    var many = shots.length > 1;
+    lb.innerHTML =
+      '<div class="pd-lb__top"><span class="pd-lb__count" aria-live="polite"></span><button type="button" class="pd-lb__close" aria-label="Close photos">' +
+        '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>' +
+      '<div class="pd-lb__stage"><img class="pd-lb__img" alt="" referrerpolicy="no-referrer" draggable="false"></div>' +
+      (many ? '<button type="button" class="pd-lb__nav pd-lb__nav--prev" aria-label="Previous photo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></button>' +
+        '<button type="button" class="pd-lb__nav pd-lb__nav--next" aria-label="Next photo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button>' +
+        '<div class="pd-lb__strip">' + shots.map(function (u, i) { return '<button type="button" class="pd-lb__thumb" data-i="' + i + '" aria-label="Photo ' + (i + 1) + '"><img src="' + esc(u) + '" alt="" referrerpolicy="no-referrer" loading="lazy"></button>'; }).join("") + "</div>" : "");
+    document.body.appendChild(lb);
+    var img = lb.querySelector(".pd-lb__img"), stage = lb.querySelector(".pd-lb__stage"), count = lb.querySelector(".pd-lb__count");
+    img.addEventListener("error", function () { if (img.src.indexOf(local) < 0) img.src = local; });
+    function show(i, dir) {
+      at = (i + shots.length) % shots.length; setZoom(false);
+      img.classList.remove("is-in", "from-left", "from-right"); void img.offsetWidth;
+      img.src = shots[at]; img.alt = title + " — photo " + (at + 1) + " of " + shots.length;
+      img.classList.add("is-in", dir < 0 ? "from-left" : "from-right");
+      count.textContent = many ? (at + 1) + " / " + shots.length : "";
+      lb.querySelectorAll(".pd-lb__thumb").forEach(function (t, j) { t.classList.toggle("is-on", j === at); if (j === at) t.setAttribute("aria-current", "true"); else t.removeAttribute("aria-current"); });
+    }
+    function setZoom(on, ev) {
+      zoom = on; lb.classList.toggle("is-zoom", on);
+      if (on && ev) pan(ev); else img.style.transformOrigin = "50% 50%";
+    }
+    function pan(ev) { var r = img.getBoundingClientRect(); img.style.transformOrigin = ((ev.clientX - r.left) / r.width * 100) + "% " + ((ev.clientY - r.top) / r.height * 100) + "%"; }
+    function close() {
+      lb.classList.remove("is-open"); document.documentElement.classList.remove("pd-lb-lock");
+      document.removeEventListener("keydown", onKey, true);
+      setTimeout(function () { lb.remove(); }, 220);
+      if (opener && opener.focus) opener.focus({ preventScroll: true });
+    }
+    function onKey(e) {
+      if (e.key === "Escape") { e.preventDefault(); close(); }
+      else if (e.key === "ArrowRight" && many) { e.preventDefault(); show(at + 1, 1); }
+      else if (e.key === "ArrowLeft" && many) { e.preventDefault(); show(at - 1, -1); }
+      else if (e.key === "Tab") { /* keep focus inside the viewer */
+        var f = [].slice.call(lb.querySelectorAll("button")), i = f.indexOf(document.activeElement);
+        e.preventDefault(); f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+      }
+    }
+    lb.addEventListener("click", function (e) {
+      if (e.target.closest(".pd-lb__close")) return close();
+      if (e.target.closest(".pd-lb__nav--prev")) return show(at - 1, -1);
+      if (e.target.closest(".pd-lb__nav--next")) return show(at + 1, 1);
+      var t = e.target.closest(".pd-lb__thumb"); if (t) return show(+t.dataset.i, +t.dataset.i < at ? -1 : 1);
+      if (e.target === img) { if (!moved) setZoom(!zoom, e); return; }
+      if (e.target === stage || e.target === lb) close();
+    });
+    img.addEventListener("mousemove", function (e) { if (zoom) pan(e); });
+    /* swipe (touch) to change photo; while zoomed a drag pans instead */
+    var x0 = null, y0 = 0, moved = false;
+    stage.addEventListener("pointerdown", function (e) { x0 = e.clientX; y0 = e.clientY; moved = false; });
+    stage.addEventListener("pointermove", function (e) { if (x0 == null) return; if (Math.abs(e.clientX - x0) > 8) moved = true; if (zoom && e.pointerType !== "mouse") pan(e); });
+    stage.addEventListener("pointerup", function (e) {
+      if (x0 == null) return; var dx = e.clientX - x0, dy = e.clientY - y0; x0 = null;
+      if (!zoom && many && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) show(at + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+      setTimeout(function () { moved = false; }, 0);
+    });
+    document.addEventListener("keydown", onKey, true);
+    document.documentElement.classList.add("pd-lb-lock");
+    show(at, 1);
+    requestAnimationFrame(function () { lb.classList.add("is-open"); lb.querySelector(".pd-lb__close").focus({ preventScroll: true }); });
+  }
 
   var shareBtn = document.getElementById("pdShare");
   if (shareBtn) shareBtn.addEventListener("click", function () {

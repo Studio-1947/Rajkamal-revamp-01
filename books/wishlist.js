@@ -113,7 +113,7 @@
     root.querySelector("#rkwName").textContent = S.wishName();
     countEl.textContent = ids.length ? "(" + ids.length + ")" : "";
     if (!ids.length) {
-      list.innerHTML = '<li class="rkc__empty"><div class="rkc__empty-art" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.3-9.3C1.5 8 3.4 5 6.5 5c1.9 0 3.3 1 4.1 2.3h.8C12.2 6 13.6 5 15.5 5c3.1 0 5 3 3.8 6.2-1.8 4.7-9.3 9.3-9.3 9.3z"/></svg></div>' +
+      list.innerHTML = '<li class="rkc__empty"><div class="rkc__empty-art" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></div>' +
         '<h3>Your wishlist is empty</h3><p>Tap the heart on any book to save it here.</p><button type="button" class="rkc__btn rkc__btn--ghost" data-close>Browse books</button></li>';
       foot.hidden = true; foot.innerHTML = ""; return;
     }

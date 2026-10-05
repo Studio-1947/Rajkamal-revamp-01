@@ -2006,14 +2006,22 @@ body.home-page .site-header {
 .site-header .logo-img--top {
   opacity: 1;
 }
+/* one logo at a time: the emblem-only mark stays hidden under the full logo until the nav shrinks,
+   and the two hand over in turn (out first, then in) so they never show on top of each other */
 .site-header .logo-img--scrolled {
-  opacity: 1;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+.site-header .logo-img--top {
+  transition: opacity 0.22s ease 0.16s;
 }
 .site-header.scrolled .logo-img--top {
   opacity: 0;
+  transition: opacity 0.16s ease;
 }
 .site-header.scrolled .logo-img--scrolled {
   opacity: 1;
+  transition: opacity 0.22s ease 0.14s;
 }
 .site-header .logo-img--top {
   z-index: 1;
@@ -4619,3 +4627,109 @@ html[data-theme="dark"] .rk-strip--acc { --strip-bg: #281c19; }
   html.ios-safari .mobile-search-sheet__sheet, html.ios-safari .mobile-profile__sheet { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
   html.ios-safari .ab-sheet__body { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
 }
+
+/* ---------- All Books dropdown, round 2 (user) ----------
+   The genre panel is its own tinted surface; the selected category's tab joins it like a folder tab, so the genres
+   clearly belong to that category. Genres are chips (not a second list), and they stagger in on each switch.
+   "View all books" / "All categories" moved to the panel footer, so nothing in the category list looks selected. */
+.ab-menu { --ab-panel: #fbeee0; --ab-chip: #fffdfb; --ab-chip-border: #ecd3bb; overflow: hidden; }
+html[data-theme="dark"] .ab-menu { --ab-panel: rgba(255, 255, 255, 0.055); --ab-chip: rgba(255, 255, 255, 0.05); --ab-chip-border: rgba(255, 220, 180, 0.2); }
+.ab-menu__rail { border-right: 0; padding: 14px 0 14px 12px; }
+.ab-tab { border-radius: 12px 0 0 12px; padding: 9px 14px; transition: background-color 0.18s ease, color 0.18s ease; }
+.ab-tab:hover { background: color-mix(in srgb, var(--ab-panel) 55%, transparent); }
+.ab-tab.is-on { background: var(--ab-panel); }
+.ab-tab.is-on::after { left: 0; right: auto; width: 3px; height: 55%; }
+.ab-tab.is-on i { color: var(--ab-accent); }
+.ab-menu.is-searching .ab-tab.is-on { background: none; }
+.ab-menu__main { background: var(--ab-panel); padding: 20px 26px 0 28px; border-radius: 0 21px 21px 0; }
+/* round off the panel's corners next to the selected tab, so the tab and panel read as one shape */
+.ab-menu__top { border-bottom-color: color-mix(in srgb, var(--ab-accent) 22%, transparent); }
+.ab-menu__title { display: flex; flex-direction: column; font-size: 1.25rem; line-height: 1.2; }
+.ab-menu__title span { margin: 2px 0 0; font-size: 0.78rem; }
+.ab-menu__eyebrow { order: -1; margin-bottom: 2px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ab-accent); }
+.ab-menu__search { background: var(--ab-chip); border-color: var(--ab-chip-border); }
+
+/* genres as chips: they wrap in rows, each a clear, clickable thing */
+.ab-pane { display: flex; flex-wrap: wrap; gap: 8px 8px; align-content: flex-start; padding-bottom: 18px; grid-template-columns: none; grid-template-rows: none; }
+.ab-pane li { --i: 0; }
+.ab-pane:not([hidden]) { animation: none; }
+.ab-pane:not([hidden]) li { animation: ab-chip-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(var(--i) * 16ms); }
+@keyframes ab-chip-in { from { opacity: 0; transform: translateY(6px) scale(0.97); } to { opacity: 1; transform: none; } }
+.ab-menu__link {
+  display: inline-flex; align-items: center; margin: 0; padding: 8px 14px; border-radius: 999px;
+  background: var(--ab-chip); border: 1px solid var(--ab-chip-border); font-size: 0.86rem; font-weight: 500; line-height: 1.2;
+  box-shadow: 0 1px 2px rgba(110, 51, 13, 0.05); transition: background-color 0.16s ease, color 0.16s ease, border-color 0.16s ease, transform 0.16s ease, box-shadow 0.16s ease;
+}
+.ab-menu__link:hover, .ab-menu__link:focus-visible { background: var(--ab-accent); border-color: var(--ab-accent); color: #fff !important; transform: translateY(-1px); box-shadow: 0 6px 14px -6px color-mix(in srgb, var(--ab-accent) 70%, transparent); }
+html[data-theme="dark"] .ab-menu__link:hover, html[data-theme="dark"] .ab-menu__link:focus-visible { color: #2a120a !important; }
+.ab-menu .ab-menu__link[aria-current="page"] { border-color: var(--ab-accent); color: var(--ab-accent); box-shadow: inset 0 0 0 1px var(--ab-accent); }
+.ab-menu__link mark { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+
+/* footer: browse everything */
+.ab-menu__foot { margin: auto -26px 0 -28px; display: flex; align-items: center; gap: 18px; padding: 12px 26px 12px 28px; border-top: 1px dotted color-mix(in srgb, var(--ab-accent) 22%, transparent); font-size: 0.84rem; }
+.ab-menu__foot > span { margin-right: auto; color: var(--ab-mute); }
+.ab-menu__cats { margin: 0; padding: 0; text-align: left; font-weight: 500; text-decoration: none !important; }
+.ab-menu__cats:hover { text-decoration: underline !important; }
+.ab-menu__all { margin: 0; padding: 8px 16px; background: transparent; border: 1.5px solid var(--ab-accent); color: var(--ab-accent) !important; font-weight: 600; transition: background-color 0.16s ease, color 0.16s ease; }
+html[data-theme="dark"] .ab-menu__all { color: var(--ab-accent) !important; }
+.ab-menu__all:hover { filter: none; background: var(--ab-accent); color: #fff !important; }
+html[data-theme="dark"] .ab-menu__all:hover { color: #2a120a !important; }
+.ab-menu__note { margin: 0 0 14px; }
+@media (prefers-reduced-motion: reduce) { .ab-pane:not([hidden]) li { animation: none; } .ab-menu__link { transition: none; } }
+.ab-menu.is-searching .ab-tab.is-on i { color: var(--ab-mute); }
+/* nav dropdown arrows (All Books, Publications) sit closer to their text — the icon already has ~6px of empty space inside */
+.header-nav-main a { gap: 0; }
+.header-nav-main a .chev { margin-left: 1px; }
+
+/* ---------- nav icons (Profile, WhatsApp, Wishlist, Cart, Theme) answer the pointer (user) ----------
+   One system, in the site's palette: on hover / keyboard focus the button lifts and fills terracotta (dark: coral), the
+   icon turns white (dark: deep maroon), with a soft glow — and each icon has its own small move: profile nods, WhatsApp
+   wiggles, the heart beats and fills, the cart rolls, the moon rocks / the sun turns. Saved books keep the heart filled. */
+html[data-theme] .site-header .header-icons .pill-btn {
+  transition: background-color 0.22s ease, border-color 0.22s ease, color 0.22s ease, transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease;
+}
+html[data-theme] body .site-header .header-icons .pill-btn:hover,
+html[data-theme] body .site-header .header-icons .pill-btn:focus-visible {
+  background: #a0361f; border-color: #a0361f; color: #fff; transform: translateY(-2px); box-shadow: 0 8px 18px -6px rgba(160, 54, 31, 0.55); outline: none;
+}
+html[data-theme="dark"] body .site-header .header-icons .pill-btn:hover,
+html[data-theme="dark"] body .site-header .header-icons .pill-btn:focus-visible {
+  background: #f28b7d; border-color: #f28b7d; color: #3a0d08; box-shadow: 0 8px 18px -6px rgba(0, 0, 0, 0.65);
+}
+html[data-theme] body .site-header .header-icons .pill-btn:active { transform: translateY(0) scale(0.94); }
+.site-header .header-icons .pill-btn .pill-badge { transition: transform 0.22s ease; }
+.site-header .header-icons .pill-btn:hover .pill-badge { transform: translateY(-1px) scale(1.08); }
+.pill-ic { transform-origin: center; }
+/* the moves */
+.site-header .pill-btn--account:hover .pill-ic--user { animation: rkNod 0.55s ease; }
+@keyframes rkNod { 0%, 100% { transform: translateY(0); } 35% { transform: translateY(-2.5px); } 65% { transform: translateY(1px); } }
+.site-header .pill-btn--help:hover .pill-ic--wa { animation: rkWaWiggle 0.6s ease; }
+@keyframes rkWaWiggle { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-14deg); } 40% { transform: rotate(10deg); } 60% { transform: rotate(-6deg); } 80% { transform: rotate(3deg); } }
+.pill-ic--heart path { fill: transparent; transition: fill 0.2s ease; }
+.site-header .pill-btn--wish:hover .pill-ic--heart path, .site-header .pill-btn--wish:focus-visible .pill-ic--heart path,
+.pill-btn--wish.has-items .pill-ic--heart path { fill: currentColor; }
+html[data-theme] .site-header .header-icons .pill-btn.pill-btn--wish.has-items { color: #bc0005; }
+html[data-theme="dark"] .site-header .header-icons .pill-btn.pill-btn--wish.has-items { color: #ffab98; }
+.site-header .pill-btn--wish:hover .pill-ic--heart { animation: rkHeartBeat 0.8s ease; }
+@keyframes rkHeartBeat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.28); } 30% { transform: scale(0.96); } 45% { transform: scale(1.16); } 60% { transform: scale(1); } }
+.site-header .pill-btn--cart:hover .pill-ic--cart { animation: rkCartRoll 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes rkCartRoll { 0%, 100% { transform: translateX(0); } 40% { transform: translateX(3px) rotate(-6deg); } 70% { transform: translateX(-1px); } }
+.site-header .pill-btn--theme:hover .pill-ic--moon { animation: rkMoonRock 0.7s ease; }
+@keyframes rkMoonRock { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-22deg); } 65% { transform: rotate(8deg); } }
+.site-header .pill-btn--theme:hover .pill-ic--sun { animation: rkSunTurn 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes rkSunTurn { from { transform: rotate(0) scale(1); } 50% { transform: rotate(90deg) scale(1.12); } to { transform: rotate(180deg) scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .site-header .header-icons .pill-btn:hover .pill-ic { animation: none; }
+  html[data-theme] body .site-header .header-icons .pill-btn:hover { transform: none; }
+}
+/* a filled (saved) heart turns white on the terracotta hover like the other icons */
+html[data-theme] body .site-header .header-icons .pill-btn.pill-btn--wish.has-items:hover,
+html[data-theme] body .site-header .header-icons .pill-btn.pill-btn--wish.has-items:focus-visible { color: #fff; }
+html[data-theme="dark"] body .site-header .header-icons .pill-btn.pill-btn--wish.has-items:hover,
+html[data-theme="dark"] body .site-header .header-icons .pill-btn.pill-btn--wish.has-items:focus-visible { color: #3a0d08; }
+
+/* wishlist hearts on book cards and the book page: the same clean heart as the nav; it fills and beats on hover, and
+   stays filled once saved (.is-on) */
+.bk-btn--wish svg path { transition: fill 0.2s ease; }
+.bk-btn--wish:hover svg, .bk-btn--wish:focus-visible svg { fill: currentColor; animation: rkHeartBeat 0.8s ease; transform-origin: center; }
+@media (prefers-reduced-motion: reduce) { .bk-btn--wish:hover svg { animation: none; } }

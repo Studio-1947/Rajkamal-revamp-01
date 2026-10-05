@@ -16,6 +16,19 @@
   var navList = header.querySelector(".header-nav-main ul");
   if (!top || !icons || !search) return;
 
+  /* highlight the section you're in: the top-nav item for this page gets .is-current + aria-current="page" */
+  (function () {
+    if (!navList) return;
+    var SECTION = { books: "All Books", categories: "All Books", collections: "All Books", authors: "Authors", ebooks: "E-Books", publications: "Publications", catalogues: "Catalogue", events: "Events" };
+    var segs = location.pathname.split("/").filter(Boolean), label = null;
+    for (var i = 0; i < segs.length && !label; i++) label = SECTION[segs[i]] || null;
+    if (/\/books\/(checkout|order)\//.test(location.pathname)) label = null; // the cart flow isn't "All Books"
+    if (!label) return;
+    navList.querySelectorAll("li > a").forEach(function (a) {
+      if (a.textContent.trim() === label) { a.classList.add("is-current"); a.setAttribute("aria-current", "page"); }
+    });
+  })();
+
   /* voice search: the header's mic button dictates into the search field (Web Speech API where supported) */
   (function () {
     var mic = header.querySelector(".mic-btn");
@@ -201,7 +214,7 @@
     toast: toast,
     refresh: function () {
       document.querySelectorAll(".pill-btn--cart .pill-badge").forEach(function (b) { var n = read(KEY_CART).length; b.textContent = n; b.hidden = !n; });
-      document.querySelectorAll(".pill-btn--wish .pill-badge").forEach(function (b) { var n = getActiveWishlist().items.length; b.textContent = n; b.hidden = !n; });
+      document.querySelectorAll(".pill-btn--wish .pill-badge").forEach(function (b) { var n = getActiveWishlist().items.length; b.textContent = n; b.hidden = !n; b.parentNode.classList.toggle("has-items", !!n); });
       // keep every book card's heart in sync with the *active* wishlist (matters when switching between named wishlists)
       var wished = getActiveWishlist().items;
       document.querySelectorAll(".bk-actions[data-id]").forEach(function (wrap) {
@@ -217,7 +230,7 @@
   if (cartBtn) badge(cartBtn);
   var wishBtn = document.createElement("button");
   wishBtn.type = "button"; wishBtn.className = "pill-btn pill-btn--wish"; wishBtn.setAttribute("aria-label", "Wishlist"); wishBtn.title = "Wishlist";
-  wishBtn.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-9.3-9.3C1.5 8 3.4 5 6.5 5c1.9 0 3.3 1 4.1 2.3h.8C12.2 6 13.600 5 15.500 5c3.100 0 5 3 3.800 6.200-1.800 4.700-9.300 9.300-9.300 9.300z"/></svg>';
+  wishBtn.innerHTML = '<svg class="pill-ic pill-ic--heart" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>';
   badge(wishBtn);
   icons.insertBefore(wishBtn, cartBtn || icons.firstChild);
   var cartUrl = (function () {
@@ -232,7 +245,7 @@
     document.head.appendChild(el);
   };
   if (cartBtn) cartBtn.addEventListener("click", function () { Store.openCart(); });
-  var wishUrl = cartUrl ? cartUrl.replace(/cart\.js.*$/, "wishlist.js?v=3") : null;
+  var wishUrl = cartUrl ? cartUrl.replace(/cart\.js.*$/, "wishlist.js?v=4") : null;
   Store.openWishlist = function () {
     if (window.RKWishlist) return window.RKWishlist.open();
     if (!wishUrl) return;
@@ -266,7 +279,7 @@
       '<a class="mobile-tab mobile-tab--home" href="' + ROOT + 'home/" data-tab="home"><img class="mobile-tab__logo mobile-tab__logo--light" src="' + ROOT + 'kt/assets/logo/rkp-favicon.svg" alt="" width="20" height="20"><img class="mobile-tab__logo mobile-tab__logo--dark" src="' + ROOT + 'kt/assets/logo/rkp-favicon-dark.svg" alt="" width="20" height="20"><span>Home</span></a>' +
       '<button type="button" class="mobile-tab" data-tab="search" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M12 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M7 4.5c1.6-1 3.4-1 5 0"/><circle cx="16.3" cy="15.3" r="3.3"/><path d="m18.7 17.7 2 2"/></svg><span>Search Books</span></button>' +
       '<button type="button" class="mobile-tab" data-tab="profile"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"/></svg><span>Profile</span></button>' +
-      '<button type="button" class="mobile-tab" data-tab="wish"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-9.3-9.3C1.5 8 3.4 5 6.5 5c1.9 0 3.3 1 4.1 2.3h.8C12.2 6 13.6 5 15.5 5c3.1 0 5 3 3.8 6.2-1.8 4.7-9.3 9.3-9.3 9.3z"/></svg><span class="mobile-tab__badge" hidden></span><span>Wishlist</span></button>' +
+      '<button type="button" class="mobile-tab" data-tab="wish"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><span class="mobile-tab__badge" hidden></span><span>Wishlist</span></button>' +
       '<button type="button" class="mobile-tab" data-tab="cart"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2.5 3h2l2.3 12.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6"/></svg><span class="mobile-tab__badge" hidden></span><span>Cart</span></button>';
     document.body.appendChild(bar);
 
@@ -359,7 +372,7 @@
         '<a class="mobile-profile__row" href="' + ROOT + 'auth/register/" data-act="register" data-when="out"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="8" r="4"/><path d="M2.5 20c1.4-3.8 4.4-6 7.5-6 1.4 0 2.8.4 4 1.2"/><path d="M19 15v6M16 18h6"/></svg></span><span class="mobile-profile__label">Create account</span></a>' +
         '<a class="mobile-profile__row" href="' + ROOT + 'account/" data-act="account" data-when="in"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"/></svg></span><span class="mobile-profile__label">My Account</span></a>' +
         '<a class="mobile-profile__row" href="' + ROOT + 'account/?tab=orders" data-act="orders" data-when="in"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg></span><span class="mobile-profile__label">My Orders</span></a>' +
-        '<button type="button" class="mobile-profile__row" data-act="wish" data-when="in"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-9.3-9.3C1.5 8 3.4 5 6.5 5c1.9 0 3.3 1 4.1 2.3h.8C12.2 6 13.6 5 15.5 5c3.1 0 5 3 3.8 6.2-1.8 4.7-9.3 9.3-9.3 9.3z"/></svg></span><span class="mobile-profile__label">Wishlist</span></button>' +
+        '<button type="button" class="mobile-profile__row" data-act="wish" data-when="in"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span><span class="mobile-profile__label">Wishlist</span></button>' +
         '<button type="button" class="mobile-profile__row" data-act="cart"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2.5 3h2l2.3 12.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6"/></svg></span><span class="mobile-profile__label">Cart</span></button>' +
         '<a class="mobile-profile__row" href="' + ROOT + 'books/?g=all" data-act="books"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span><span class="mobile-profile__label">All Books</span></a>' +
         '<a class="mobile-profile__row" href="https://wa.me/" target="_blank" rel="noopener noreferrer" data-act="help"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.3 8.3 0 0 1-4-1L3 20l1.2-5.5a8.3 8.3 0 0 1-1.1-4.2A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5Z"/></svg></span><span class="mobile-profile__label">Help via WhatsApp</span></a>' +
