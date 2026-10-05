@@ -28,7 +28,7 @@
           ? (e.register ? '<a class="ev-btn ev-btn--block" href="../register/?id=' + encodeURIComponent(e.id) + '">Register now →</a>' : '<p class="evp-note">Entry is open to all — no registration needed.</p>') +
             '<button type="button" class="ev-btn ev-btn--ghost ev-btn--block" data-ics>Add to calendar</button>'
           : '<p class="evp-note">This event has ended. See what’s coming up on the <a href="../">events page</a>.</p>') +
-        '<div class="evp-help"><b>Need help?</b><span>Questions about this event? Please contact our support team.</span><a href="../../contact/" target="_blank" rel="noopener noreferrer">Contact Support →</a></div>' +
+        '<div class="evp-help"><b>Need help?</b><span>Questions about this event? Please contact our support team.</span><a href="../../contact/">Contact Support →</a></div>' +
       "</aside>" +
     "</div>" +
     (others.length ? '<section class="evp-more"><h2>More events</h2><div class="ev-grid">' + others.map(function (x) {

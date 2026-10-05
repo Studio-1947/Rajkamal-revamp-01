@@ -31,7 +31,7 @@
       : '<p class="tr-signin">Ordered while signed in? <a href="../auth/login/?next=' + encodeURIComponent("../../track/") + '">Sign in</a> to track your orders in one tap.</p>') +
       '<section class="tr-help"><h2>Need help with a delivery?</h2><div class="tr-help__row">' +
         '<a class="tr-help__card" href="https://wa.me/" target="_blank" rel="noopener noreferrer"><b>WhatsApp Helpline</b><span>Chat with us about your order</span></a>' +
-        '<a class="tr-help__card" href="https://www.rajkamalprakashan.com/report-issue" target="_blank" rel="noopener noreferrer"><b>Report an Issue</b><span>Damaged, missing or late? Tell us</span></a>' +
+        '<a class="tr-help__card" href="../report-issue/"><b>Report an Issue</b><span>Damaged, missing or late? Tell us</span></a>' +
         '<a class="tr-help__card" href="../account/?tab=orders"><b>My Orders</b><span>See every order and invoice</span></a>' +
       "</div></section>" +
     "</div>";

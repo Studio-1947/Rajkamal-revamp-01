@@ -26,13 +26,10 @@
   Object.keys(C).forEach(function (k) { C[k].books.forEach(function (b) { if (!seen[b[4]] && b[3] > 0) { seen[b[4]] = 1; books.push({ b: b, c: k }); } }); });
   books.sort(function (x, y) { return y.b[3] - x.b[3] || x.b[2] - y.b[2]; });
   var deals = books.slice(0, 8);
-  function mrp(p, d) { return Math.round(p / (1 - d / 100)); }
-  function deal(x) {
-    var b = x.b, href = "../books/product/?id=" + encodeURIComponent(b[4]) + "&c=" + encodeURIComponent(x.c) + "&from=kt";
-    return '<a class="of-deal" href="' + href + '"><span class="of-deal__cover"><img src="../books/covers/' + esc(b[4]) + '.jpg" alt="" loading="lazy" onerror="this.remove()"></span>' +
-      '<span class="of-deal__t">' + esc(b[0]) + '</span><span class="of-deal__a">' + esc(b[1]) + '</span>' +
-      '<span class="of-deal__p"><strong>' + inr(b[2]) + "</strong><s>" + inr(mrp(b[2], b[3])) + "</s><em>" + b[3] + "% off</em></span></a>";
+  function deal(x) { // shared card: kt/book-card.js
+    return RKBookCard(RKBookCard.fromRow(x.b, "../books/product/?id=" + encodeURIComponent(x.b[4]) + "&c=" + encodeURIComponent(x.c) + "&from=kt", "../books/covers/"));
   }
+
 
   var h = "";
   if (featured) {
@@ -55,7 +52,7 @@
     '<div class="of-every">' + O.orderTiers.map(function (t, i) {
       return '<div class="of-every__card" style="--n:' + i + '"><span>Orders above</span><b>' + inr(t[0]) + "</b><em>" + t[1] + "% off</em></div>";
     }).join("") + "</div></section>";
-  if (deals.length) h += '<section class="of-sec"><div class="of-sec__head"><h2>Biggest discounts right now</h2><p><a href="../books/?g=all">See all books →</a></p></div><div class="of-deals">' + deals.map(deal).join("") + "</div></section>";
+  if (deals.length) h += '<section class="of-sec"><div class="of-sec__head"><h2>Biggest discounts right now</h2><p><a href="../books/?g=all">See all books →</a></p></div><div class="bk-grid of-deals">' + deals.map(deal).join("") + "</div></section>";
   if (ended.length) h += '<section class="of-sec"><div class="of-sec__head"><h2>Recently ended</h2><p>Missed these? Keep an eye on this page — new offers go up often.</p></div><div class="of-past">' +
     ended.map(function (x) {
       var c = x.c, tag = c.href ? "a" : "div";

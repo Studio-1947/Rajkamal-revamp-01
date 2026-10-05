@@ -683,3 +683,9 @@ html[data-theme="dark"] .cnt-btn--primary {
 .cnt-main .pd-crumbs span[lang] { opacity: 1; }
 /* FAQ category buttons carry an inline background:none — keep the selected one visible */
 button.cnt-side__link.is-active { background: var(--cnt-accent) !important; }
+
+/* ---------- sideways strip (kt/strip.js; styles in kt/styles.css) ---------- */
+@media (max-width: 900px) {
+  .cnt-grid { grid-template-columns: minmax(0, 1fr); } /* a long chip strip must never widen the column past the screen */
+  .cnt-main .rk-strip { --strip-bg: var(--cnt-card); --strip-r: 18px; }
+}

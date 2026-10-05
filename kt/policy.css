@@ -1,0 +1,78 @@
+/* Policy pages (privacy, privacy & cookies, terms, shipping, returns) — extends kt/content.css */
+.pl-updated { display: inline-block; margin: 14px 0 0; padding: 4px 12px; border-radius: 999px; background: var(--cnt-soft); color: var(--cnt-mute); font-size: 0.8rem; font-weight: 500; }
+.pl-side__toc { margin-top: 14px; }
+.pl-toc .cnt-side__link { padding: 7px 12px; font-size: 0.84rem; font-weight: 400; color: var(--cnt-mute); }
+.pl-toc .cnt-side__link.is-here { color: var(--cnt-accent); background: var(--cnt-soft); font-weight: 600; }
+.pl-main .cnt-side { max-height: calc(100vh - 120px); overflow-y: auto; }
+
+.pl-intro { margin-bottom: 18px; }
+.pl-part { margin: 28px 0 12px; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cnt-accent); }
+.pl-sec { margin-bottom: 16px; scroll-margin-top: 100px; }
+.pl-sec .cnt-card:hover { transform: none; }
+.pl-h { display: flex; align-items: baseline; gap: 12px; margin: 0 0 12px; font-size: 1.2rem; font-weight: 600; line-height: 1.35; color: var(--cnt-text); }
+.pl-h span { flex: none; display: inline-grid; place-items: center; min-width: 28px; height: 28px; border-radius: 50%; background: var(--cnt-soft); color: var(--cnt-accent); font-size: 0.82rem; }
+.pl-main .cnt-prose { font-size: 0.98rem; }
+.pl-main .cnt-prose p:last-child { margin-bottom: 0; }
+.pl-main .cnt-prose ul { margin: 0 0 1.1em; padding-left: 1.2em; }
+.pl-main .cnt-prose li { margin: 0 0 0.5em; padding-left: 4px; }
+.pl-main .cnt-prose li::marker { color: var(--cnt-accent); }
+.pl-main .cnt-prose a { color: var(--cnt-accent); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+
+/* shipping: delivery tiles + charges */
+.pl-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 14px; }
+.pl-tile { padding: 16px; border: 1px solid var(--cnt-border); border-radius: 14px; background: var(--cnt-soft); }
+.pl-tile span { display: block; font-size: 0.82rem; font-weight: 600; }
+.pl-tile b { display: block; margin: 6px 0 4px; font-size: 1.7rem; font-weight: 600; line-height: 1.1; color: var(--cnt-accent); }
+.pl-tile b i { font-style: normal; font-size: 0.85rem; font-weight: 500; color: var(--cnt-mute); }
+.pl-main .pl-tile p { margin: 0; font-size: 0.82rem; line-height: 1.45; color: var(--cnt-mute); }
+.pl-main .pl-note { font-size: 0.86rem; color: var(--cnt-mute); }
+.pl-flag { display: inline-block; padding: 6px 12px; border-radius: 10px; border: 1px dashed var(--cnt-border); font-size: 0.86rem; font-weight: 600; }
+.pl-charges { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.pl-charges > div { padding: 14px 16px; border: 1px solid var(--cnt-border); border-radius: 14px; }
+.pl-charges h4 { margin: 0 0 8px; font-size: 0.95rem; font-weight: 600; }
+.pl-charges dl { margin: 0; }
+.pl-charges dl div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px dotted var(--cnt-border); font-size: 0.92rem; }
+.pl-charges dd { margin: 0; font-weight: 600; white-space: nowrap; }
+.pl-charges dd.is-free { color: #2f7a4c; }
+html[data-theme="dark"] .pl-charges dd.is-free { color: #7fd6a0; }
+
+/* T&C contact block */
+.pl-contact { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 6px; }
+.pl-contact > div { display: flex; flex-direction: column; gap: 2px; padding: 14px; border-radius: 14px; background: var(--cnt-soft); font-size: 0.9rem; }
+.pl-contact span { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cnt-mute); }
+.pl-main .pl-contact p { margin: 0; }
+
+/* cookie settings */
+.pl-cookies { margin-top: 18px; padding: 18px; border: 1.5px solid var(--cnt-border); border-radius: 16px; outline: none; transition: box-shadow 0.3s; }
+.pl-cookies.is-flash { box-shadow: 0 0 0 4px var(--cnt-soft), 0 0 0 6px var(--cnt-accent); }
+.pl-cookies h3 { margin: 0 0 4px; font-size: 1.05rem; font-weight: 600; }
+.pl-main .pl-cookies__lede { font-size: 0.88rem; color: var(--cnt-mute); }
+.pl-switch { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 0; border-top: 1px dotted var(--cnt-border); cursor: pointer; }
+.pl-switch span { display: flex; flex-direction: column; font-size: 0.92rem; line-height: 1.4; }
+.pl-switch i { font-style: normal; font-size: 0.8rem; color: var(--cnt-mute); }
+.pl-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.pl-switch em { flex: none; position: relative; width: 44px; height: 26px; border-radius: 999px; background: var(--cnt-border); transition: background 0.2s; }
+.pl-switch em::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); transition: transform 0.2s; }
+.pl-switch input:checked + em { background: var(--cnt-accent); }
+.pl-switch input:checked + em::after { transform: translateX(18px); }
+.pl-switch input:disabled + em { opacity: 0.55; }
+.pl-switch input:focus-visible + em { outline: 2px solid var(--cnt-accent); outline-offset: 2px; }
+.pl-cookies__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.pl-main .pl-cookies__status { margin: 10px 0 0; min-height: 1.2em; font-size: 0.86rem; font-weight: 500; color: #2f7a4c; }
+html[data-theme="dark"] .pl-main .pl-cookies__status { color: #7fd6a0; }
+
+.pl-help { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 24px; padding: 20px; border: 1px dashed var(--cnt-border); border-radius: 18px; }
+.pl-help p { margin: 0 auto 0 0; font-weight: 600; }
+
+@media (max-width: 900px) {
+  .pl-main .cnt-side { max-height: none; overflow-y: visible; } /* keep content.css's sideways scroll for the policy strip */
+  .pl-main .cnt-grid { grid-template-columns: minmax(0, 1fr); } /* the column can never grow wider than the screen */
+  .pl-side__toc, .pl-toc { display: none; } /* phones/tablets: the policy switcher stays, the in-page list is dropped */
+}
+@media (max-width: 720px) {
+  .pl-tiles, .pl-charges, .pl-contact { grid-template-columns: 1fr; }
+  .pl-h { font-size: 1.08rem; }
+  .pl-help { flex-direction: column; align-items: stretch; text-align: center; }
+  .pl-help p { margin: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .pl-switch em, .pl-switch em::after, .pl-cookies { transition: none; } }

@@ -1,0 +1,43 @@
+/* ONE book card for the whole site — markup from kt/book-card.js (RKBookCard). Used by the home shelves, All Books,
+   author pages, imprint pages, related books and offers. Rule: the cover is shown whole and nothing is drawn on it. */
+.hm-card { display: flex; flex-direction: column; border-radius: 16px; overflow: hidden; background: #fff7ec; border: 1px solid #e6cdae; box-shadow: 0 8px 18px rgba(122, 58, 29, 0.1); }
+.hm-card[hidden] { display: none; }
+html[data-theme="dark"] .hm-card { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.14); box-shadow: none; }
+.hm-cover { position: relative; display: block; aspect-ratio: 1 / 1; background: #efe3d3; overflow: hidden; }
+.hm-cover img { width: 100%; height: 100%; object-fit: contain; display: block; } /* whole cover; discount sits by the price */
+.hm-off { display: inline-block; white-space: nowrap; padding: 2px 8px; border-radius: 999px; background: rgba(160, 54, 31, 0.12); color: #a0361f; font-size: 0.7rem; font-weight: 600; vertical-align: middle; }
+html[data-theme="dark"] .hm-off { background: rgba(158, 193, 255, 0.16); color: #ffab98; }
+.hm-info { display: flex; flex-direction: column; gap: 4px; padding: 12px 12px 14px; flex: 1; }
+.hm-name { margin: 0; font-size: 0.95rem; font-weight: 500; line-height: 1.3; height: 2.6em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.hm-name a { color: inherit; }
+.hm-author { margin: 0; font-size: 0.8rem; opacity: 0.75; height: 1.3em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.hm-cat { margin: 0; font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; color: #a0361f; height: 1.2em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+html[data-theme="dark"] .hm-cat { color: #ffab98; }
+.hm-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin: 4px 0 6px; min-height: 1.6em; }
+.hm-price strong { font-size: 1.05rem; color: #a0361f; }
+html[data-theme="dark"] .hm-price strong { color: #ffab98; }
+.hm-price s { font-size: 0.8rem; opacity: 0.5; }
+.hm-actions { margin-top: auto; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; }
+.hm-actions .bk-btn { font-size: 0.78rem; padding: 8px 8px; }
+.hm-actions .bk-btn--cart { grid-column: 1; grid-row: 1; }
+.hm-actions .bk-btn--wish { grid-column: 2; grid-row: 1; width: 34px; height: 34px; }
+.hm-actions .bk-btn--buy { grid-column: 1 / -1; grid-row: 2; }
+.hm-oos { grid-column: 1 / -1; text-align: center; padding: 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 500; background: rgba(0, 0, 0, 0.06); opacity: 0.7; }
+html[data-theme="dark"] .hm-oos { background: rgba(255, 255, 255, 0.08); }
+/* no cover image: show the title on a warm block instead of a broken image */
+.hm-cover__title { display: none; }
+.hm-cover.no-img { display: grid; place-items: center; padding: 14px; background: linear-gradient(155deg, #8a3a2a, #4a1a12); }
+.hm-cover.no-img .hm-cover__title { display: block; color: #fff; font-weight: 600; font-size: 0.95rem; line-height: 1.3; text-align: center; }
+
+/* book grids (All Books, author, imprint, related): as many cards per row as fit, same card as the home shelves */
+.bk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 18px 16px; }
+.bk-grid > .bk-more, .bk-grid > .bk-empty { grid-column: 1 / -1; }
+
+@media (max-width: 720px) {
+  .hm-info { padding: 10px 10px 12px; }
+  .hm-name { font-size: 0.86rem; }
+  /* discount tag always on its own line under the price, same height on every card */
+  .hm-price { display: grid; grid-template-columns: auto auto; justify-content: start; align-items: baseline; column-gap: 8px; row-gap: 4px; min-height: 2.9rem; }
+  .hm-price .hm-off { grid-column: 1 / -1; justify-self: start; }
+  .bk-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 10px; }
+}
