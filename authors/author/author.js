@@ -8,7 +8,7 @@
   function initials(n) { return n.replace(/'[^']*'/g, "").trim().split(/\s+/).map(function (w) { return w[0]; }).slice(0, 2).join(""); }
   function years(a) { return a.died ? a.born + "–" + a.died : "b. " + a.born; }
 
-  crumbs.innerHTML = '<a href="../../home/">Home</a><span>/</span><a href="../">Authors</a>' + (idx >= 0 ? "<span>/</span><b>" + esc(A[idx].name) + "</b>" : "");
+  crumbs.innerHTML = '<a href="../../">Home</a><span>/</span><a href="../">Authors</a>' + (idx >= 0 ? "<span>/</span><b>" + esc(A[idx].name) + "</b>" : "");
   if (idx < 0) {
     root.innerHTML = '<div class="pd-missing"><h1>Author not found</h1><p>This author isn\'t one of the featured profiles yet.</p><a class="bk-btn bk-btn--buy" href="../">See all authors</a></div>';
     return;
@@ -23,15 +23,21 @@
       if (a.match.indexOf(b[1]) >= 0 && !seen[b[4]]) { seen[b[4]] = 1; books.push({ b: b, c: k }); }
     });
   });
-  function prod(x) { return "../../books/product/?id=" + encodeURIComponent(x.b[4]) + "&c=" + encodeURIComponent(x.c) + "&from=kt"; }
+  function prod(x) { return "../../books/product/?id=" + encodeURIComponent(x.b[4]) + "&c=" + encodeURIComponent(x.c) + "&from=home"; }
   var byTitle = {}; books.forEach(function (x) { byTitle[x.b[0].toLowerCase()] = x; });
 
   function bookCard(x) { return RKBookCard(RKBookCard.fromRow(x.b, prod(x), "../../books/covers/")); } // shared card: kt/book-card.js
 
+  /* "Poet, lyricist & filmmaker" → one pill per role, all styled the same (none is a state) */
+  function rolePills(role) {
+    return '<span class="au-roles">' + String(role || "").split(/\s*,\s*|\s+&\s+/).filter(Boolean).map(function (r) {
+      return '<span class="au-role">' + esc(r.charAt(0).toUpperCase() + r.slice(1)) + "</span>";
+    }).join("") + "</span>";
+  }
   function authorCard(o) {
     return '<a class="au-card au-card--sm" href="?id=' + encodeURIComponent(o.id) + '">' +
-      '<span class="au-photo" style="--img:url(' + new URL('../photos/' + o.id + '.jpg?v=3', location.href).href + ')"><img src="../photos/' + esc(o.id) + '.jpg?v=3" alt="" width="240" height="300" loading="lazy" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(o.name)) + "</b></span>" +
-      '<span class="au-name" lang="hi" title="' + esc(o.hi) + '"><span>' + esc(o.hi) + '</span></span><span class="au-role">' + esc(o.role) + "</span></a>";
+      '<span class="au-photo" style="--img:url(' + new URL('../photos/' + o.id + '.jpg?v=4', location.href).href + ')"><img src="../photos/' + esc(o.id) + '.jpg?v=4" alt="" width="480" height="600" loading="lazy" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(o.name)) + "</b></span>" +
+      '<span class="au-body"><span class="au-name" lang="hi" title="' + esc(o.hi) + '"><span>' + esc(o.hi) + '</span></span>' + rolePills(o.role) + "</span></a>";
   }
 
   /* more authors: ones who write in the same forms first */
@@ -43,15 +49,18 @@
 
   root.innerHTML =
     '<header class="ap-hero">' +
-      '<div class="ap-photo" style="--img:url(' + new URL('../photos/' + a.id + '.jpg?v=3', location.href).href + ')"><img src="../photos/' + esc(a.id) + '.jpg?v=3" alt="' + esc(a.name) + '" width="280" height="350" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(a.name)) + "</b></div>" +
+      '<div class="ap-photo" style="--img:url(' + new URL('../photos/' + a.id + '.jpg?v=4', location.href).href + ')"><img src="../photos/' + esc(a.id) + '.jpg?v=4" alt="' + esc(a.name) + '" width="480" height="600" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(a.name)) + "</b></div>" +
       '<div class="ap-intro">' +
-        '<span class="pd-chip">' + esc(a.role) + "</span>" +
+        rolePills(a.role) +
         '<h1 class="pd-title">' + esc(a.name) + "</h1>" +
         '<p class="ap-hi" lang="hi">' + esc(a.hi) + "</p>" +
-        '<dl class="ap-stats">' +
-          "<div><dt>" + (a.died ? "Lived" : "Born") + "</dt><dd>" + (a.died ? a.born + "–" + a.died : a.born) + "</dd></div>" +
-          "<div><dt>Born in</dt><dd>" + esc(a.place || "—") + "</dd></div>" +
-          "<div><dt>With Rajkamal</dt><dd>" + a.books + (a.books === 1 ? " book" : " books") + "</dd></div>" +
+        /* the life, said the way a book jacket would: one quiet line */
+        '<p class="ap-life">' +
+          "<em>Born" + (a.place ? " in " + esc(a.place) + (a.place.indexOf(",") >= 0 ? "," : "") : "") + " in " + a.born + (a.died ? " — died in " + a.died + "." : ".") + "</em></p>" +
+        '<dl class="ap-figs">' +
+          '<div><dd>' + a.books + "</dd><dt>" + (a.books === 1 ? "book" : "books") + " with Rajkamal</dt></div>" +
+          (books.length ? '<div><dd>' + books.length + "</dd><dt>in this catalogue</dt></div>" : "") +
+          (a.awards && a.awards.length ? '<div><dd>' + a.awards.length + "</dd><dt>" + (a.awards.length === 1 ? "honour" : "honours") + "</dt></div>" : "") +
         "</dl>" +
         '<div class="ap-cta">' +
           (books.length ? '<a class="bk-btn bk-btn--buy" href="#apBooks">Shop ' + books.length + (books.length === 1 ? " book" : " books") + " on offer</a>" : "") +

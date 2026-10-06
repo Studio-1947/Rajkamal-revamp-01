@@ -3,8 +3,9 @@
   var SLUGS = ["khud-se-judein", "mitti-se-judein", "vicharon-se-judein", "bhasha-se-judein", "sawalon-se-dudein",
     "yatraon-se-judein", "virasat-se-judein", "nai-kalam-se-judein", "geeton-se-judein",
     "geeton-se-judein", "yatraon-se-judein", "khud-se-judein"]; // Set 3's extra cards
-  var m = location.pathname.match(/\/(kt\d?|hp|mobile)\/?(?:index\.html)?$/);
-  var page = m ? m[1] : "kt";
+  /* which page the visitor came from, so the catalogue's Back link returns there (offers/ or hp/) */
+  var m = location.pathname.match(/\/(offers|hp)\/?(?:index\.html)?$/);
+  var page = m ? m[1] : "home";
   function wire() {
     var cards = document.querySelectorAll("#cardGrid .book-card");
     if (!cards.length) return false;

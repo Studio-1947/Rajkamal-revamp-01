@@ -24,3 +24,53 @@ html[data-theme="dark"] .ord-row--total b { color: #ffab98; }
 .ord-missing { padding: 60px 16px; text-align: center; }
 .ord-missing p { opacity: 0.7; margin: 8px 0 20px; }
 @media (max-width: 600px) { .ord-card { padding: 28px 18px 22px; } }
+
+/* ---------- order details (opened from My Account → Orders) ---------- */
+.ord--details { width: 100%; max-width: 960px; margin: 0 auto; text-align: left; }
+.od-back { display: inline-block; margin-bottom: 14px; font-size: 0.9rem; font-weight: 500; opacity: 0.8; color: inherit; }
+.od-back:hover { opacity: 1; }
+.od-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; margin-bottom: 18px; }
+.od-eyebrow { margin: 0 0 2px; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #a0361f; }
+.od-head h1 { margin: 0; font-size: clamp(1.5rem, 3.6vw, 2.1rem); font-weight: 600; line-height: 1.15; overflow-wrap: anywhere; }
+.od-placed { margin: 4px 0 0; font-size: 0.9rem; opacity: 0.7; }
+.od-card { padding: 20px 22px; border-radius: 18px; background: #fff7ec; border: 1px solid #e6cdae; }
+.od-card h2 { margin: 0 0 12px; font-size: 1rem; font-weight: 600; }
+.od-status { margin-bottom: 16px; scroll-margin-top: 110px; }
+.od-line { margin: 0 0 20px; font-size: 1.05rem; font-weight: 600; }
+.od-awb { margin: 16px 0 0; padding-top: 12px; border-top: 1px dotted rgba(160, 54, 31, 0.3); font-size: 0.86rem; opacity: 0.85; }
+.od-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.od-side { display: grid; gap: 16px; }
+.od-items { list-style: none; margin: 0; padding: 0; }
+.od-item { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 12px 0; border-top: 1px dotted rgba(160, 54, 31, 0.25); }
+.od-item:first-child { border-top: 0; padding-top: 0; }
+.od-item img { width: 52px; height: 78px; object-fit: contain; background: #efe3d3; display: block; }
+.od-item__tx { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.od-item__tx a { color: inherit; font-weight: 600; font-size: 0.96rem; }
+.od-item__tx a:hover { color: #a0361f; }
+.od-item__tx span { font-size: 0.82rem; opacity: 0.7; }
+.od-item__pr { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; white-space: nowrap; }
+.od-item__pr b { font-weight: 600; } .od-item__pr s { font-size: 0.78rem; opacity: 0.5; }
+.od-sum { margin: 0; }
+.od-sum div { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; font-size: 0.92rem; }
+.od-sum dd { margin: 0; font-weight: 500; }
+.od-save dd { color: #2f7a4c; }
+.od-total { margin-top: 6px; padding-top: 12px !important; border-top: 1px solid rgba(160, 54, 31, 0.25); font-weight: 600; }
+.od-total dd { font-size: 1.15rem; font-weight: 600; color: #a0361f; }
+.od-pay { margin: 10px 0 0; font-size: 0.84rem; opacity: 0.7; }
+.od-addr { margin: 0; font-size: 0.94rem; line-height: 1.55; }
+.od-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.od-actions .bk-btn { flex: 0 1 auto; display: inline-flex; align-items: center; justify-content: center; padding: 12px 22px; text-decoration: none; }
+.ord--details .ord-note { margin: 16px 0 0; }
+html[data-theme="dark"] .od-card { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.14); }
+html[data-theme="dark"] .od-eyebrow, html[data-theme="dark"] .od-total dd, html[data-theme="dark"] .od-item__tx a:hover { color: #ffab98; }
+html[data-theme="dark"] .od-item { border-top-color: rgba(255, 255, 255, 0.14); } html[data-theme="dark"] .od-item img { background: rgba(255, 255, 255, 0.08); }
+html[data-theme="dark"] .od-save dd { color: #7fd6a0; } html[data-theme="dark"] .od-total, html[data-theme="dark"] .od-awb { border-top-color: rgba(255, 255, 255, 0.2); }
+@media (max-width: 800px) {
+  .od-grid { grid-template-columns: minmax(0, 1fr); }
+  .od-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .od-card { padding: 16px; border-radius: 16px; }
+  .od-line { font-size: 0.98rem; margin-bottom: 16px; }
+  .od-item { grid-template-columns: 46px minmax(0, 1fr) auto; gap: 12px; } .od-item img { width: 46px; height: 69px; }
+  .od-actions .bk-btn { flex: 1 1 100%; }
+}
+.ord.ord--details { max-width: 960px; } .ord-main:has(.ord--details) .hp-wrap { width: 100%; }

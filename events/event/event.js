@@ -2,7 +2,7 @@
 (function () {
   var U = window.RKEv, esc = U.esc, id = new URLSearchParams(location.search).get("id"), e = U.byId(id);
   var root = document.getElementById("evRoot"), crumbs = document.getElementById("evCrumbs");
-  crumbs.innerHTML = '<a href="../../home/">Home</a><span>/</span><a href="../">Events</a>' + (e ? '<span>/</span><b lang="hi">' + esc(e.title) + "</b>" : "");
+  crumbs.innerHTML = '<a href="../../">Home</a><span>/</span><a href="../">Events</a>' + (e ? '<span>/</span><b lang="hi">' + esc(e.title) + "</b>" : "");
   if (!e) { root.innerHTML = '<div class="pd-missing"><h1>Event not found</h1><p>It may have been removed or the link is wrong.</p><a class="bk-btn bk-btn--buy" href="../">See all events</a></div>'; return; }
   document.title = e.title + " | Events | Rajkamal Offers";
   var s = U.status(e), url = location.href;

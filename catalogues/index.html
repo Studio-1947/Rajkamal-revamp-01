@@ -11,14 +11,14 @@
 <script>try{var t=localStorage.getItem("rk-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../kt/styles.css?v=b48">
-<link rel="stylesheet" href="../hp/hp.css?v=b4"><link rel="stylesheet" href="../books/books.css?v=27"><link rel="stylesheet" href="../kt/content.css?v=8">
+<link rel="stylesheet" href="../kt/styles.css?v=b54">
+<link rel="stylesheet" href="../hp/hp.css?v=b5"><link rel="stylesheet" href="../books/books.css?v=27"><link rel="stylesheet" href="../kt/content.css?v=8"><link rel="stylesheet" href="catalogues.css?v=2">
 </head>
 <body class="hp">
 
 <header class="site-header" id="siteHeader">
   <div class="header-top">
-    <a class="logo" href="../home/">
+    <a class="logo" href="../">
       <img class="logo-img logo-img--full logo-img--top" src="../kt/assets/logo/rkp-logo.svg" alt="Rajkamal Prakashan Samuh">
       <img class="logo-img logo-img--scrolled" src="../kt/assets/logo/rkp-favicon.svg" alt="Rajkamal Prakashan Samuh">
     </a>
@@ -75,127 +75,122 @@
 </header>
 
 
-<main class="hp-main cnt-main">
+<main class="hp-main cnt-main cat-main">
+  <!-- hero: edge to edge, photo background (img/hero.jpg) with a jaali pattern over it -->
+  <section class="cat-hero">
+    <div class="cat-hero__in">
+      <p class="cat-hero__eyebrow">Browse · Download · Share</p>
+      <h1 class="cat-hero__title">Publishing Catalogues</h1>
+      <p class="cat-hero__hi" lang="hi">प्रकाशन सूचियाँ</p>
+      <p class="cat-hero__sub">Official Rajkamal Prakashan Samuh catalogues — complete subject lists, new releases, textbooks and award-winning titles — to read online or download as PDF.</p>
+      <ul class="cat-hero__facts"><li><b>5</b> catalogues</li><li>PDF · free to download</li><li>Updated <b>July 2026</b></li></ul>
+    </div>
+  </section>
   <div class="hp-wrap">
-    <div class="cnt-topbar">
-      <nav class="pd-crumbs" aria-label="Breadcrumb">
-        <a href="../home/">Home</a><span>/</span><b>Catalogues</b>
-      </nav>
-    </div>
-
-    <section class="cnt-hero">
-      <p class="cnt-hero__eyebrow">Browse & Download • प्रकाशन सूचियाँ</p>
-      <h1 class="cnt-hero__title">Publishing Catalogues / प्रकाशन सूचियाँ</h1>
-      <p class="cnt-hero__sub">Browse and download official Rajkamal Prakashan Samuh complete subject catalogues, new release lists, textbook bibliographies, and award-winning collections in high-resolution PDF format.</p>
-    </section>
-
-    <!-- Search filter -->
-    <div class="cnt-search-bar" role="search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input type="search" id="catSearch" placeholder="Search catalogues by title or subject (e.g. Textbooks, Hardbound, Awarded)…" aria-label="Search catalogues">
-    </div>
-
-    <div class="cnt-downloads" id="catGrid">
-      <!-- 1. Text Books -->
-      <article class="cnt-dl-card cnt-dl-card--media" data-kw="text books textbooks college university upsc hindi syllabus lokbharti">
-        <div class="cnt-dl-card__media">
-          <a href="https://images.rajkamalprakashan.com/catalogues/2026/07/12/0c8052da-c474-45ca-8a61-777f46405449-text-book-cataloge-10-07-2026.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open Text Books Catalogue PDF" title="Open PDF">
-            <img src="img/text-books.jpg" alt="Text Books Catalogue — front page" loading="lazy" width="496" height="700">
-          </a>
-        </div>
-        <div class="cnt-dl-card__body">
-          <div class="cnt-dl-card__top">
-            <span class="cnt-dl-card__badge">PDF • July 2026</span>
-          </div>
-          <h2 class="cnt-dl-card__title">Text Books Catalogue<br><span style="font-size:0.85em;font-weight:500;color:var(--cnt-mute)">पाठ्यपुस्तक सूची</span></h2>
-          <p class="cnt-dl-card__meta">Complete university and college reference textbook catalogue. Includes syllabi titles for BA, MA, UGC-NET, and UPSC Hindi Literature examinations.</p>
-          <div class="cnt-dl-card__actions">
-            <a class="cnt-btn cnt-btn--primary" href="https://images.rajkamalprakashan.com/catalogues/2026/07/12/0c8052da-c474-45ca-8a61-777f46405449-text-book-cataloge-10-07-2026.pdf" target="_blank" rel="noopener noreferrer">View PDF</a>
-            <a class="cnt-btn cnt-btn--ghost" href="https://images.rajkamalprakashan.com/catalogues/2026/07/12/0c8052da-c474-45ca-8a61-777f46405449-text-book-cataloge-10-07-2026.pdf" download="text-book-catalogue-2026.pdf">Download</a>
+    <div class="cat-grid" id="catGrid">
+      <article class="cat-card">
+        <a class="cat-card__cover" href="https://images.rajkamalprakashan.com/catalogues/2026/07/12/0c8052da-c474-45ca-8a61-777f46405449-text-book-cataloge-10-07-2026.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open the Text Books Catalogue PDF">
+          <img src="img/text-books.jpg" alt="Text Books Catalogue — front page" loading="lazy" width="496" height="700">
+          <span class="cat-card__badge">PDF · July 2026</span>
+        </a>
+        <div class="cat-card__body">
+          <h2 class="cat-card__title">Text Books Catalogue</h2>
+          <p class="cat-card__hi" lang="hi">पाठ्यपुस्तक सूची</p>
+          <p class="cat-card__meta">Complete university and college reference textbook catalogue. Includes syllabi titles for BA, MA, UGC-NET, and UPSC Hindi Literature examinations.</p>
+          <div class="cat-card__actions">
+            <a class="cat-act cat-act--view" href="https://images.rajkamalprakashan.com/catalogues/2026/07/12/0c8052da-c474-45ca-8a61-777f46405449-text-book-cataloge-10-07-2026.pdf" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>View</span></a>
+            <a class="cat-act cat-act--dl" href="https://images.rajkamalprakashan.com/catalogues/2026/07/12/0c8052da-c474-45ca-8a61-777f46405449-text-book-cataloge-10-07-2026.pdf" download="text-book-catalogue-2026.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg><span>Download</span></a>
+            <button type="button" class="cat-act cat-act--share" data-share-title="Text Books Catalogue — Rajkamal Prakashan Samuh" data-share-url="https://images.rajkamalprakashan.com/catalogues/2026/07/12/0c8052da-c474-45ca-8a61-777f46405449-text-book-cataloge-10-07-2026.pdf" aria-label="Share the Text Books Catalogue" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.6 6.8-3.2M8.6 13.4l6.8 3.2"/></svg></button>
           </div>
         </div>
       </article>
-
-      <!-- 2. New Release -->
-      <article class="cnt-dl-card cnt-dl-card--media" data-kw="new release upcoming latest novels poetry memoirs translation">
-        <div class="cnt-dl-card__media">
-          <a href="https://images.rajkamalprakashan.com/catalogues/2026/07/03/66270e8b-2852-4bcc-9135-e0715dd73afa-cover-catalogue-12-06-2026-new-2-compressed.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open New Release Catalogue PDF" title="Open PDF">
-            <img src="img/new-release.jpg" alt="New Release Catalogue — front page" loading="lazy" width="491" height="700">
-          </a>
-        </div>
-        <div class="cnt-dl-card__body">
-          <div class="cnt-dl-card__top">
-            <span class="cnt-dl-card__badge">PDF • June 2026</span>
-          </div>
-          <h2 class="cnt-dl-card__title">New Release Catalogue<br><span style="font-size:0.85em;font-weight:500;color:var(--cnt-mute)">नवीन प्रकाशन सूची</span></h2>
-          <p class="cnt-dl-card__meta">Showcasing the latest releases, cover art, author biographies, and synopsis of recent publications across Rajkamal, Radhakrishna, and Sarthak.</p>
-          <div class="cnt-dl-card__actions">
-            <a class="cnt-btn cnt-btn--primary" href="https://images.rajkamalprakashan.com/catalogues/2026/07/03/66270e8b-2852-4bcc-9135-e0715dd73afa-cover-catalogue-12-06-2026-new-2-compressed.pdf" target="_blank" rel="noopener noreferrer">View PDF</a>
-            <a class="cnt-btn cnt-btn--ghost" href="https://images.rajkamalprakashan.com/catalogues/2026/07/03/66270e8b-2852-4bcc-9135-e0715dd73afa-cover-catalogue-12-06-2026-new-2-compressed.pdf" download="new-release-catalogue-2026.pdf">Download</a>
+      <article class="cat-card">
+        <a class="cat-card__cover" href="https://images.rajkamalprakashan.com/catalogues/2026/07/03/66270e8b-2852-4bcc-9135-e0715dd73afa-cover-catalogue-12-06-2026-new-2-compressed.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open the New Release Catalogue PDF">
+          <img src="img/new-release.jpg" alt="New Release Catalogue — front page" loading="lazy" width="491" height="700">
+          <span class="cat-card__badge">PDF · June 2026</span>
+        </a>
+        <div class="cat-card__body">
+          <h2 class="cat-card__title">New Release Catalogue</h2>
+          <p class="cat-card__hi" lang="hi">नवीन प्रकाशन सूची</p>
+          <p class="cat-card__meta">Showcasing the latest releases, cover art, author biographies, and synopsis of recent publications across Rajkamal, Radhakrishna, and Sarthak.</p>
+          <div class="cat-card__actions">
+            <a class="cat-act cat-act--view" href="https://images.rajkamalprakashan.com/catalogues/2026/07/03/66270e8b-2852-4bcc-9135-e0715dd73afa-cover-catalogue-12-06-2026-new-2-compressed.pdf" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>View</span></a>
+            <a class="cat-act cat-act--dl" href="https://images.rajkamalprakashan.com/catalogues/2026/07/03/66270e8b-2852-4bcc-9135-e0715dd73afa-cover-catalogue-12-06-2026-new-2-compressed.pdf" download="new-release-catalogue-2026.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg><span>Download</span></a>
+            <button type="button" class="cat-act cat-act--share" data-share-title="New Release Catalogue — Rajkamal Prakashan Samuh" data-share-url="https://images.rajkamalprakashan.com/catalogues/2026/07/03/66270e8b-2852-4bcc-9135-e0715dd73afa-cover-catalogue-12-06-2026-new-2-compressed.pdf" aria-label="Share the New Release Catalogue" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.6 6.8-3.2M8.6 13.4l6.8 3.2"/></svg></button>
           </div>
         </div>
       </article>
-
-      <!-- 3. Hardbound Catalogue -->
-      <article class="cnt-dl-card cnt-dl-card--media" data-kw="hardbound library rachanavali collected works encyclopedia reference samuh suchi">
-        <div class="cnt-dl-card__media">
-          <a href="https://images.rajkamalprakashan.com/catalogues/2026/06/09/a0a7ffdf-a458-4e1b-8d63-12a43a0c66e2-rajkamal-samooh-suchi-01-06-2026.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open Hardbound Catalogue PDF" title="Open PDF">
-            <img src="img/hardbound.jpg" alt="Hardbound Catalogue — front page" loading="lazy" width="500" height="650">
-          </a>
-        </div>
-        <div class="cnt-dl-card__body">
-          <div class="cnt-dl-card__top">
-            <span class="cnt-dl-card__badge">PDF • June 2026</span>
-          </div>
-          <h2 class="cnt-dl-card__title">Hardbound Catalogue<br><span style="font-size:0.85em;font-weight:500;color:var(--cnt-mute)">राजकमल समूह हार्डबाउंड सूची</span></h2>
-          <p class="cnt-dl-card__meta">Comprehensive library hardbound bibliography. Includes multi-volume author Rachanawalis, encyclopedias, dictionaries, and collector’s editions.</p>
-          <div class="cnt-dl-card__actions">
-            <a class="cnt-btn cnt-btn--primary" href="https://images.rajkamalprakashan.com/catalogues/2026/06/09/a0a7ffdf-a458-4e1b-8d63-12a43a0c66e2-rajkamal-samooh-suchi-01-06-2026.pdf" target="_blank" rel="noopener noreferrer">View PDF</a>
-            <a class="cnt-btn cnt-btn--ghost" href="https://images.rajkamalprakashan.com/catalogues/2026/06/09/a0a7ffdf-a458-4e1b-8d63-12a43a0c66e2-rajkamal-samooh-suchi-01-06-2026.pdf" download="hardbound-catalogue-2026.pdf">Download</a>
+      <article class="cat-card">
+        <a class="cat-card__cover" href="https://images.rajkamalprakashan.com/catalogues/2026/06/09/a0a7ffdf-a458-4e1b-8d63-12a43a0c66e2-rajkamal-samooh-suchi-01-06-2026.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open the Hardbound Catalogue PDF">
+          <img src="img/hardbound.jpg" alt="Hardbound Catalogue — front page" loading="lazy" width="500" height="650">
+          <span class="cat-card__badge">PDF · June 2026</span>
+        </a>
+        <div class="cat-card__body">
+          <h2 class="cat-card__title">Hardbound Catalogue</h2>
+          <p class="cat-card__hi" lang="hi">राजकमल समूह हार्डबाउंड सूची</p>
+          <p class="cat-card__meta">Comprehensive library hardbound bibliography. Includes multi-volume author Rachanawalis, encyclopedias, dictionaries, and collector’s editions.</p>
+          <div class="cat-card__actions">
+            <a class="cat-act cat-act--view" href="https://images.rajkamalprakashan.com/catalogues/2026/06/09/a0a7ffdf-a458-4e1b-8d63-12a43a0c66e2-rajkamal-samooh-suchi-01-06-2026.pdf" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>View</span></a>
+            <a class="cat-act cat-act--dl" href="https://images.rajkamalprakashan.com/catalogues/2026/06/09/a0a7ffdf-a458-4e1b-8d63-12a43a0c66e2-rajkamal-samooh-suchi-01-06-2026.pdf" download="hardbound-catalogue-2026.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg><span>Download</span></a>
+            <button type="button" class="cat-act cat-act--share" data-share-title="Hardbound Catalogue — Rajkamal Prakashan Samuh" data-share-url="https://images.rajkamalprakashan.com/catalogues/2026/06/09/a0a7ffdf-a458-4e1b-8d63-12a43a0c66e2-rajkamal-samooh-suchi-01-06-2026.pdf" aria-label="Share the Hardbound Catalogue" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.6 6.8-3.2M8.6 13.4l6.8 3.2"/></svg></button>
           </div>
         </div>
       </article>
-
-      <!-- 4. Awarded Books -->
-      <article class="cnt-dl-card cnt-dl-card--media" data-kw="awarded books puraskar sahitya akademi jnanpith vyas samman saraswati awardees">
-        <div class="cnt-dl-card__media">
-          <a href="https://images.rajkamalprakashan.com/catalogues/2026/05/19/e125f86a-1343-4464-8df4-02b961e439f3-rajkamalsamauh.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open Awarded Books catalogue PDF" title="Open PDF">
-            <img src="img/awarded.jpg" alt="Awarded Books catalogue — front page" loading="lazy" width="500" height="628">
-          </a>
-        </div>
-        <div class="cnt-dl-card__body">
-          <div class="cnt-dl-card__top">
-            <span class="cnt-dl-card__badge">PDF • May 2026</span>
-          </div>
-          <h2 class="cnt-dl-card__title">Awarded Books<br><span style="font-size:0.85em;font-weight:500;color:var(--cnt-mute)">पुरस्कृत पुस्तकें सूची</span></h2>
-          <p class="cnt-dl-card__meta">Curated catalogue of Rajkamal Prakashan titles recognized with prestigious honours: Sahitya Akademi Awards, Jnanpith, Vyas Samman, and Hindi Sansthan medals.</p>
-          <div class="cnt-dl-card__actions">
-            <a class="cnt-btn cnt-btn--primary" href="https://images.rajkamalprakashan.com/catalogues/2026/05/19/e125f86a-1343-4464-8df4-02b961e439f3-rajkamalsamauh.pdf" target="_blank" rel="noopener noreferrer">View PDF</a>
-            <a class="cnt-btn cnt-btn--ghost" href="https://images.rajkamalprakashan.com/catalogues/2026/05/19/e125f86a-1343-4464-8df4-02b961e439f3-rajkamalsamauh.pdf" download="awarded-books-catalogue-2026.pdf">Download</a>
+      <article class="cat-card">
+        <a class="cat-card__cover" href="https://images.rajkamalprakashan.com/catalogues/2026/05/19/e125f86a-1343-4464-8df4-02b961e439f3-rajkamalsamauh.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open the Awarded Books PDF">
+          <img src="img/awarded.jpg" alt="Awarded Books — front page" loading="lazy" width="500" height="628">
+          <span class="cat-card__badge">PDF · May 2026</span>
+        </a>
+        <div class="cat-card__body">
+          <h2 class="cat-card__title">Awarded Books</h2>
+          <p class="cat-card__hi" lang="hi">पुरस्कृत पुस्तकें सूची</p>
+          <p class="cat-card__meta">Curated catalogue of Rajkamal Prakashan titles recognized with prestigious honours: Sahitya Akademi Awards, Jnanpith, Vyas Samman, and Hindi Sansthan medals.</p>
+          <div class="cat-card__actions">
+            <a class="cat-act cat-act--view" href="https://images.rajkamalprakashan.com/catalogues/2026/05/19/e125f86a-1343-4464-8df4-02b961e439f3-rajkamalsamauh.pdf" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>View</span></a>
+            <a class="cat-act cat-act--dl" href="https://images.rajkamalprakashan.com/catalogues/2026/05/19/e125f86a-1343-4464-8df4-02b961e439f3-rajkamalsamauh.pdf" download="awarded-books-catalogue-2026.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg><span>Download</span></a>
+            <button type="button" class="cat-act cat-act--share" data-share-title="Awarded Books — Rajkamal Prakashan Samuh" data-share-url="https://images.rajkamalprakashan.com/catalogues/2026/05/19/e125f86a-1343-4464-8df4-02b961e439f3-rajkamalsamauh.pdf" aria-label="Share the Awarded Books" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.6 6.8-3.2M8.6 13.4l6.8 3.2"/></svg></button>
           </div>
         </div>
       </article>
-
-      <!-- 5. Paperback Catalogue -->
-      <article class="cnt-dl-card cnt-dl-card--media" data-kw="paperback pb popular fiction mass market poetry drama suchi">
-        <div class="cnt-dl-card__media">
-          <a href="https://images.rajkamalprakashan.com/catalogues/2026/06/09/a82d8e2c-6521-4bd2-9ede-4b8c1b3fb8e1-pb-rajkamal-samooh-suchi-27-04-2026-new.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open Paperback Catalogue PDF" title="Open PDF">
-            <img src="img/paperback.jpg" alt="Paperback Catalogue — front page" loading="lazy" width="500" height="632">
-          </a>
-        </div>
-        <div class="cnt-dl-card__body">
-          <div class="cnt-dl-card__top">
-            <span class="cnt-dl-card__badge">PDF • April 2026</span>
+      <article class="cat-card">
+        <a class="cat-card__cover" href="https://images.rajkamalprakashan.com/catalogues/2026/06/09/a82d8e2c-6521-4bd2-9ede-4b8c1b3fb8e1-pb-rajkamal-samooh-suchi-27-04-2026-new.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open the Paperback Catalogue PDF">
+          <img src="img/paperback.jpg" alt="Paperback Catalogue — front page" loading="lazy" width="500" height="632">
+          <span class="cat-card__badge">PDF · April 2026</span>
+        </a>
+        <div class="cat-card__body">
+          <h2 class="cat-card__title">Paperback Catalogue</h2>
+          <p class="cat-card__hi" lang="hi">राजकमल समूह पेपरबैक सूची</p>
+          <p class="cat-card__meta">Our complete mass-market paperback catalogue, including affordable editions of classical fiction, contemporary novellas, theatre plays, and travelogues.</p>
+          <div class="cat-card__actions">
+            <a class="cat-act cat-act--view" href="https://images.rajkamalprakashan.com/catalogues/2026/06/09/a82d8e2c-6521-4bd2-9ede-4b8c1b3fb8e1-pb-rajkamal-samooh-suchi-27-04-2026-new.pdf" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>View</span></a>
+            <a class="cat-act cat-act--dl" href="https://images.rajkamalprakashan.com/catalogues/2026/06/09/a82d8e2c-6521-4bd2-9ede-4b8c1b3fb8e1-pb-rajkamal-samooh-suchi-27-04-2026-new.pdf" download="paperback-catalogue-2026.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg><span>Download</span></a>
+            <button type="button" class="cat-act cat-act--share" data-share-title="Paperback Catalogue — Rajkamal Prakashan Samuh" data-share-url="https://images.rajkamalprakashan.com/catalogues/2026/06/09/a82d8e2c-6521-4bd2-9ede-4b8c1b3fb8e1-pb-rajkamal-samooh-suchi-27-04-2026-new.pdf" aria-label="Share the Paperback Catalogue" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.6 6.8-3.2M8.6 13.4l6.8 3.2"/></svg></button>
           </div>
-          <h2 class="cnt-dl-card__title">Paperback Catalogue<br><span style="font-size:0.85em;font-weight:500;color:var(--cnt-mute)">राजकमल समूह पेपरबैक सूची</span></h2>
-          <p class="cnt-dl-card__meta">Our complete mass-market paperback catalogue, including affordable editions of classical fiction, contemporary novellas, theatre plays, and travelogues.</p>
-          <div class="cnt-dl-card__actions">
-            <a class="cnt-btn cnt-btn--primary" href="https://images.rajkamalprakashan.com/catalogues/2026/06/09/a82d8e2c-6521-4bd2-9ede-4b8c1b3fb8e1-pb-rajkamal-samooh-suchi-27-04-2026-new.pdf" target="_blank" rel="noopener noreferrer">View PDF</a>
-            <a class="cnt-btn cnt-btn--ghost" href="https://images.rajkamalprakashan.com/catalogues/2026/06/09/a82d8e2c-6521-4bd2-9ede-4b8c1b3fb8e1-pb-rajkamal-samooh-suchi-27-04-2026-new.pdf" download="paperback-catalogue-2026.pdf">Download</a>
+        </div>
+      </article>
+      <!-- placeholder: there is no E-Book catalogue PDF yet — it completes the 3 × 2 grid and points to the E-Books page -->
+      <article class="cat-card cat-card--soon">
+        <a class="cat-card__cover" href="../ebooks/" aria-label="Browse e-books">
+          <span class="cat-dummy" aria-hidden="true">
+            <span class="cat-dummy__kicker">Rajkamal Prakashan Samuh</span>
+            <span><span class="cat-dummy__title">E-Book<br>Catalogue</span><br><span class="cat-dummy__hi" lang="hi">ई-बुक सूची</span></span>
+            <span class="cat-dummy__foot"><svg viewBox="0 0 24 24"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M9 7h6M9 11h6M11 18h2"/></svg>Kindle · Google Play</span>
+          </span>
+          <span class="cat-card__badge cat-card__badge--soon">Coming soon</span>
+        </a>
+        <div class="cat-card__body">
+          <h2 class="cat-card__title">E-Book Catalogue</h2>
+          <p class="cat-card__hi" lang="hi">ई-बुक सूची</p>
+          <p class="cat-card__meta">A complete list of our titles available as e-books on Kindle and Google Play Books. The PDF is on its way — meanwhile, browse the e-books on this site.</p>
+          <div class="cat-card__actions">
+            <a class="cat-act cat-act--view" href="../ebooks/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>Browse e-books</span></a>
+            <a class="cat-act cat-act--dl" aria-disabled="true" tabindex="-1" title="The PDF isn't available yet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg><span>Download</span></a>
+            <button type="button" class="cat-act cat-act--share" data-share-title="E-Books — Rajkamal Prakashan Samuh" data-share-url="../ebooks/" aria-label="Share the E-Books page" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.6 6.8-3.2M8.6 13.4l6.8 3.2"/></svg></button>
           </div>
         </div>
       </article>
     </div>
+    <p class="cat-note">Catalogues open as PDF from rajkamalprakashan.com.</p>
   </div>
 </main>
 
@@ -351,8 +346,8 @@
         <span class="office-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 42h40"/><path d="M8 42V22h32v20"/><path d="M8 22l3-5h26l3 5"/><path d="M14 17v-5M24 17v-8M34 17v-5"/><path d="M19 42V32a5 5 0 0 1 10 0v10"/></svg></span>
         <div class="office-text">
           <span class="office-kind">Branch Office</span>
-          <strong>Allahabad</strong>
-          <div class="office-foot"><a class="office-map" href="https://www.google.com/maps/search/?api=1&amp;query=Rajkamal+Prakashan+Allahabad" target="_blank" rel="noopener noreferrer">View on<br>Google Maps</a><a class="office-go" href="https://www.google.com/maps/search/?api=1&amp;query=Rajkamal+Prakashan+Allahabad" target="_blank" rel="noopener noreferrer" aria-label="View Allahabad branch"><i>→</i></a></div>
+          <strong>Prayagraj</strong>
+          <div class="office-foot"><a class="office-map" href="https://www.google.com/maps/search/?api=1&amp;query=Rajkamal+Prakashan+Prayagraj" target="_blank" rel="noopener noreferrer">View on<br>Google Maps</a><a class="office-go" href="https://www.google.com/maps/search/?api=1&amp;query=Rajkamal+Prakashan+Prayagraj" target="_blank" rel="noopener noreferrer" aria-label="View Prayagraj branch"><i>→</i></a></div>
         </div>
       </div>
       <div class="office-box">
@@ -448,22 +443,20 @@
     sync();
   })();
 </script>
-<script src="../kt/mobile-nav.js?v=37"></script>
+<script src="../kt/mobile-nav.js?v=41"></script>
 <script src="../kt/all-books.js?v=9"></script>
 <script src="../kt/forms.js?v=3"></script>
 
 <script>
-(function() {
-  var s = document.getElementById("catSearch"), cards = document.querySelectorAll("#catGrid .cnt-dl-card");
-  if (s) {
-    s.addEventListener("input", function() {
-      var q = s.value.toLowerCase().trim();
-      cards.forEach(function(c) {
-        var txt = (c.textContent + " " + (c.dataset.kw || "")).toLowerCase();
-        c.hidden = q && txt.indexOf(q) === -1;
-      });
-    });
-  }
+/* catalogues page: Share buttons (native share sheet where there is one, otherwise copies the link) */
+(function () {
+  document.getElementById("catGrid").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-share-url]"); if (!b) return;
+    var url = new URL(b.getAttribute("data-share-url"), location.href).href, title = b.getAttribute("data-share-title");
+    if (window.RKStore && window.RKStore.share) window.RKStore.share({ title: title, url: url });
+    else if (navigator.share) navigator.share({ title: title, url: url }).catch(function () {});
+    else if (navigator.clipboard) navigator.clipboard.writeText(url);
+  });
 })();
 </script>
 

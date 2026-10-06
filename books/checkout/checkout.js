@@ -39,9 +39,10 @@
             '<label>Full name<input required name="name" placeholder="Your name" autocomplete="name"></label>' +
             '<label>Phone<input required name="phone" type="tel" inputmode="numeric" placeholder="10-digit mobile number" autocomplete="tel"></label>' +
             '<label class="co-span2">Address<input required name="addr" placeholder="House no., street, area" autocomplete="street-address"></label>' +
+            /* PIN code comes right after the address: six digits fill City and State (both stay editable) — see pinLookup() */
+            '<label class="co-span2 co-pin">PIN code<span class="co-pin__row"><input required name="pin" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="6-digit PIN code" autocomplete="postal-code" aria-describedby="coPinNote"><span class="co-pin__note" id="coPinNote" aria-live="polite">Enter your PIN code — we\'ll fill in the city and state.</span></span></label>' +
             '<label>City<input required name="city" placeholder="City" autocomplete="address-level2"></label>' +
             '<label>State<input required name="state" placeholder="State" autocomplete="address-level1"></label>' +
-            '<label>Pincode<input required name="pin" inputmode="numeric" pattern="[0-9]{6}" placeholder="6-digit PIN code" autocomplete="postal-code"></label>' +
             '<label>Email (optional)<input name="email" type="email" placeholder="you@example.com" autocomplete="email"></label>' +
           '</div></section>' +
         '<section class="co-card"><h2>Payment method</h2>' +
@@ -60,6 +61,8 @@
         '<button type="submit" form="coForm" class="bk-btn bk-btn--buy co-place">Place order · ' + fmt(payable) + '</button>' +
         '<p class="co-secure"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/></svg>Safe, trusted &amp; encrypted checkout</p>' +
       '</aside>';
+
+    pinLookup(document.getElementById("coForm"));
 
     document.getElementById("coForm").addEventListener("submit", function (e) {
       e.preventDefault();
@@ -84,4 +87,71 @@
     });
   }
   render();
+  /* ---- PIN code → City + State ----
+     Six digits: the state is filled at once from the PIN's first digits (built-in table, works offline), then India
+     Post's public PIN directory (api.postalpincode.in) gives the district (city) and confirms the state.
+     Both fields stay editable; a value the customer typed themselves is never overwritten. */
+  function pinLookup(form) {
+    var pin = form.elements.pin, city = form.elements.city, state = form.elements.state, note = document.getElementById("coPinNote");
+    if (!pin || !city || !state) return;
+    var P3 = { 160: "Chandigarh", 194: "Ladakh", 246: "Uttarakhand", 248: "Uttarakhand", 249: "Uttarakhand", 262: "Uttarakhand", 263: "Uttarakhand", 396: "Gujarat", 403: "Goa", 605: "Puducherry",
+               737: "Sikkim", 744: "Andaman and Nicobar Islands", 790: "Arunachal Pradesh", 791: "Arunachal Pradesh", 792: "Arunachal Pradesh", 793: "Meghalaya", 794: "Meghalaya", 795: "Manipur",
+               796: "Mizoram", 797: "Nagaland", 798: "Nagaland", 799: "Tripura", 814: "Jharkhand", 815: "Jharkhand", 816: "Jharkhand", 822: "Jharkhand", 825: "Jharkhand", 826: "Jharkhand", 827: "Jharkhand",
+               828: "Jharkhand", 829: "Jharkhand", 831: "Jharkhand", 832: "Jharkhand", 833: "Jharkhand", 834: "Jharkhand", 835: "Jharkhand" };
+    var P2 = { 11: "Delhi", 12: "Haryana", 13: "Haryana", 14: "Punjab", 15: "Punjab", 16: "Punjab", 17: "Himachal Pradesh", 18: "Jammu and Kashmir", 19: "Jammu and Kashmir",
+               20: "Uttar Pradesh", 21: "Uttar Pradesh", 22: "Uttar Pradesh", 23: "Uttar Pradesh", 24: "Uttar Pradesh", 25: "Uttar Pradesh", 26: "Uttar Pradesh", 27: "Uttar Pradesh", 28: "Uttar Pradesh",
+               30: "Rajasthan", 31: "Rajasthan", 32: "Rajasthan", 33: "Rajasthan", 34: "Rajasthan", 36: "Gujarat", 37: "Gujarat", 38: "Gujarat", 39: "Gujarat",
+               40: "Maharashtra", 41: "Maharashtra", 42: "Maharashtra", 43: "Maharashtra", 44: "Maharashtra", 45: "Madhya Pradesh", 46: "Madhya Pradesh", 47: "Madhya Pradesh", 48: "Madhya Pradesh", 49: "Chhattisgarh",
+               50: "Telangana", 51: "Andhra Pradesh", 52: "Andhra Pradesh", 53: "Andhra Pradesh", 56: "Karnataka", 57: "Karnataka", 58: "Karnataka", 59: "Karnataka",
+               60: "Tamil Nadu", 61: "Tamil Nadu", 62: "Tamil Nadu", 63: "Tamil Nadu", 64: "Tamil Nadu", 67: "Kerala", 68: "Kerala", 69: "Kerala",
+               70: "West Bengal", 71: "West Bengal", 72: "West Bengal", 73: "West Bengal", 74: "West Bengal", 75: "Odisha", 76: "Odisha", 77: "Odisha", 78: "Assam",
+               80: "Bihar", 81: "Bihar", 82: "Bihar", 83: "Bihar", 84: "Bihar", 85: "Bihar" };
+    function stateOf(p) { return P3[+p.slice(0, 3)] || P2[+p.slice(0, 2)] || ""; }
+    var auto = { city: "", state: "" }, last = "", ctl = null;
+    /* fill a field unless the customer has typed their own value into it */
+    function fill(el, key, val) {
+      if (!val) return false;
+      if (el.value.trim() && el.value !== auto[key]) return false; /* their own text — leave it */
+      el.value = val; auto[key] = val; el.classList.add("is-auto");
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      return true;
+    }
+    [["city", city], ["state", state]].forEach(function (p) {
+      p[1].addEventListener("input", function (e) { if (e.isTrusted && p[1].value !== auto[p[0]]) p[1].classList.remove("is-auto"); });
+    });
+    function say(text, kind) { note.textContent = text; note.className = "co-pin__note" + (kind ? " is-" + kind : ""); }
+    function title(s) { return String(s || "").toLowerCase().replace(/(^|[\s(-])([a-z])/g, function (m, a, b) { return a + b.toUpperCase(); }); }
+    function run() {
+      var p = pin.value.replace(/\D/g, "").slice(0, 6);
+      if (p !== pin.value) pin.value = p;
+      if (p.length < 6) { if (ctl) ctl.abort(); last = ""; say(p ? "Keep going — a PIN code has 6 digits." : "Enter your PIN code — we'll fill in the city and state."); return; }
+      if (p === last) return; last = p;
+      var guess = stateOf(p);
+      if (!guess) { say("That doesn't look like an Indian PIN code — please check it, or type your city and state.", "warn"); return; }
+      fill(state, "state", guess);
+      say("Looking up " + p + "…", "busy");
+      if (ctl) ctl.abort();
+      ctl = "AbortController" in window ? new AbortController() : null;
+      var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 6000);
+      fetch("https://api.postalpincode.in/pincode/" + p, ctl ? { signal: ctl.signal } : {})
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          clearTimeout(timer); if (p !== last) return;
+          var po = d && d[0] && d[0].Status === "Success" && d[0].PostOffice && d[0].PostOffice[0];
+          if (!po) { say("We couldn't find " + p + ". Check the PIN code, or type your city — we've set the state to " + guess + ".", "warn"); return; }
+          var st = title(po.State), ct = title(po.District);
+          var gotState = fill(state, "state", st) || state.value === st, gotCity = fill(city, "city", ct) || city.value === ct;
+          if (gotState && gotCity) say("✓ " + ct + ", " + st + " — filled in for you. You can edit either one.", "ok");
+          else say("This PIN code is in " + ct + ", " + st + ". We kept what you typed for the " + (!gotCity && !gotState ? "city and state" : !gotCity ? "city" : "state") + " — change it if you need to.", "ok");
+        })
+        .catch(function () {
+          clearTimeout(timer); if (p !== last) return;
+          say("State set to " + guess + " from your PIN code. We couldn't look up the city just now — please type it.", "warn");
+          if (!city.value.trim()) city.focus();
+        });
+    }
+    pin.addEventListener("input", run);
+    pin.addEventListener("change", run);
+    if (pin.value) run();
+  }
 })();

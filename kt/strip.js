@@ -6,7 +6,7 @@
    (sticky side panels) are untouched. Strips added later (the account page redraws on every tab) are picked up too.
    Styles: end of kt/styles.css. */
 (function () {
-  var TARGETS = [".cnt-side", ".acc-side ul", ".bk-filters", ".au-chips"];
+  var TARGETS = [".cnt-side", ".acc-side ul", ".bk-filters", ".au-chips", ".au-letters"];
   var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function setup(sc) {

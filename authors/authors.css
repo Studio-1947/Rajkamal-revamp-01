@@ -159,3 +159,128 @@ html[data-theme="dark"] .ap-cta .bk-btn--buy { color: #3a0d08; }
 }
 @media (max-width: 380px) { .au-name { font-size: 0.86rem; } }
 @media (prefers-reduced-motion: reduce) { .au-card, .au-photo img { transition: none; } }
+
+/* ---------- author cards, round 2 (user): the photo runs edge to edge — no padding, no border ----------
+   The photos are now one set (authors/photos/*.jpg: 4:5, eyes on the same line, one warm tone — see PAGES-PLAN.md),
+   so the frame is 4:5 and the photo simply fills it. */
+.au-card { align-items: stretch; gap: 0; padding: 0; border: 0; overflow: hidden; background: var(--au-card); box-shadow: 0 1px 2px rgba(122, 58, 29, 0.06), 0 12px 26px -14px rgba(122, 58, 29, 0.35); }
+html[data-theme="dark"] .au-card { box-shadow: 0 12px 26px -14px rgba(0, 0, 0, 0.8); }
+.au-card:hover, .au-card:focus-visible { box-shadow: 0 2px 4px rgba(122, 58, 29, 0.08), 0 22px 38px -16px rgba(122, 58, 29, 0.5); }
+.au-card:focus-visible { outline: 2px solid var(--au-accent); outline-offset: 3px; }
+.au-photo { aspect-ratio: 4 / 5; margin: 0; border-radius: 0; background: #3a1a10; }
+.au-photo::before { content: none; }
+.au-photo img { object-fit: cover; transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.au-card:hover .au-photo img, .au-card:focus-visible .au-photo img { transform: scale(1.05); }
+.au-photo::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 34%; z-index: 2; background: linear-gradient(transparent, rgba(34, 15, 9, 0.35)); pointer-events: none; }
+.au-body { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 2px; padding: 14px 12px 16px; text-align: center; min-width: 0; }
+.au-hit { padding: 0 3px; margin: 0 -1px; border-radius: 4px; background: color-mix(in srgb, var(--au-accent) 16%, transparent); color: var(--au-accent); }
+@media (max-width: 720px) { .au-card { padding: 0; } .au-photo { margin: 0; border-radius: 0; } .au-body { padding: 10px 8px 12px; } }
+
+/* ---------- letter index ---------- */
+.au-index { margin: 0 0 24px; padding: 16px 18px 14px; border-radius: 18px; background: var(--au-card); border: 1px solid var(--au-border); }
+.au-index__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.au-index__head h2 { margin: 0; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--au-accent); }
+.au-script { display: inline-flex; padding: 3px; border-radius: 999px; border: 1px solid var(--au-border); }
+.au-script button { padding: 5px 12px; border: 0; border-radius: 999px; background: none; color: inherit; cursor: pointer; font: 600 0.8rem 'Google Sans Flex', 'Noto Sans Devanagari', system-ui, sans-serif; opacity: 0.7; transition: background-color 0.18s, color 0.18s, opacity 0.18s; }
+.au-script button[aria-pressed="true"] { background: var(--au-accent); color: #fff; opacity: 1; }
+html[data-theme="dark"] .au-script button[aria-pressed="true"] { color: #2a120a; }
+.au-letters { display: flex; flex-wrap: wrap; gap: 6px; }
+.au-letter { flex: none; min-width: 38px; height: 38px; padding: 0 8px; border-radius: 10px; border: 1px solid var(--au-border); background: transparent; color: inherit; cursor: pointer;
+  font: 600 1rem/1 'Noto Sans Devanagari', 'Google Sans Flex', system-ui, sans-serif; transition: background-color 0.15s, color 0.15s, border-color 0.15s, transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.au-letter--all { padding: 0 14px; font-size: 0.84rem; font-family: 'Google Sans Flex', system-ui, sans-serif; }
+.au-letter:hover:not(:disabled) { background: var(--au-soft); border-color: var(--au-accent); transform: translateY(-2px); }
+.au-letter[aria-pressed="true"] { background: var(--au-accent); border-color: var(--au-accent); color: #fff; }
+html[data-theme="dark"] .au-letter[aria-pressed="true"] { color: #2a120a; }
+.au-letter:disabled { opacity: 0.28; cursor: default; border-style: dashed; }
+.au-letter:focus-visible { outline: 2px solid var(--au-accent); outline-offset: 2px; }
+.au-index__hint { margin: 12px 0 0; font-size: 0.84rem; line-height: 1.5; opacity: 0.75; }
+.au-index__hint b { color: var(--au-accent); font-weight: 600; }
+.au-sort select:disabled { opacity: 0.5; cursor: default; }
+@media (max-width: 720px) {
+  .au-index { padding: 14px 14px 12px; border-radius: 16px; }
+  /* one row that scrolls sideways (kt/strip.js adds the slider bar under it) */
+  .au-letters { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .au-letters::-webkit-scrollbar { display: none; }
+  .au-letter { min-width: 40px; height: 40px; }
+  .au-index__hint { font-size: 0.8rem; }
+}
+@media (prefers-reduced-motion: reduce) { .au-letter, .au-photo img { transition: none; } .au-card:hover .au-photo img { transform: none; } }
+
+/* ---------- search + sort pinned under the nav while scrolling (user) ----------
+   A band in the page's own colour behind them; pinned, it also runs up behind the nav so no cards show in between. */
+.au-tools { --au-top: 76px; --au-page: #fffdfb; position: sticky; top: var(--au-top); z-index: 30; margin-bottom: 0; padding: 8px 0 12px; }
+html[data-theme="dark"] .au-tools { --au-page: #1a0d0a; }
+.au-tools::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: -28px; right: -28px; background: var(--au-page); }
+.au-tools.is-stuck::before { top: calc(-1 * var(--au-top) - env(safe-area-inset-top)); }
+.au-tools.is-stuck .au-search { box-shadow: 0 6px 16px -10px rgba(122, 58, 29, 0.45); }
+@media (max-width: 720px) { .au-tools { --au-top: 0px; top: env(safe-area-inset-top); padding: 8px 0 10px; flex-wrap: nowrap; } .au-tools .au-search { flex: 1 1 auto; min-width: 0; height: 42px; } .au-tools .au-sort { flex: none; height: 42px; padding-left: 12px; } .au-tools .au-sort span { display: none; } }
+@media (max-width: 599px) { .au-tools::before { left: -16px; right: -16px; } }
+
+/* ---------- "Browse by name": show / hide ---------- */
+.au-index__head { flex-wrap: wrap; }
+.au-index__head h2 { margin-right: auto; display: inline-flex; align-items: center; gap: 10px; }
+.au-index__now { display: inline-grid; place-items: center; min-width: 26px; height: 26px; padding: 0 7px; border-radius: 8px; background: var(--au-accent); color: #fff; font: 600 0.95rem/1 'Noto Sans Devanagari', 'Google Sans Flex', sans-serif; letter-spacing: 0; text-transform: none; }
+html[data-theme="dark"] .au-index__now { color: #2a120a; }
+.au-index__now[hidden] { display: none; }
+.au-index__toggle { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--au-border); background: transparent; color: inherit; cursor: pointer; font: 600 0.8rem 'Google Sans Flex', system-ui, sans-serif; transition: background-color 0.18s, border-color 0.18s; }
+.au-index__toggle:hover, .au-index__toggle:focus-visible { background: var(--au-soft); border-color: var(--au-accent); outline: none; }
+.au-index__toggle svg { transition: transform 0.25s ease; }
+.au-index.is-closed .au-index__toggle svg { transform: rotate(180deg); }
+.au-index.is-closed { padding-bottom: 16px; }
+.au-index.is-closed .au-index__head { margin-bottom: 0; }
+.au-index.is-closed .au-script { display: none; }
+.au-index__body[hidden] { display: none; }
+.au-index__body:not([hidden]) { animation: auIndexIn 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes auIndexIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .au-index__body:not([hidden]) { animation: none; } .au-index__toggle svg { transition: none; } }
+
+/* ---------- what they are (Novelist, Poet…) as pills (user): one pill per role, the main role solid ---------- */
+.au-roles { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin-top: 8px; }
+.au-role { margin: 0; padding: 4px 11px; border-radius: 999px; font-size: 0.74rem; font-weight: 600; line-height: 1.3; letter-spacing: 0.01em; white-space: nowrap;
+  color: var(--au-accent); background: color-mix(in srgb, var(--au-accent) 11%, transparent); border: 1px solid color-mix(in srgb, var(--au-accent) 28%, transparent); }
+.au-role--main { color: #fff; background: var(--au-accent); border-color: var(--au-accent); box-shadow: 0 4px 10px -5px color-mix(in srgb, var(--au-accent) 80%, transparent); }
+html[data-theme="dark"] .au-role--main { color: #2a120a; }
+.au-meta { padding-top: 12px; }
+@media (max-width: 720px) { .au-roles { gap: 4px; margin-top: 6px; } .au-role { padding: 3px 8px; font-size: 0.68rem; } }
+@media (max-width: 380px) { .au-role { padding: 3px 7px; font-size: 0.64rem; } }
+
+/* ---------- author page hero, round 2 (user) ----------
+   The photo runs edge to edge down the left of the card (no padding, no border); roles are pills; the life is one
+   quiet italic line; the number of books is large. */
+.ap-hero { grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 0; align-items: stretch; padding: 0; overflow: hidden; border: 0; box-shadow: 0 1px 2px rgba(122, 58, 29, 0.06), 0 18px 40px -20px rgba(122, 58, 29, 0.4); }
+html[data-theme="dark"] .ap-hero { box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.85); }
+.ap-photo { height: 100%; min-height: 420px; border-radius: 0; box-shadow: none; background: #3a1a10; }
+.ap-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+.ap-photo::after { content: ""; position: absolute; inset: 0; z-index: 2; background: linear-gradient(90deg, transparent 70%, rgba(34, 15, 9, 0.18)); pointer-events: none; }
+.ap-intro { display: flex; flex-direction: column; justify-content: center; padding: 40px 44px; }
+.ap-intro .au-roles { justify-content: flex-start; margin: 0 0 14px; }
+.ap-intro .au-role { padding: 5px 13px; font-size: 0.78rem; }
+.ap-intro .pd-title { margin-bottom: 2px; }
+.ap-hi { margin-bottom: 16px; }
+.ap-life { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin: 0 0 24px; padding-left: 14px; border-left: 2px solid color-mix(in srgb, var(--au-accent) 45%, transparent); }
+.ap-life__years { font-size: 0.82rem; font-weight: 600; letter-spacing: 0.14em; color: var(--au-accent); white-space: nowrap; }
+.ap-life em { font-family: Georgia, 'Iowan Old Style', 'Times New Roman', 'Noto Serif', serif; font-style: italic; font-size: 1.04rem; line-height: 1.5; opacity: 0.8; }
+.ap-figs { display: flex; flex-wrap: wrap; gap: 14px 40px; margin: 0 0 26px; }
+.ap-figs div { display: flex; flex-direction: column; gap: 2px; }
+.ap-figs dd { margin: 0; font-size: clamp(2.6rem, 5vw, 3.6rem); font-weight: 600; line-height: 1; letter-spacing: -0.02em; color: var(--au-accent); font-variant-numeric: tabular-nums; }
+.ap-figs dt { font-size: 0.74rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.65; }
+.ap-figs div + div dd { color: inherit; opacity: 0.85; }
+@media (max-width: 720px) {
+  .ap-hero { grid-template-columns: 1fr; padding: 0; gap: 0; text-align: left; justify-items: stretch; }
+  .ap-photo { width: 100%; height: auto; min-height: 0; aspect-ratio: 1 / 1; border-radius: 0; }
+  .ap-photo img { object-position: 50% 22%; }
+  .ap-photo::after { background: linear-gradient(transparent 70%, rgba(34, 15, 9, 0.2)); }
+  .ap-intro { padding: 20px 18px 20px; }
+  .ap-intro .pd-title { font-size: 1.7rem; }
+  .ap-hi { margin-bottom: 12px; }
+  .ap-life { margin-bottom: 18px; }
+  .ap-life em { font-size: 0.96rem; }
+  .ap-figs { gap: 12px 28px; margin-bottom: 18px; }
+  .ap-figs dd { font-size: 2.5rem; }
+}
+
+/* role pills, round 2 (user: a solid first pill beside tinted ones looked like "active / inactive") — every role is the
+   same pill now; none is a state */
+.au-role, .au-role--main, html[data-theme="dark"] .au-role--main {
+  color: var(--au-accent); background: color-mix(in srgb, var(--au-accent) 13%, transparent); border: 1px solid color-mix(in srgb, var(--au-accent) 34%, transparent); box-shadow: none;
+}

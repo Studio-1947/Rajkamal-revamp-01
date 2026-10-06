@@ -7,7 +7,7 @@
   var root = document.getElementById("eb"), crumbs = document.getElementById("ebCrumbs");
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
-  crumbs.innerHTML = '<a href="../../home/">Home</a><span>/</span><a href="../">E-Books</a>' + (b ? "<span>/</span><b>" + esc(b.t) + "</b>" : "");
+  crumbs.innerHTML = '<a href="../../">Home</a><span>/</span><a href="../">E-Books</a>' + (b ? "<span>/</span><b>" + esc(b.t) + "</b>" : "");
   if (!b) {
     root.innerHTML = '<div class="pd-missing"><h1>E-book not found</h1><p>This title isn\'t in the featured e-books.</p><a class="bk-btn bk-btn--buy" href="../">Browse e-books</a></div>';
     return;

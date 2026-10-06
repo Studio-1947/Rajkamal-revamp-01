@@ -325,3 +325,42 @@ html[data-theme="dark"] .acc-gc-buy { background: #f28b7d; color: #3a0d08 !impor
   .rk-strip--acc { --strip-r: 18px; --strip-bg: #fffcf8; }
   html[data-theme="dark"] .rk-strip--acc { --strip-bg: #27140d; }
 }
+
+/* ---------- Orders tab, round 2 (user): every status, aligned facts, progress steps ---------- */
+.acc-ofilter { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+.acc-ofilter__btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 999px; border: 1px solid #e6cdae; background: transparent; color: inherit; cursor: pointer; font: 500 0.84rem 'Google Sans Flex', 'Noto Sans Devanagari', system-ui, sans-serif; }
+.acc-ofilter__btn i { font-style: normal; font-size: 0.72rem; opacity: 0.6; }
+.acc-ofilter__btn:hover { background: rgba(160, 54, 31, 0.07); }
+.acc-ofilter__btn[aria-pressed="true"] { background: #a0361f; border-color: #a0361f; color: #fff; }
+html[data-theme="dark"] .acc-ofilter__btn { border-color: rgba(255, 255, 255, 0.18); }
+html[data-theme="dark"] .acc-ofilter__btn[aria-pressed="true"] { background: #ffab98; border-color: #ffab98; color: #3a0d08; }
+.acc-order__head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 14px 16px 12px; }
+.acc-order__line { margin: 0; font-size: 0.92rem; font-weight: 500; }
+.acc-order--cancelled .acc-order__items, .acc-order--returned .acc-order__items { opacity: 0.7; }
+/* the facts: four equal columns, each a small label over its value */
+.acc-order__meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 0; padding: 12px 16px; background: rgba(160, 54, 31, 0.05); border-top: 1px dotted rgba(160, 54, 31, 0.3); border-bottom: 1px dotted rgba(160, 54, 31, 0.3); }
+.acc-order__meta div { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding: 0 12px; border-left: 1px solid rgba(160, 54, 31, 0.14); }
+.acc-order__meta div:first-child { padding-left: 0; border-left: 0; }
+.acc-order__meta dt { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
+.acc-order__meta dd { margin: 0; font-size: 0.88rem; font-weight: 600; overflow-wrap: anywhere; }
+html[data-theme="dark"] .acc-order__meta { background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.14); }
+html[data-theme="dark"] .acc-order__meta div { border-left-color: rgba(255, 255, 255, 0.12); }
+.acc-order__track { padding: 16px 12px 4px; }
+@media (max-width: 720px) {
+  .acc-ofilter { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -16px 12px; padding: 0 16px; }
+  .acc-ofilter::-webkit-scrollbar { display: none; }
+  .acc-ofilter__btn { flex: none; }
+  .acc-order__head { padding: 12px 12px 10px; }
+  .acc-order__line { flex-basis: 100%; font-size: 0.88rem; line-height: 1.4; }
+  /* phones: one fact per line — label on the left, value on the right, all lined up */
+  .acc-order__meta { grid-template-columns: minmax(0, 1fr); padding: 4px 12px; }
+  .acc-order__meta div, .acc-order__meta div:first-child { flex-direction: row; align-items: baseline; justify-content: space-between; gap: 14px; padding: 8px 0; border-left: 0; border-top: 1px dotted rgba(160, 54, 31, 0.2); }
+  .acc-order__meta div:first-child { border-top: 0; }
+  .acc-order__meta dt { flex: none; font-size: 0.68rem; }
+  .acc-order__meta dd { text-align: right; font-size: 0.86rem; }
+  html[data-theme="dark"] .acc-order__meta div { border-top-color: rgba(255, 255, 255, 0.12); }
+  .acc-order__track { padding: 14px 4px 2px; }
+  .acc-order__foot { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .acc-order__foot .acc-order__total { grid-column: 1 / -1; margin: 0; display: flex; justify-content: space-between; align-items: baseline; }
+  .acc-order__foot .acc-btn { text-align: center; justify-content: center; }
+}
