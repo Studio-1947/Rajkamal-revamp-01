@@ -2,7 +2,7 @@
 (function () {
   var q = new URLSearchParams(location.search);
   var slug = q.get("c") || "khud-se-judein";
-  var from = q.get("from") || "kt";
+  var from = q.get("from") || "home";
   var title = q.get("t");
   var data = window.RK_COLLECTIONS || {};
   var col = data[slug] || data["khud-se-judein"];
@@ -208,5 +208,5 @@
   document.getElementById("bkCollection").textContent = eyebrow || col.name;
   document.title = (title || col.name) + " | Catalogue";
   var back = document.getElementById("bkBack");
-  back.setAttribute("href", "../" + (/^kt[23]?$|^hp$|^mobile$/.test(from) ? from : "kt") + "/");
+  back.setAttribute("href", "../" + (/^(offers|kt[23]|mobile)$/.test(from) ? "offers/" : from === "hp" ? "hp/" : ""));
 })();

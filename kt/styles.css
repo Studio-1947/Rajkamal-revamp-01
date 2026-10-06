@@ -4733,3 +4733,116 @@ html[data-theme="dark"] body .site-header .header-icons .pill-btn.pill-btn--wish
 .bk-btn--wish svg path { transition: fill 0.2s ease; }
 .bk-btn--wish:hover svg, .bk-btn--wish:focus-visible svg { fill: currentColor; animation: rkHeartBeat 0.8s ease; transform-origin: center; }
 @media (prefers-reduced-motion: reduce) { .bk-btn--wish:hover svg { animation: none; } }
+/* phone Profile sheet: Log out is the last row, set apart by a rule and shown in red */
+@media (max-width: 720px) {
+  .mobile-profile__row--logout { margin-top: 6px; border-top: 1px dotted rgba(160, 54, 31, 0.3); color: #bc0005; }
+  html[data-theme="dark"] .mobile-profile__row--logout { border-top-color: rgba(255, 255, 255, 0.18); color: #ffab98; }
+}
+
+/* ---------- footer accordion pieces: invisible as controls on larger screens ---------- */
+.footer-acc { all: unset; display: inline; cursor: default; pointer-events: none; }
+.footer-acc svg, .footer-offices-line { display: none; }
+
+/* ---------- phones: a short footer (user) ----------
+   Hidden here, still one tap away: trust badges (checkout / FAQ say the same), the other imprints' social links and
+   the office cards (Contact page: #offices, #follow), and the link lists (tap a heading to open it). */
+@media (max-width: 720px) {
+  html body .site-footer .trust-strip { display: none; }
+  html body .site-footer .footer-main { padding-top: 28px; }
+  html body .site-footer .footer-connect .connect-group:not(:first-of-type) { display: none; }
+  html body .site-footer .footer-connect .connect-group h5 { display: none; }
+  html body .site-footer .footer-connect { margin-bottom: 4px; }
+  /* link lists → accordion */
+  html body .site-footer .footer-accgroup { grid-column: 1 / -1; margin: 0; padding: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
+  html body .site-footer .footer-accgroup h4 { margin: 0; }
+  html body .site-footer .footer-acc { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; box-sizing: border-box; padding: 13px 2px; cursor: pointer; pointer-events: auto; font: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit; }
+  html body .site-footer .footer-acc svg { display: block; flex: none; opacity: 0.8; transition: transform 0.25s ease; }
+  html body .site-footer .footer-accgroup.is-open .footer-acc svg { transform: rotate(180deg); }
+  html body .site-footer .footer-accgroup > ul { display: none; margin: 0; padding: 0 2px 12px; }
+  html body .site-footer .footer-accgroup.is-open > ul { display: block; animation: ftAccIn 0.25s ease; }
+  html body .site-footer .footer-acc:focus-visible { outline: 2px solid #ffd9a0; outline-offset: 2px; border-radius: 6px; }
+  @keyframes ftAccIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+  /* offices → one line */
+  html body .site-footer .footer-offices > .office-box, html body .site-footer .footer-offices > .office-group { display: none; }
+  html body .site-footer .footer-offices-line { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; grid-column: 1 / -1; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.06); color: inherit; text-decoration: none; }
+  html body .site-footer .footer-offices-line span { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; }
+  html body .site-footer .footer-offices-line b { grid-column: 1; font-size: 0.9rem; font-weight: 500; line-height: 1.35; }
+  html body .site-footer .footer-offices-line i { grid-column: 2; grid-row: 1 / span 2; font-style: normal; font-size: 1.1rem; }
+  html body .site-footer .footer-copy--end { margin-top: 14px; padding-bottom: calc(86px + env(safe-area-inset-bottom)); } /* clear of the floating tab bar */
+
+  /* ---------- floating bottom bar (user: like Instagram's floating menu) ----------
+     A rounded glass pill that floats above the page instead of a strip stuck to the edge; the active tab gets a soft
+     capsule behind it. */
+  .mobile-tabbar { left: 12px; right: 12px; bottom: calc(10px + env(safe-area-inset-bottom)); padding: 6px 8px; border-radius: 999px;
+    border: 1px solid rgba(160, 54, 31, 0.14); background: rgba(255, 253, 251, 0.78); backdrop-filter: blur(22px) saturate(180%); -webkit-backdrop-filter: blur(22px) saturate(180%);
+    box-shadow: 0 12px 32px -8px rgba(110, 51, 13, 0.35), 0 2px 6px rgba(110, 51, 13, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    transform: translateY(calc(100% + 24px)); transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+  .mobile-tabbar.is-visible { transform: translateY(0); }
+  html[data-theme="dark"] .mobile-tabbar { background: rgba(38, 20, 14, 0.72); border: 1px solid rgba(255, 255, 255, 0.14); box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
+  .mobile-tab { padding: 6px 2px 5px; border-radius: 999px; transition: background-color 0.25s ease, opacity 0.2s ease, transform 0.2s ease; }
+  .mobile-tab:active { transform: scale(0.94); }
+  .mobile-tab.is-on { background: rgba(160, 54, 31, 0.1); }
+  html[data-theme="dark"] .mobile-tab.is-on { background: rgba(255, 171, 152, 0.14); }
+  html.ios-safari .mobile-tabbar { bottom: calc(10px + env(safe-area-inset-bottom)); }
+}
+@media (max-width: 720px) and (prefers-reduced-motion: reduce) { .mobile-tabbar, .mobile-tab { transition: none; } html body .site-footer .footer-accgroup.is-open > ul { animation: none; } }
+@media (max-width: 720px) {
+  /* tighter: the four headings sit together as one list */
+  html body .site-footer .footer-inner { row-gap: 0; padding-bottom: 14px; }
+  html body .site-footer .footer-brand { margin-bottom: 18px; }
+  html body .site-footer .footer-connect { margin-bottom: 14px; }
+  html body .site-footer .footer-stack, html body .site-footer .footer-stack > div { margin: 0; gap: 0; }
+  html body .site-footer .footer-accgroup h4 { padding: 0; border: 0; }
+  html body .site-footer .footer-acc { padding: 12px 2px; }
+  html body .site-footer .footer-divider { display: none; }
+  html body .site-footer .footer-offices { margin-top: 4px; padding-top: 0; gap: 10px; }
+}
+@media (max-width: 720px) {
+  /* Home tab in the floating bar: just the Rajkamal mark, larger — no capsule behind it and no padding around it */
+  .mobile-tabbar .mobile-tab--home, .mobile-tabbar .mobile-tab--home.is-on, html[data-theme="dark"] .mobile-tabbar .mobile-tab--home.is-on { flex: 0 0 auto; padding: 0; margin: 0 6px 0 2px; background: none; opacity: 1; }
+  .mobile-tabbar .mobile-tab__logo { width: 44px; height: 44px; }
+}
+@media (max-width: 720px) { .mobile-tabbar .mobile-tab span { white-space: nowrap; } }
+@media (max-width: 350px) { .mobile-tabbar .mobile-tab { font-size: 0.56rem; } .mobile-tabbar .mobile-tab__logo { width: 40px; height: 40px; } }
+
+/* ---------- order status chip + progress steps (books/order-status.js; My Account → Orders, order details) ---------- */
+.rk-status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 999px; font-size: 0.74rem; font-weight: 600; white-space: nowrap; background: rgba(160, 54, 31, 0.12); color: #a0361f; }
+.rk-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.rk-status--new { background: rgba(47, 95, 179, 0.12); color: #2f5fb3; }
+.rk-status--move { background: rgba(214, 131, 0, 0.14); color: #a86400; }
+.rk-status--move::before { animation: rkPulse 1.4s ease-in-out infinite; }
+.rk-status--done { background: rgba(47, 122, 76, 0.14); color: #2f7a4c; }
+.rk-status--stop { background: rgba(188, 0, 5, 0.1); color: #bc0005; }
+.rk-status--back { background: rgba(110, 80, 150, 0.14); color: #6a4c93; }
+html[data-theme="dark"] .rk-status--new { color: #9ec1ff; } html[data-theme="dark"] .rk-status--move { color: #ffc266; }
+html[data-theme="dark"] .rk-status--done { color: #7fd6a0; } html[data-theme="dark"] .rk-status--stop { color: #ff9a8f; } html[data-theme="dark"] .rk-status--back { color: #c9b3ec; }
+@keyframes rkPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.7); } }
+.rk-track { --tk: #2f7a4c; list-style: none; margin: 0; padding: 0; display: flex; }
+.rk-track--stop { --tk: #bc0005; } .rk-track--back { --tk: #6a4c93; }
+html[data-theme="dark"] .rk-track { --tk: #7fd6a0; } html[data-theme="dark"] .rk-track--stop { --tk: #ff9a8f; } html[data-theme="dark"] .rk-track--back { --tk: #c9b3ec; }
+.rk-track li { position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 22px; text-align: center; font-size: 0.72rem; line-height: 1.25; }
+.rk-track li::before { content: ""; position: absolute; top: 6px; left: -50%; width: 100%; height: 3px; background: rgba(160, 54, 31, 0.16); }
+.rk-track li:first-child::before { display: none; }
+.rk-track li.is-done::before, .rk-track li.is-now::before { background: var(--tk); }
+.rk-track li i { position: absolute; top: 0; left: 50%; width: 15px; height: 15px; margin-left: -7.5px; border-radius: 50%; background: #fff; border: 3px solid rgba(160, 54, 31, 0.22); box-sizing: border-box; z-index: 1; }
+html[data-theme="dark"] .rk-track li i { background: #1a0d0a; border-color: rgba(255, 255, 255, 0.25); } html[data-theme="dark"] .rk-track li::before { background: rgba(255, 255, 255, 0.16); }
+.rk-track li.is-done i { background: var(--tk); border-color: var(--tk); }
+.rk-track li.is-now i { border-color: var(--tk); box-shadow: 0 0 0 4px color-mix(in srgb, var(--tk) 22%, transparent); }
+.rk-track li b { font-weight: 600; opacity: 0.55; } .rk-track li.is-done b, .rk-track li.is-now b { opacity: 1; }
+.rk-track li.is-now b { color: var(--tk); }
+.rk-track li span { opacity: 0.6; font-size: 0.68rem; }
+.rk-track--big li { font-size: 0.82rem; padding-top: 28px; } .rk-track--big li span { font-size: 0.74rem; }
+.rk-track--big li i { width: 19px; height: 19px; margin-left: -9.5px; } .rk-track--big li::before { top: 8px; }
+@media (max-width: 720px) {
+  /* big tracker (details page) runs top to bottom on phones */
+  .rk-track--big { flex-direction: column; gap: 0; }
+  .rk-track--big li { flex: none; flex-direction: row; align-items: baseline; justify-content: space-between; gap: 12px; padding: 0 0 20px 30px; text-align: left; font-size: 0.9rem; }
+  .rk-track--big li:last-child { padding-bottom: 0; }
+  .rk-track--big li i { top: 1px; left: 0; margin-left: 0; }
+  .rk-track--big li::before { top: auto; bottom: calc(100% - 4px); left: 8px; width: 3px; height: calc(100% - 14px); }
+  .rk-track--big li span { font-size: 0.8rem; white-space: nowrap; }
+  /* compact tracker (order cards): names only under the dots, the current one in full */
+  .rk-track:not(.rk-track--big) li { font-size: 0.62rem; } .rk-track:not(.rk-track--big) li span { display: none; }
+  .rk-track:not(.rk-track--big) li:not(.is-now) b { font-weight: 500; }
+}
+@media (prefers-reduced-motion: reduce) { .rk-status--move::before { animation: none; } }

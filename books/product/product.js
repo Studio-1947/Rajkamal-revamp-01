@@ -4,7 +4,7 @@
    "Book Details". Data: catalogue row (books-data.js), description (books-detail.js), formats + contributors (books-formats.js). */
 (function () {
   var q = new URLSearchParams(location.search);
-  var id = q.get("id"), from = q.get("from") || "kt", cslug = q.get("c");
+  var id = q.get("id"), from = q.get("from") || "home", cslug = q.get("c");
   var C = window.RK_COLLECTIONS || {}, D = window.RK_DETAIL || {}, F = (window.RK_FORMATS || {})[q.get("id")] || {};
   var found = null, foundCol = null;
   Object.keys(C).forEach(function (k) { C[k].books.forEach(function (b) { if (!found && b[4] === id) { found = b; foundCol = k; } }); });
@@ -40,14 +40,14 @@
   /* ---- contributors: our author pages for the 20 featured authors, otherwise the live author page ---- */
   var OURS = {}; (window.RK_AUTHORS || []).forEach(function (a) { OURS[a.src] = a; });
   function personHref(p) { var a = OURS[p[0]]; return a ? "../../authors/author/?id=" + encodeURIComponent(a.id) : "https://www.rajkamalprakashan.com/authors/" + encodeURIComponent(p[0]); }
-  function personImg(p) { var a = OURS[p[0]]; return a ? "../../authors/photos/" + a.id + ".jpg?v=3" : p[2]; }
+  function personImg(p) { var a = OURS[p[0]]; return a ? "../../authors/photos/" + a.id + ".jpg?v=4" : p[2]; }
   function ext(p) { return OURS[p[0]] ? "" : ' target="_blank" rel="noopener noreferrer"'; }
   var authors = F.au && F.au.length ? F.au : String(found[1] || "").split(/\s*,\s*/).filter(Boolean).map(function (n) { return [null, n, ""]; });
   function nameLinks(list) { return list.map(function (p) { return p[0] ? '<a class="pd-author__link" href="' + personHref(p) + '"' + ext(p) + ">" + esc(p[1]) + "</a>" : esc(p[1]); }).join(", "); }
   function initials(n) { return n.replace(/'[^']*'/g, "").trim().split(/\s+/).map(function (w) { return w[0]; }).slice(0, 2).join(""); }
 
   document.title = title + " | Rajkamal Offers";
-  document.getElementById("pdCrumbs").innerHTML = '<a href="../../' + esc(/^kt[23]?$|^hp$|^mobile$/.test(from) ? from : "kt") + '/">Home</a><span>/</span><a href="../?c=' + esc(slug) + "&from=" + esc(from) + "&t=" + encodeURIComponent(col.name) + '">' + esc(col.name) + "</a><span>/</span><b>" + esc(title) + "</b>";
+  document.getElementById("pdCrumbs").innerHTML = '<a href="../../' + (/^(offers|kt[23]|mobile)$/.test(from) ? "offers/" : from === "hp" ? "hp/" : "") + '">' + (/^(offers|kt[23]|mobile)$/.test(from) ? "Offers" : "Home") + "</a>" + '<span>/</span><a href="../?c=' + esc(slug) + "&from=" + esc(from) + "&t=" + encodeURIComponent(col.name) + '">' + esc(col.name) + "</a><span>/</span><b>" + esc(title) + "</b>";
 
   var desc = (d.desc || "").trim();
   /* placeholder "About Book" for titles without a description yet — data-placeholder marks it for replacing */
@@ -97,7 +97,9 @@
     return list.map(function (p) {
       var img = personImg(p), inner = (img ? '<img src="' + esc(img) + '" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">' : "") + '<b aria-hidden="true">' + esc(initials(p[1])) + "</b>";
       var tag = p[0] ? "a" : "div", href = p[0] ? ' href="' + personHref(p) + '"' + ext(p) : "";
-      return "<" + tag + ' class="pd-person"' + href + '><span class="pd-person__ph">' + inner + '</span><span class="pd-person__tx"><i>' + label + "</i><span>" + esc(p[1]) + "</span></span></" + tag + ">";
+      /* ring = the animated border round the photo; the arrow only shows on cards that link somewhere */
+      return "<" + tag + ' class="pd-person"' + href + '><span class="pd-person__ring"><span class="pd-person__ph">' + inner + '</span></span><span class="pd-person__tx"><i>' + label + "</i><span>" + esc(p[1]) + "</span></span>" +
+        (p[0] ? '<svg class="pd-person__go" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' : "") + "</" + tag + ">";
     }).join("");
   }
   function details(f) {
@@ -139,6 +141,7 @@
       "</div>";
   }
   render();
+  root.classList.add("is-fresh"); setTimeout(function () { root.classList.remove("is-fresh"); }, 1600);
 
   root.addEventListener("click", function (e) {
     var fb = e.target.closest("[data-fmt]");
@@ -236,12 +239,46 @@
     if (window.RKStore) window.RKStore.share({ title: title, text: "by " + authors.map(function (p) { return p[1]; }).join(", ") + (cur.p != null ? " — " + fmt(cur.p) : ""), url: location.href });
   });
 
-  /* more from the same collection — the shared book card (kt/book-card.js handles its buttons) */
-  var rel = col.books.filter(function (b) { return b[4] !== id; }).slice(0, 4);
+  function relCard(b, c) { return RKBookCard(RKBookCard.fromRow(b, "?id=" + encodeURIComponent(b[4]) + "&c=" + encodeURIComponent(c) + "&from=" + encodeURIComponent(from), "../covers/")); }
+
+  /* more books by the same author(s): every other catalogue book that shares an author — matched on the live site's
+     author id (books-formats.js) or, failing that, the author's name. Sits above "More from this collection". */
+  var shownIds = {};
+  (function () {
+    var ALLF = window.RK_FORMATS || {};
+    function norm(n) { return String(n || "").toLowerCase().replace(/[^a-z\u0900-\u097f]+/g, " ").trim(); }
+    var mine = {}, myNames = {};
+    authors.forEach(function (p) { if (p[0]) mine[p[0]] = p[1]; if (norm(p[1])) myNames[norm(p[1])] = p[1]; });
+    var seen = {}, hits = [], matched = {};
+    seen[id] = 1;
+    Object.keys(C).forEach(function (k) {
+      C[k].books.forEach(function (b) {
+        if (seen[b[4]]) return;
+        var who = null;
+        ((ALLF[b[4]] || {}).au || []).forEach(function (p) { if (!who && mine[p[0]]) who = mine[p[0]]; });
+        if (!who) String(b[1] || "").split(/\s*,\s*/).forEach(function (n) { if (!who && myNames[norm(n)]) who = myNames[norm(n)]; });
+        if (who) { seen[b[4]] = 1; matched[who] = 1; hits.push([b, k]); }
+      });
+    });
+    if (!hits.length) return;
+    var names = Object.keys(matched), MAX = 5;
+    document.getElementById("pdByAuthorTitle").textContent = "More books by " + (names.length === 1 ? names[0] : names.length === 2 ? names.join(" & ") : "these authors");
+    document.getElementById("pdByAuthorGrid").innerHTML = hits.slice(0, MAX).map(function (h) { shownIds[h[0][4]] = 1; return relCard(h[0], h[1]); }).join("");
+    /* "all books" link: the author's page — ours for the featured authors, the live site's otherwise */
+    var first = authors.filter(function (p) { return p[0] && matched[p[1]]; })[0], all = document.getElementById("pdByAuthorAll");
+    if (first) {
+      all.href = personHref(first); if (!OURS[first[0]]) { all.target = "_blank"; all.rel = "noopener noreferrer"; }
+      all.textContent = (hits.length > MAX ? "All " + hits.length + " in this catalogue · " : "") + "Author page " + (OURS[first[0]] ? "→" : "↗");
+      all.hidden = false;
+    }
+    document.getElementById("pdByAuthor").hidden = false;
+  })();
+
+  /* more from the same collection — the shared book card (kt/book-card.js handles its buttons); books already shown
+     in the author row are skipped */
+  var rel = col.books.filter(function (b) { return b[4] !== id && !shownIds[b[4]]; }).slice(0, 4);
   if (rel.length) {
-    document.getElementById("pdRelatedGrid").innerHTML = rel.map(function (b) {
-      return RKBookCard(RKBookCard.fromRow(b, "?id=" + encodeURIComponent(b[4]) + "&c=" + encodeURIComponent(slug) + "&from=" + encodeURIComponent(from), "../covers/"));
-    }).join("");
+    document.getElementById("pdRelatedGrid").innerHTML = rel.map(function (b) { return relCard(b, slug); }).join("");
     document.getElementById("pdRelated").hidden = false;
   }
 })();

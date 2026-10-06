@@ -22,7 +22,7 @@
     } catch (x) {}
   }
   crumbs.innerHTML =
-    '<a href="../../home/">Home</a><span>/</span><a href="../">Events</a>' +
+    '<a href="../../">Home</a><span>/</span><a href="../">Events</a>' +
     (e
       ? '<span>/</span><a href="../event/?id=' +
         encodeURIComponent(e.id) +

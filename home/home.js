@@ -24,10 +24,9 @@
     var ext = /^https?:/.test(s.link) && s.link.indexOf("rajkamalprakashan.com") > -1;
     return '<a class="hm-slide" href="' + esc(s.link) + '" ' + (ext ? 'target="_blank" rel="noopener noreferrer"' : "") + ' aria-label="' + esc(s.title) + '"><img src="' + esc(homeImg(s.img)) + '" alt="' + esc(s.alt) + '"' + (i ? ' loading="lazy"' : ' fetchpriority="high"') + '></a>';
   }).join("");
+  /* the big card: one Kitab Teras image (the same artwork as the Offers page it opens). Add entries to rotate more. */
   var BIG = [
-    { href: siteURL("../kt/"), img: siteURL("home/img/hero/kt-hero-2.jpg"), t: "Kitab Teras", s: "10–20 October · up to 40% off + free delivery" },
-    { href: siteURL("../kt/"), img: siteURL("home/img/hero/kt-hero-3.png"), t: "Kitab Teras", s: "10–20 October · up to 40% off + free delivery" },
-    { href: siteURL("../kt/"), img: siteURL("../kt/assets/hero/hero.jpg"), t: "Kitab Teras", s: "10–20 October · up to 40% off + free delivery" }
+    { href: siteURL("../offers/"), img: siteURL("home/img/hero/kt-hero-3.png"), t: "Kitab Teras", s: "10–20 October · up to 40% off + free delivery" }
   ];
   var newRel = (H.sections["New Releases"] || [])[0];
   var SMALL_HREF = "#hm-sec-new-releases", SMALL_T = "New Releases", SMALL_S = "Fresh picks weekly";
@@ -36,7 +35,7 @@
   function cap(x) { return '<span class="hm-feat__cap"><span class="hm-feat__txt"><b>' + esc(x.t) + '</b><i>' + esc(x.s) + '</i></span><span class="hm-go" aria-hidden="true"><svg class="hm-go__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></span>'; }
   var bigHtml = '<div class="hm-feat__card is-big hm-carousel" id="hmBig" aria-roledescription="carousel" aria-label="Featured offers"><div class="hm-carousel__track" id="hmBigTrack">' +
     BIG.map(function (x, i) { return '<a class="hm-carousel__slide" href="' + x.href + '"><img src="' + x.img + '" alt="' + esc(x.t) + '"' + (i ? ' loading="lazy"' : ' fetchpriority="high"') + '>' + cap(x) + '</a>'; }).join("") +
-    '</div><div class="hm-carousel__dots" id="hmBigDots">' + BIG.map(function (x, i) { return '<button type="button" data-i="' + i + '" aria-label="Show ' + esc(x.t) + '"></button>'; }).join("") + '</div></div>';
+    "</div>" + (BIG.length > 1 ? '<div class="hm-carousel__dots" id="hmBigDots">' + BIG.map(function (x, i) { return '<button type="button" data-i="' + i + '" aria-label="Show ' + esc(x.t) + '"></button>'; }).join("") + "</div>" : "") + "</div>";
   var EVENTS = [
 ["Kitab Utsav : Barelly", "23–27 October", "Widmere Thetre", "Starting from 23rd October to 27th October", "/events"],
     ["किताब उत्सव – इन्दौर", "4–8 सितम्बर", "प्रीतमलाल दुआ सभागृह, इन्दौर", "पाठक-लेखक संवाद, बातचीत, पाठ, चर्चा, लोकार्पण · प्रवेश निःशुल्क", "/events/kitab-utsav-indore-2026"],
@@ -185,7 +184,7 @@
       slideEls.forEach(function (sl, n) { sl.classList.toggle("on", n === cur); });
       dots.forEach(function (d, n) { d.classList.toggle("on", n === cur); d.setAttribute("aria-current", n === cur ? "true" : "false"); });
     }
-    function run() { clearInterval(tm); if (!matchMedia("(prefers-reduced-motion: reduce)").matches) tm = setInterval(function () { if (!hold && !document.hidden) go(cur + 1); }, intervalMs); }
+    function run() { clearInterval(tm); if (slideEls.length > 1 && !matchMedia("(prefers-reduced-motion: reduce)").matches) tm = setInterval(function () { if (!hold && !document.hidden) go(cur + 1); }, intervalMs); }
     if (dotsId) document.getElementById(dotsId).addEventListener("click", function (e) { var d = e.target.closest("button"); if (d) { go(+d.dataset.i); run(); } });
     box.addEventListener("mouseenter", function () { hold = true; }); box.addEventListener("mouseleave", function () { hold = false; });
     box.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; hold = true; }, { passive: true });
@@ -196,7 +195,7 @@
     place();
     go(0); run();
   }
-  wireCarousel("hmBig", "hmBigTrack", "hmBigDots", 4500);
+  wireCarousel("hmBig", "hmBigTrack", BIG.length > 1 ? "hmBigDots" : null, 4500);
   wireCarousel("hmSmall", "hmSmallTrack", null, 2600);
 
   /* smooth-scroll for feature cards that link to a section further down this page */

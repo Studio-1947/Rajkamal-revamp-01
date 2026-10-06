@@ -206,3 +206,14 @@ window.RK_AUTHORS = [
     match: ["Ravish Kumar"]
   }
 ];
+
+/* The name an author is best known by, when it isn't simply their full name: [Hindi, English].
+   The Authors page lists them under this name first (दिनकर under द, not only under र for रामधारी) and sorts अ–ज्ञ / A–Z by it. */
+(function () {
+  var KNOWN = {
+    nirala: ["निराला", "Nirala"], dinkar: ["दिनकर", "Dinkar"], "phanishwarnath-renu": ["रेणु", "Renu"],
+    muktibodh: ["मुक्तिबोध", "Muktibodh"], "jaishankar-prasad": ["प्रसाद", "Prasad"],
+    "sahir-ludhianvi": ["साहिर", "Sahir"], "kaifi-azmi": ["कैफ़ी", "Kaifi"]
+  };
+  (window.RK_AUTHORS || []).forEach(function (a) { var k = KNOWN[a.id]; if (k) { a.known = k[0]; a.knownEn = k[1]; } });
+})();

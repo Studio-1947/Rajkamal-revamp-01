@@ -1,16 +1,16 @@
 const cards = [
-  { title: "बचपन की कहानियाँ", off: "30% OFF", img: "assets/cards/card1.jpg?v=2" },
-  { title: "किशोर संग्रह",     off: "40% OFF", img: "assets/cards/card2.jpg?v=2" },
-  { title: "क्लासिक साहित्य",  off: "20% OFF", img: "assets/cards/card3.jpg?v=2" },
-  { title: "आरामदायक पठन",     off: "45% OFF", img: "assets/cards/card4.jpg?v=2" },
-  { title: "पारिवारिक चुनाव",  off: "40% OFF", img: "assets/cards/card5.jpg?v=2" },
-  { title: "विरासत लेखन",      off: "30% OFF", img: "assets/cards/card6.jpg?v=2" },
-  { title: "पुस्तकालय संग्रह", off: "15% OFF", img: "assets/cards/card7.jpg?v=2" },
-  { title: "युवा लेखिका सेट",  off: "30% OFF", img: "assets/cards/card8.jpg?v=2" },
-  { title: "प्रेम कहानियाँ",   off: "35% OFF", img: "assets/cards/card9.jpg?v=2" },
-  { title: "कविता और ग़ज़ल",    off: "25% OFF", img: "assets/cards/card5.jpg?v=2" }, // placeholder image (reused) until new artwork arrives
-  { title: "यात्रा संस्मरण",     off: "30% OFF", img: "assets/cards/card8.jpg?v=2" }, // placeholder image (reused)
-  { title: "बच्चों के लिए",      off: "40% OFF", img: "assets/cards/card2.jpg?v=2" }, // placeholder image (reused)
+  { title: "बचपन की कहानियाँ", off: "30% OFF", img: "assets/cards/card1.jpg" },
+  { title: "किशोर संग्रह",     off: "40% OFF", img: "assets/cards/card2.jpg" },
+  { title: "क्लासिक साहित्य",  off: "20% OFF", img: "assets/cards/card3.jpg" },
+  { title: "आरामदायक पठन",     off: "45% OFF", img: "assets/cards/card4.jpg" },
+  { title: "पारिवारिक चुनाव",  off: "40% OFF", img: "assets/cards/card5.jpg" },
+  { title: "विरासत लेखन",      off: "30% OFF", img: "assets/cards/card6.jpg" },
+  { title: "पुस्तकालय संग्रह", off: "15% OFF", img: "assets/cards/card7.jpg" },
+  { title: "युवा लेखिका सेट",  off: "30% OFF", img: "assets/cards/card8.jpg" },
+  { title: "प्रेम कहानियाँ",   off: "35% OFF", img: "assets/cards/card9.jpg" },
+  { title: "कविता और ग़ज़ल",    off: "25% OFF", img: "assets/cards/card5.jpg" },  // placeholder image (reused) until new artwork arrives
+  { title: "यात्रा संस्मरण",     off: "30% OFF", img: "assets/cards/card8.jpg" },  // placeholder image (reused)
+  { title: "बच्चों के लिए",      off: "40% OFF", img: "assets/cards/card2.jpg" },  // placeholder image (reused)
 ];
 
 const grid = document.getElementById("cardGrid");

@@ -7,7 +7,7 @@
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   function n(v) { return v.toLocaleString("en-IN"); }
 
-  crumbs.innerHTML = '<a href="../../home/">Home</a><span>/</span><a href="../">Publications</a>' + (x ? "<span>/</span><b>" + esc(x.name) + "</b>" : "");
+  crumbs.innerHTML = '<a href="../../">Home</a><span>/</span><a href="../">Publications</a>' + (x ? "<span>/</span><b>" + esc(x.name) + "</b>" : "");
   if (!x) {
     root.innerHTML = '<div class="pd-missing"><h1>Imprint not found</h1><p>This isn\'t one of the Rajkamal Prakashan Samuh imprints.</p><a class="bk-btn bk-btn--buy" href="../">See all imprints</a></div>';
     return;
@@ -15,7 +15,7 @@
   document.title = x.name + " | Publications | Rajkamal Offers";
   var col = "imprint-" + x.id, books = (C[col] || { books: [] }).books;
   var live = "https://www.rajkamalprakashan.com/publications/" + x.id;
-  function prod(b) { return "../../books/product/?id=" + encodeURIComponent(b[4]) + "&c=" + encodeURIComponent(col) + "&from=kt"; }
+  function prod(b) { return "../../books/product/?id=" + encodeURIComponent(b[4]) + "&c=" + encodeURIComponent(col) + "&from=home"; }
   function card(b) { return RKBookCard(RKBookCard.fromRow(b, prod(b), "../../books/covers/")); } // shared card: kt/book-card.js
 
 

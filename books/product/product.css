@@ -264,3 +264,58 @@ html.pd-lb-lock, html.pd-lb-lock body { overflow: hidden; }
 .pd-lb__img { max-height: calc(100vh - 190px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); max-height: calc(100dvh - 190px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
 .pd-lb:not(:has(.pd-lb__strip)) .pd-lb__img { max-height: calc(100dvh - 100px); }
 .pd-lb { background: rgba(18, 8, 5, 0.96); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+
+/* ---------- contributor cards (author / editor / translator): the photo answers the pointer ----------
+   Idle: a quiet ring round the photo. Hover / focus: the card lifts and tints, the ring turns into a spinning
+   terracotta-and-gold ring with a halo pulsing out, the photo zooms a little, the name takes the accent colour and an
+   arrow slides in. First load: the cards rise in one after another. */
+.pd-person { position: relative; gap: 12px; padding: 7px 16px 7px 7px; background: transparent;
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
+.pd-person__ring { position: relative; flex: none; display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; isolation: isolate; }
+.pd-person__ring::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: 50%; background: #e6cdae; transition: opacity 0.3s ease; }
+.pd-person__ring::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: 50%; opacity: 0; transition: opacity 0.3s ease;
+  background: conic-gradient(from 0deg, #a0361f, #e9a23b, #f6d9b4, #a0361f); }
+.pd-person__ph { width: 48px; height: 48px; box-shadow: 0 0 0 2px #fffdfb; }
+.pd-person__ph img { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.4s ease; }
+.pd-person__ph b { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.pd-person__tx span { transition: color 0.25s ease; }
+.pd-person__go { flex: none; margin-left: -4px; width: 0; opacity: 0; transform: translateX(-6px); color: #a0361f; transition: width 0.28s ease, opacity 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), margin 0.28s ease; }
+.pd-person:hover, .pd-person:focus-visible { transform: translateY(-3px); background: #fff7ec; border-color: #e0a88f; box-shadow: 0 12px 24px -14px rgba(160, 54, 31, 0.5); outline: none; }
+.pd-person:hover .pd-person__ring::after, .pd-person:focus-visible .pd-person__ring::after { opacity: 1; animation: pdRingSpin 2.4s linear infinite; }
+.pd-person:hover .pd-person__ring::before, .pd-person:focus-visible .pd-person__ring::before { animation: pdHalo 1.5s ease-out infinite; background: #a0361f; }
+.pd-person:hover .pd-person__ph img, .pd-person:focus-visible .pd-person__ph img { transform: scale(1.14); filter: saturate(1.1); }
+.pd-person:hover .pd-person__ph b, .pd-person:focus-visible .pd-person__ph b { transform: scale(1.15); }
+a.pd-person:hover .pd-person__tx span, a.pd-person:focus-visible .pd-person__tx span { color: #a0361f; }
+a.pd-person:hover .pd-person__go, a.pd-person:focus-visible .pd-person__go { width: 16px; margin-left: 2px; opacity: 1; transform: none; }
+a.pd-person:active { transform: translateY(-1px) scale(0.98); }
+@keyframes pdRingSpin { to { transform: rotate(360deg); } }
+@keyframes pdHalo { 0% { transform: scale(1); opacity: 0.45; } 100% { transform: scale(1.45); opacity: 0; } }
+.pd.is-fresh .pd-person { animation: pdPersonIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.pd.is-fresh .pd-person:nth-child(2) { animation-delay: 0.08s; }
+.pd.is-fresh .pd-person:nth-child(3) { animation-delay: 0.16s; }
+.pd.is-fresh .pd-person:nth-child(n + 4) { animation-delay: 0.24s; }
+@keyframes pdPersonIn { from { opacity: 0; transform: translateY(12px) scale(0.96); } to { opacity: 1; transform: none; } }
+html[data-theme="dark"] .pd-person__ring::before { background: rgba(255, 255, 255, 0.2); }
+html[data-theme="dark"] .pd-person__ring::after { background: conic-gradient(from 0deg, #f28b7d, #e0a560, #ffe6c4, #f28b7d); }
+html[data-theme="dark"] .pd-person__ph { box-shadow: 0 0 0 2px #1a0d0a; }
+html[data-theme="dark"] .pd-person:hover, html[data-theme="dark"] .pd-person:focus-visible { background: rgba(255, 255, 255, 0.06); border-color: rgba(242, 139, 125, 0.55); box-shadow: 0 12px 24px -14px rgba(0, 0, 0, 0.8); }
+html[data-theme="dark"] .pd-person:hover .pd-person__ring::before { background: #f28b7d; }
+html[data-theme="dark"] a.pd-person:hover .pd-person__tx span, html[data-theme="dark"] a.pd-person:focus-visible .pd-person__tx span, html[data-theme="dark"] .pd-person__go { color: #ffab98; }
+@media (prefers-reduced-motion: reduce) {
+  .pd-person, .pd-person__ph img, .pd-person__ph b, .pd-person__go { transition: none; }
+  .pd-person:hover, .pd-person:focus-visible { transform: none; }
+  .pd-person:hover .pd-person__ring::after, .pd-person:hover .pd-person__ring::before, .pd.is-fresh .pd-person { animation: none; }
+}
+.pd-person__ph img { z-index: 1; } /* the photo stays above the initials behind it */
+/* the arrow's space is always reserved, so hovering never changes the card's width or nudges its neighbours */
+.pd-person__go, a.pd-person:hover .pd-person__go, a.pd-person:focus-visible .pd-person__go { width: 16px; margin-left: 2px; }
+.pd-person__go { transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+/* "More books by <author>" (above "More from this collection") */
+.pd-related__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.pd-related__head h2 { margin: 0; }
+.pd-related__all { flex: none; font-size: 0.88rem; font-weight: 600; color: #a0361f; white-space: nowrap; }
+.pd-related__all:hover { text-decoration: underline; text-underline-offset: 3px; }
+html[data-theme="dark"] .pd-related__all { color: #ffab98; }
+.pd-related--author + .pd-related { margin-top: 44px; }
+@media (max-width: 560px) { .pd-related__head { flex-direction: column; align-items: flex-start; gap: 4px; } }

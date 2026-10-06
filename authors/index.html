@@ -11,14 +11,14 @@
 <script>try{var t=localStorage.getItem("rk-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../kt/styles.css?v=b48">
-<link rel="stylesheet" href="../hp/hp.css?v=b4"><link rel="stylesheet" href="../books/books.css?v=27"><link rel="stylesheet" href="authors.css?v=7">
+<link rel="stylesheet" href="../kt/styles.css?v=b54">
+<link rel="stylesheet" href="../hp/hp.css?v=b5"><link rel="stylesheet" href="../books/books.css?v=27"><link rel="stylesheet" href="authors.css?v=12">
 </head>
 <body class="hp">
 
 <header class="site-header" id="siteHeader">
   <div class="header-top">
-    <a class="logo" href="../home/">
+    <a class="logo" href="../">
       <img class="logo-img logo-img--full logo-img--top" src="../kt/assets/logo/rkp-logo.svg" alt="Rajkamal Prakashan Samuh">
       <img class="logo-img logo-img--scrolled" src="../kt/assets/logo/rkp-favicon.svg" alt="Rajkamal Prakashan Samuh">
     </a>
@@ -90,12 +90,27 @@
         <span>Sort</span>
         <select id="auSort" aria-label="Sort authors">
           <option value="az">Name अ–ज्ञ</option>
+          <option value="az-en">Name A–Z</option>
           <option value="books">Most books</option>
           <option value="born">Earliest born</option>
         </select>
       </label>
     </div>
     <div class="au-chips" id="auChips" role="group" aria-label="Filter by what they write"></div>
+    <!-- letter index: every Hindi letter (or A–Z); a letter matches any part of a name — see authors.js -->
+    <section class="au-index" id="auIndex" aria-label="Browse authors by letter">
+      <div class="au-index__head">
+        <h2>Browse by name <span class="au-index__now" id="auIndexNow" hidden></span></h2>
+        <div class="au-script" id="auScript" role="group" aria-label="Alphabet">
+          <button type="button" data-ab="hi" aria-pressed="true" lang="hi">अ आ इ</button><button type="button" data-ab="en" aria-pressed="false">A B C</button>
+        </div>
+        <button type="button" class="au-index__toggle" id="auIndexToggle" aria-expanded="true" aria-controls="auIndexBody"><span>Hide</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button>
+      </div>
+      <div class="au-index__body" id="auIndexBody">
+        <div class="au-letters" id="auLetters" role="group"></div>
+        <p class="au-index__hint" id="auHint"></p>
+      </div>
+    </section>
     <div class="au-grid" id="auGrid" aria-live="polite"></div>
     <p class="au-empty" id="auEmpty" hidden>No author matches that. <button type="button" id="auReset">Clear filters</button></p>
     <p class="bk-note">Showing 20 featured authors. <a href="https://www.rajkamalprakashan.com/authors" target="_blank" rel="noopener noreferrer">See all 2,760 on rajkamalprakashan.com ↗</a></p>
@@ -253,8 +268,8 @@
         <span class="office-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 42h40"/><path d="M8 42V22h32v20"/><path d="M8 22l3-5h26l3 5"/><path d="M14 17v-5M24 17v-8M34 17v-5"/><path d="M19 42V32a5 5 0 0 1 10 0v10"/></svg></span>
         <div class="office-text">
           <span class="office-kind">Branch Office</span>
-          <strong>Allahabad</strong>
-          <div class="office-foot"><a class="office-map" href="https://www.google.com/maps/search/?api=1&amp;query=Rajkamal+Prakashan+Allahabad" target="_blank" rel="noopener noreferrer">View on<br>Google Maps</a><a class="office-go" href="https://www.google.com/maps/search/?api=1&amp;query=Rajkamal+Prakashan+Allahabad" target="_blank" rel="noopener noreferrer" aria-label="View Allahabad branch"><i>→</i></a></div>
+          <strong>Prayagraj</strong>
+          <div class="office-foot"><a class="office-map" href="https://www.google.com/maps/search/?api=1&amp;query=Rajkamal+Prakashan+Prayagraj" target="_blank" rel="noopener noreferrer">View on<br>Google Maps</a><a class="office-go" href="https://www.google.com/maps/search/?api=1&amp;query=Rajkamal+Prakashan+Prayagraj" target="_blank" rel="noopener noreferrer" aria-label="View Prayagraj branch"><i>→</i></a></div>
         </div>
       </div>
       <div class="office-box">
@@ -350,12 +365,12 @@
     sync();
   })();
 </script>
-<script src="../kt/mobile-nav.js?v=37"></script>
+<script src="../kt/mobile-nav.js?v=41"></script>
 <script src="../kt/all-books.js?v=9"></script>
 <script src="../kt/forms.js?v=3"></script>
-<script src="../kt/strip.js?v=6"></script>
+<script src="../kt/strip.js?v=7"></script>
 <script src="../books/books-data.js?v=2"></script>
-<script src="authors-data.js?v=1"></script>
-<script src="authors.js?v=5"></script>
+<script src="authors-data.js?v=2"></script>
+<script src="authors.js?v=10"></script>
 </body>
 </html>

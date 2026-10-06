@@ -135,3 +135,10 @@ html[data-theme="dark"] .hp .site-header .header-nav-main a.is-current { backgro
   .hp .site-header .header-nav-main a { padding: 6px 4px; }
   .hp .site-header .header-icons { gap: 4px; }
 }
+
+/* nav pill: the logo (left end) and the last icon (right end) sit the same distance from the pill's side as from its
+   top and bottom — the side padding used to be 20px against ~9px above and below */
+@media (min-width: 721px) {
+  html[data-theme] .hp .site-header .header-top,
+  html[data-theme] .hp .site-header.scrolled .header-top { padding: 9px 10px; }
+}

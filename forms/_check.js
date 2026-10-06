@@ -56,7 +56,7 @@ const ok = (c, m) => { console.log((c ? '  ok  ' : '  FAIL') + ' ' + m); if (!c)
 
   console.log('[home — Hindi Divas mobile + product cover]');
   const { context, page } = await ctx(390, 844, true);
-  await page.goto(BASE + '/home/', { waitUntil: 'networkidle' });
+  await page.goto(BASE + '/', { waitUntil: 'networkidle' });
   await page.waitForTimeout(600);
   const shelf = await page.evaluate(() => {
     const sec = document.getElementById('hm-sec-') || document.querySelector('.hm-sec');

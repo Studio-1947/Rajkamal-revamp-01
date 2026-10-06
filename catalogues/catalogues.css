@@ -1,0 +1,104 @@
+/* Catalogues page — extends kt/content.css.
+   Edge-to-edge hero with a photo background (img/hero.jpg: the catalogue covers, blurred and washed maroon) and a jaali
+   pattern over it; a faint jaali pattern behind the page; six cards, three per row on large screens, each with
+   View / Download / Share. No search box, no breadcrumb. */
+.cat-main { position: relative; padding-top: 0; isolation: isolate; overflow: hidden; }
+/* the pattern is a mask, so it takes the theme's colour */
+.cat-main::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: #a0361f; opacity: 0.055;
+  -webkit-mask: url("img/pattern.svg") 0 0 / 120px 120px; mask: url("img/pattern.svg") 0 0 / 120px 120px; }
+html[data-theme="dark"] .cat-main::before { background: #f3c79a; opacity: 0.05; }
+
+/* ---- hero ---- */
+.cat-hero { position: relative; isolation: isolate; overflow: hidden; margin: 0 0 44px; padding: 72px 0 76px; color: #fff7ec; background: #4a140c url("img/hero.jpg") center / cover no-repeat; }
+.cat-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: #f6d9b4; opacity: 0.1;
+  -webkit-mask: url("img/pattern.svg") 0 0 / 96px 96px; mask: url("img/pattern.svg") 0 0 / 96px 96px; }
+.cat-hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; z-index: -1;
+  background: repeating-linear-gradient(90deg, #e9a23b 0 14px, #a0361f 14px 28px, #f6d9b4 28px 42px); opacity: 0.85; } /* a woven border strip */
+.cat-hero__in { max-width: 1280px; margin: 0 auto; padding: 0 28px; }
+.cat-hero__eyebrow { margin: 0 0 12px; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #f3c79a; }
+.cat-hero__title { margin: 0; font: 600 clamp(2rem, 4.6vw, 3.4rem)/1.1 'Google Sans Flex', 'Noto Sans Devanagari', system-ui, sans-serif; letter-spacing: -0.01em; text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35); }
+.cat-hero__hi { margin: 8px 0 0; font-size: clamp(1.1rem, 2.2vw, 1.5rem); font-weight: 500; color: #f6d9b4; }
+.cat-hero__sub { max-width: 620px; margin: 16px 0 0; font-size: 1.02rem; line-height: 1.65; color: rgba(255, 247, 236, 0.88); }
+.cat-hero__facts { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 0; padding: 0; list-style: none; }
+.cat-hero__facts li { padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(246, 217, 180, 0.4); background: rgba(255, 247, 236, 0.08); font-size: 0.84rem; font-weight: 500; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.cat-hero__facts b { font-weight: 600; color: #ffd9a0; }
+
+/* ---- grid ---- */
+.cat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; }
+.cat-card { display: flex; flex-direction: column; border-radius: 22px; background: #fffdfb; box-shadow: 0 1px 2px rgba(122, 58, 29, 0.06), 0 14px 30px -16px rgba(122, 58, 29, 0.3); overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease; }
+.cat-card:hover, .cat-card:focus-within { transform: translateY(-5px); box-shadow: 0 2px 4px rgba(122, 58, 29, 0.08), 0 26px 44px -18px rgba(122, 58, 29, 0.42); }
+.cat-card__cover { position: relative; display: grid; place-items: center; height: 300px; padding: 26px; overflow: hidden; background: radial-gradient(120% 90% at 20% 0%, #fbeede, #f0d8bf); }
+.cat-card__cover::before { content: ""; position: absolute; inset: 0; background: #a0361f; opacity: 0.09; -webkit-mask: url("img/pattern.svg") center / 80px 80px; mask: url("img/pattern.svg") center / 80px 80px; }
+.cat-card__cover img, .cat-dummy { position: relative; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(60, 20, 10, 0.2), 0 16px 28px -10px rgba(60, 20, 10, 0.5); transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+.cat-card:hover .cat-card__cover img, .cat-card:hover .cat-dummy, .cat-card:focus-within .cat-card__cover img { transform: translateY(-4px) rotate(-2deg) scale(1.04); }
+.cat-card__badge { position: absolute; left: 14px; top: 14px; padding: 5px 11px; border-radius: 999px; background: rgba(255, 253, 251, 0.94); color: #7a2414; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; box-shadow: 0 2px 8px rgba(60, 20, 10, 0.12); }
+.cat-card__badge--soon { background: #a0361f; color: #fff; }
+.cat-card__body { display: flex; flex-direction: column; flex: 1; padding: 20px 22px 22px; }
+.cat-card__title { margin: 0; font-size: 1.18rem; font-weight: 600; line-height: 1.25; color: #4e1209; }
+.cat-card__hi { margin: 3px 0 0; font-size: 0.95rem; font-weight: 500; color: #a0361f; }
+.cat-card__meta { margin: 10px 0 18px; font-size: 0.9rem; line-height: 1.55; color: rgba(78, 18, 9, 0.72); flex: 1; }
+
+/* ---- actions: View (filled) · Download (outline) · Share (round) ---- */
+.cat-card__actions { display: flex; align-items: center; gap: 8px; }
+.cat-act { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: 42px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #a0361f; background: transparent; color: #a0361f; cursor: pointer; text-decoration: none; white-space: nowrap;
+  font: 600 0.86rem 'Google Sans Flex', 'Noto Sans Devanagari', system-ui, sans-serif; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease; }
+.cat-act svg { flex: none; width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.cat-act--view { flex: 1.25 1 0; background: #a0361f; color: #fff; box-shadow: 0 8px 16px -8px rgba(160, 54, 31, 0.7); }
+.cat-act--dl { flex: 1 1 0; }
+.cat-act--share { flex: none; width: 42px; padding: 0; }
+.cat-act:hover, .cat-act:focus-visible { transform: translateY(-2px); outline: none; }
+.cat-act--view:hover, .cat-act--view:focus-visible { background: #8a2c18; border-color: #8a2c18; box-shadow: 0 12px 20px -8px rgba(160, 54, 31, 0.8); }
+.cat-act--dl:hover, .cat-act--dl:focus-visible, .cat-act--share:hover, .cat-act--share:focus-visible { background: #a0361f; color: #fff; }
+.cat-act--view:hover svg { transform: scale(1.15); }
+.cat-act--dl:hover svg { transform: translateY(2px); }
+.cat-act--share:hover svg { transform: rotate(-12deg) scale(1.1); }
+.cat-act:active { transform: scale(0.96); }
+.cat-act[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; pointer-events: none; border-style: dashed; }
+
+/* ---- the placeholder cover for the E-Book catalogue (no PDF yet) ---- */
+.cat-dummy { display: flex; flex-direction: column; justify-content: space-between; width: 176px; height: 246px; padding: 18px 16px; color: #fff7ec; text-align: left; overflow: hidden;
+  background: linear-gradient(155deg, #a0361f, #5a1a0e 70%); }
+.cat-dummy::before { content: ""; position: absolute; inset: 0; background: #f6d9b4; opacity: 0.16; -webkit-mask: url("img/pattern.svg") center / 56px 56px; mask: url("img/pattern.svg") center / 56px 56px; }
+.cat-dummy > * { position: relative; }
+.cat-dummy__kicker { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #f3c79a; }
+.cat-dummy__title { font-size: 1.35rem; font-weight: 600; line-height: 1.12; }
+.cat-dummy__hi { margin-top: 4px; font-size: 0.9rem; color: #f6d9b4; }
+.cat-dummy__foot { display: flex; align-items: center; gap: 7px; font-size: 0.66rem; letter-spacing: 0.06em; opacity: 0.85; }
+.cat-dummy__foot svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.cat-note { margin: 34px 0 0; font-size: 0.86rem; text-align: center; color: rgba(78, 18, 9, 0.6); }
+
+/* ---- dark ---- */
+html[data-theme="dark"] .cat-card { background: #24120c; box-shadow: 0 14px 30px -16px rgba(0, 0, 0, 0.8); }
+html[data-theme="dark"] .cat-card:hover, html[data-theme="dark"] .cat-card:focus-within { box-shadow: 0 26px 44px -18px rgba(0, 0, 0, 0.95); }
+html[data-theme="dark"] .cat-card__cover { background: radial-gradient(120% 90% at 20% 0%, #3a1a10, #24100a); }
+html[data-theme="dark"] .cat-card__cover::before { background: #f3c79a; opacity: 0.08; }
+html[data-theme="dark"] .cat-card__title { color: #fbe9d6; }
+html[data-theme="dark"] .cat-card__hi { color: #ffab98; }
+html[data-theme="dark"] .cat-card__meta, html[data-theme="dark"] .cat-note { color: rgba(251, 233, 214, 0.68); }
+html[data-theme="dark"] .cat-act { border-color: #f28b7d; color: #ffab98; }
+html[data-theme="dark"] .cat-act--view { background: #f28b7d; color: #3a0d08; box-shadow: none; }
+html[data-theme="dark"] .cat-act--view:hover { background: #ffab98; border-color: #ffab98; }
+html[data-theme="dark"] .cat-act--dl:hover, html[data-theme="dark"] .cat-act--share:hover, html[data-theme="dark"] .cat-act--dl:focus-visible, html[data-theme="dark"] .cat-act--share:focus-visible { background: #f28b7d; color: #3a0d08; }
+html[data-theme="dark"] .cat-card__badge { background: rgba(36, 18, 12, 0.92); color: #fbe9d6; }
+html[data-theme="dark"] .cat-card__badge--soon { background: #f28b7d; color: #3a0d08; }
+
+/* ---- smaller screens ---- */
+@media (max-width: 1023px) { .cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; } }
+@media (max-width: 720px) {
+  .cat-hero { padding: 44px 0 48px; margin-bottom: 26px; }
+  .cat-hero__in { padding: 0 16px; }
+  .cat-hero__sub { font-size: 0.95rem; }
+  .cat-hero__facts li { font-size: 0.78rem; padding: 6px 11px; }
+}
+@media (max-width: 600px) {
+  .cat-grid { grid-template-columns: 1fr; }
+  .cat-card__cover { height: 260px; }
+}
+@media (prefers-reduced-motion: reduce) { .cat-card, .cat-card__cover img, .cat-dummy, .cat-act, .cat-act svg { transition: none; } .cat-card:hover { transform: none; } .cat-card:hover .cat-card__cover img, .cat-card:hover .cat-dummy { transform: none; } }
+/* the cover always shows whole: an explicit height (the frame's height minus its padding) — a % max-height doesn't
+   resolve inside the grid cell */
+.cat-card__cover img { max-height: 248px; }
+@media (max-width: 600px) { .cat-card__cover img { max-height: 208px; } .cat-dummy { width: 150px; height: 208px; } .cat-dummy__title { font-size: 1.15rem; } }

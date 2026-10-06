@@ -276,7 +276,7 @@
     bar.className = "mobile-tabbar";
     bar.setAttribute("aria-label", "Quick navigation");
     bar.innerHTML =
-      '<a class="mobile-tab mobile-tab--home" href="' + ROOT + 'home/" data-tab="home"><img class="mobile-tab__logo mobile-tab__logo--light" src="' + ROOT + 'kt/assets/logo/rkp-favicon.svg" alt="" width="20" height="20"><img class="mobile-tab__logo mobile-tab__logo--dark" src="' + ROOT + 'kt/assets/logo/rkp-favicon-dark.svg" alt="" width="20" height="20"><span>Home</span></a>' +
+      '<a class="mobile-tab mobile-tab--home" href="' + ROOT + '" data-tab="home"><img class="mobile-tab__logo mobile-tab__logo--light" src="' + ROOT + 'kt/assets/logo/rkp-favicon.svg" alt="" width="20" height="20"><img class="mobile-tab__logo mobile-tab__logo--dark" src="' + ROOT + 'kt/assets/logo/rkp-favicon-dark.svg" alt="" width="20" height="20"><span>Home</span></a>' +
       '<button type="button" class="mobile-tab" data-tab="search" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M12 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M7 4.5c1.6-1 3.4-1 5 0"/><circle cx="16.3" cy="15.3" r="3.3"/><path d="m18.7 17.7 2 2"/></svg><span>Search Books</span></button>' +
       '<button type="button" class="mobile-tab" data-tab="profile"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"/></svg><span>Profile</span></button>' +
       '<button type="button" class="mobile-tab" data-tab="wish"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><span class="mobile-tab__badge" hidden></span><span>Wishlist</span></button>' +
@@ -340,7 +340,7 @@
       } else if (act.dataset.popAct === "offers") {
         location.href = ROOT + "offers/";
       } else if (act.dataset.popAct === "all") {
-        location.href = ROOT + "home/";
+        location.href = ROOT;
       }
     });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !searchSheet.hidden) setSearchSheet(false); });
@@ -374,8 +374,9 @@
         '<a class="mobile-profile__row" href="' + ROOT + 'account/?tab=orders" data-act="orders" data-when="in"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg></span><span class="mobile-profile__label">My Orders</span></a>' +
         '<button type="button" class="mobile-profile__row" data-act="wish" data-when="in"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span><span class="mobile-profile__label">Wishlist</span></button>' +
         '<button type="button" class="mobile-profile__row" data-act="cart"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2.5 3h2l2.3 12.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6"/></svg></span><span class="mobile-profile__label">Cart</span></button>' +
-        '<a class="mobile-profile__row" href="' + ROOT + 'books/?g=all" data-act="books"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span><span class="mobile-profile__label">All Books</span></a>' +
         '<a class="mobile-profile__row" href="https://wa.me/" target="_blank" rel="noopener noreferrer" data-act="help"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.3 8.3 0 0 1-4-1L3 20l1.2-5.5a8.3 8.3 0 0 1-1.1-4.2A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5Z"/></svg></span><span class="mobile-profile__label">Help via WhatsApp</span></a>' +
+        /* Log out: always the last row; only shown when signed in */
+        '<button type="button" class="mobile-profile__row mobile-profile__row--logout" data-act="logout" data-when="in"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg></span><span class="mobile-profile__label">Log out</span></button>' +
       '</div>';
     document.body.appendChild(profileSheet);
 
@@ -410,6 +411,14 @@
         if (toggle) toggle.click();
         syncThemeSwitch();
       } else if (row.dataset.act === "wish") { setProfile(false); Store.openWishlist(); }
+      else if (row.dataset.act === "logout") {
+        /* same flag the account page uses; if you're on the account page it reloads into its signed-out view */
+        try { localStorage.setItem("rk-signed-in", "false"); } catch (err) {}
+        setProfile(false);
+        if (Store.toast) Store.toast("Logged out");
+        document.dispatchEvent(new CustomEvent("rk-signed-out"));
+        if (/\/account\/?(index\.html)?$/.test(location.pathname)) setTimeout(function () { location.reload(); }, 500);
+      }
       else if (row.dataset.act === "cart") { setProfile(false); Store.openCart(true); }
       else if (row.dataset.act === "books" && window.RKAllBooks) { e.preventDefault(); setProfile(false); window.RKAllBooks.open(); }
       else if (row.dataset.act === "account" || row.dataset.act === "orders") {
@@ -517,4 +526,28 @@
   });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") { setSearch(false); setMenu(false); } });
   mq.addEventListener && mq.addEventListener("change", function (e) { if (!e.matches) { setSearch(false); setMenu(false); } });
+
+  /* ---- footer on phones: link lists become tap-to-open headings, and the four office cards become one line that
+     opens the Contact page (styles: end of kt/styles.css; nothing changes on larger screens) ---- */
+  (function () {
+    var f = document.querySelector(".site-footer"); if (!f) return;
+    var sc = document.querySelector('script[src*="mobile-nav.js"]'), R = sc ? sc.src.replace(/kt\/mobile-nav\.js.*$/, "") : "../";
+    f.querySelectorAll(".footer-stack > div").forEach(function (g, n) {
+      var h = g.querySelector("h4"), ul = g.querySelector("ul"); if (!h || !ul) return;
+      ul.id = ul.id || "ftAcc" + n;
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "footer-acc"; b.setAttribute("aria-expanded", "false"); b.setAttribute("aria-controls", ul.id);
+      b.innerHTML = "<span>" + h.innerHTML + '</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+      h.innerHTML = ""; h.appendChild(b); g.classList.add("footer-accgroup");
+      b.addEventListener("click", function () { var on = g.classList.toggle("is-open"); b.setAttribute("aria-expanded", String(on)); });
+    });
+    var off = f.querySelector(".footer-offices");
+    if (off && !off.querySelector(".footer-offices-line")) {
+      var names = [].map.call(off.querySelectorAll(".office-box strong"), function (x) { return x.textContent.trim(); }).join(" · ");
+      var a = document.createElement("a");
+      a.className = "footer-offices-line"; a.href = R + "contact/#offices";
+      a.innerHTML = "<span>Our offices</span><b>" + names + '</b><i aria-hidden="true">→</i>';
+      off.appendChild(a);
+    }
+  })();
 })();

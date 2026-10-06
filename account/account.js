@@ -143,42 +143,37 @@
       history: hist,
     });
   }
-  if (read(OKEY, null) === null) {
-    var mk = function (id) {
-      return "../books/covers/" + id + ".jpg";
-    };
-    var one = {
-      id: "RK71829304",
-      date: "2026-09-18",
-      eta: "2026-09-24",
-      total: 538.3,
-      pay: "upi",
-      status: "delivered",
-      addr: "B-14, Second Floor, Nizamuddin East, New Delhi 110013",
-      items: [
-        { id: "godan", qty: 1, price: 269.1, disc: 10 },
-        { id: "maila-anchal", qty: 1, price: 319.2, disc: 20 },
-      ],
-    };
-    var two = {
-      id: "RK71760112",
-      date: "2026-08-30",
-      eta: "2026-09-05",
-      total: 239.2,
-      pay: "cod",
-      status: "delivered",
-      addr: "3rd Floor, Tower B, Vatika Towers, Gurugram 122003",
-      items: [
-        { id: "nithalle-bahut-busy-hain", qty: 1, price: 239.2, disc: 20 },
-      ],
-    };
-    [one, two].forEach(function (o) {
-      o.items.forEach(function (it) {
-        it.img = mk(it.id);
+  /* demo orders: one for every status, so the Orders tab shows the full range. Orders placed in this browser (checkout)
+     are kept; the demo set is added once per seed version. */
+  (function seedOrders() {
+    var SEED = "3", have = read(OKEY, null);
+    try { if (have !== null && localStorage.getItem("rk-orders-seed") === SEED) return; } catch (e) {}
+    var all = allBooks();
+    function mk(id, date, eta, status, pay, addr, items, extra) {
+      var total = 0, its = items.map(function (it) {
+        var b = all[it[0]] || [it[0], "", it[2] || 250, 0], price = b[2], disc = b[3] || 0;
+        total += price * (it[1] || 1);
+        return { id: it[0], qty: it[1] || 1, price: price, disc: disc, img: "../books/covers/" + it[0] + ".jpg" };
       });
-    });
-    write(OKEY, [one, two]);
-  }
+      var o = { id: id, date: date, eta: eta, total: Math.round(total * 100) / 100, pay: pay, status: status, addr: addr, items: its, demo: true };
+      for (var k in extra || {}) o[k] = extra[k];
+      return o;
+    }
+    var HOME = "B-14, Second Floor, Nizamuddin East, New Delhi 110013", WORK = "3rd Floor, Tower B, Vatika Towers, Gurugram 122003";
+    var demo = [
+      mk("RK72010455", "2026-10-05", "2026-10-11", "processing", "card", HOME, [["rag-darbari", 1], ["kasap", 1]]),
+      mk("RK71993871", "2026-10-04", "2026-10-09", "packed", "upi", WORK, [["sara-aakash", 2]]),
+      mk("RK71988120", "2026-10-02", "2026-10-08", "shipped", "upi", HOME, [["1984", 1], ["chitralekha", 1], ["parinde", 1]], { awb: "DTDC 84920117365" }),
+      mk("RK71960233", "2026-09-30", "2026-10-06", "out", "cod", HOME, [["aadhe-adhoore", 1]], { awb: "BLUEDART 7714402918" }),
+      mk("RK71829304", "2026-09-18", "2026-09-24", "delivered", "upi", HOME, [["godan", 1], ["maila-anchal", 1]], { deliveredOn: "2026-09-23" }),
+      mk("RK71760112", "2026-08-30", "2026-09-05", "delivered", "cod", WORK, [["nithalle-bahut-busy-hain", 1]], { deliveredOn: "2026-09-04" }),
+      mk("RK71690877", "2026-08-12", "2026-08-18", "cancelled", "card", HOME, [["agam-bahai-dariyav", 1]], { closedOn: "2026-08-13" }),
+      mk("RK71544002", "2026-07-21", "2026-07-27", "returned", "upi", WORK, [["bholaram-ka-jeev", 1], ["varchasva", 1]], { deliveredOn: "2026-07-26", closedOn: "2026-08-01" })
+    ];
+    var mine = (have || []).filter(function (o) { return o && o.local; }); /* real checkouts from this browser */
+    write(OKEY, mine.concat(demo).sort(function (x, y) { return x.date < y.date ? 1 : x.date > y.date ? -1 : 0; }));
+    try { localStorage.setItem("rk-orders-seed", SEED); } catch (e) {}
+  })();
 
   /* ---------- store helpers ---------- */
   function profile() {
@@ -397,67 +392,40 @@
     );
   }
 
+  /* one order: status + a plain sentence, the facts (aligned label / value), progress steps while it is on its way,
+     the books, then the total and the actions that fit the status */
+  var orderFilter = "all";
   function orderCard(o) {
-    var PAY = {
-      upi: "UPI",
-      card: "Credit / Debit Card",
-      cod: "Cash on Delivery",
-    };
-    var delivered = o.status === "delivered";
+    var R = window.RKOrder, st = R.norm(o.status), on = R.active(o);
+    var n = (o.items || []).reduce(function (t, it) { return t + (it.qty || 1); }, 0);
     var items = (o.items || [])
       .map(function (it) {
-        var b = allBooks()[it.id],
-          t = b ? b[0] : it.title || it.id;
-        var a = b ? b[1] : "";
+        var b = allBooks()[it.id], t = b ? b[0] : it.title || it.id, a = b ? b[1] : "";
         return (
           '<div class="acc-oi">' +
-          (it.img
-            ? '<img src="' +
-              esc(it.img) +
-              '" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">'
-            : bookImg(it.id, "", 44, 66)) +
-          '<div><div class="acc-oi__t">' +
-          esc(t) +
-          '</div><div class="acc-oi__m">' +
-          esc(a) +
-          (a ? " · " : "") +
-          "Qty " +
-          it.qty +
-          "</div></div></div>"
+          (it.img ? '<img src="' + esc(it.img) + '" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">' : bookImg(it.id, "", 44, 66)) +
+          '<div><div class="acc-oi__t">' + esc(t) + '</div><div class="acc-oi__m">' + esc(a) + (a ? " · " : "") + "Qty " + it.qty + "</div></div></div>"
         );
       })
       .join("");
+    var view = "../books/order/?id=" + encodeURIComponent(o.id) + "&view=1";
     return (
-      '<article class="acc-order">' +
-      '<div class="acc-order__top">' +
-      "<div><span>Order ID</span><b>" +
-      esc(o.id) +
-      "</b></div>" +
-      "<div><span>Placed on</span><b>" +
-      fmtDate(o.date) +
-      "</b></div>" +
-      "<div><span>Payment</span><b>" +
-      (PAY[o.pay] || esc(o.pay || "UPI")) +
-      "</b></div>" +
-      '<span class="acc-chip' +
-      (delivered ? " acc-chip--done" : " acc-chip--transit") +
-      '">' +
-      (delivered ? "Delivered" : "In transit") +
-      "</span>" +
-      "</div>" +
-      '<div class="acc-order__items">' +
-      items +
-      "</div>" +
-      '<div class="acc-order__foot"><span class="acc-order__total">Total <b>' +
-      fmt(o.total) +
-      "</b></span>" +
-      '<a class="acc-btn acc-btn--ghost" href="../books/order/?id=' +
-      encodeURIComponent(o.id) +
-      '">View details</a>' +
-      '<button type="button" class="acc-btn acc-btn--primary" data-reorder="' +
-      esc(o.id) +
-      '">Buy again</button></div>' +
-      "</article>"
+      '<article class="acc-order acc-order--' + st + '">' +
+      '<header class="acc-order__head">' + R.chip(o) + '<p class="acc-order__line">' + esc(R.line(o)) + "</p></header>" +
+      '<dl class="acc-order__meta">' +
+      "<div><dt>Order ID</dt><dd>" + esc(o.id) + "</dd></div>" +
+      "<div><dt>Placed on</dt><dd>" + fmtDate(o.date) + "</dd></div>" +
+      "<div><dt>Payment</dt><dd>" + (R.pay[o.pay] || esc(o.pay || "UPI")) + "</dd></div>" +
+      "<div><dt>Items</dt><dd>" + n + (n === 1 ? " book" : " books") + "</dd></div>" +
+      "</dl>" +
+      (on ? '<div class="acc-order__track">' + R.tracker(o) + "</div>" : "") +
+      '<div class="acc-order__items">' + items + "</div>" +
+      '<div class="acc-order__foot"><span class="acc-order__total">Total <b>' + fmt(o.total) + "</b></span>" +
+      '<a class="acc-btn acc-btn--ghost" href="' + view + '">View details</a>' +
+      (on
+        ? '<a class="acc-btn acc-btn--primary" href="' + view + '#track">Track order</a>'
+        : '<button type="button" class="acc-btn acc-btn--primary" data-reorder="' + esc(o.id) + '">Buy again</button>') +
+      "</div></article>"
     );
   }
   function fmtDate(iso) {
@@ -480,8 +448,19 @@
         "../books/",
       );
     return (
-      '<p class="acc-sub">Deliveries, invoices and re-orders — demo data saved in this browser.</p>' +
-      list.map(orderCard).join("")
+      '<p class="acc-sub">Deliveries, returns and re-orders — demo data saved in this browser.</p>' +
+      /* filter: All · On the way · Delivered · Cancelled / returned */
+      (function () {
+        var R = window.RKOrder, f = orderFilter;
+        var G = { all: function () { return true; }, active: function (o) { return R.active(o); }, delivered: function (o) { return R.norm(o.status) === "delivered"; },
+                  closed: function (o) { var s = R.norm(o.status); return s === "cancelled" || s === "returned"; } };
+        var shown = list.filter(G[f] || G.all);
+        return '<div class="acc-ofilter" role="group" aria-label="Filter orders">' +
+          [["all", "All"], ["active", "On the way"], ["delivered", "Delivered"], ["closed", "Cancelled / returned"]].map(function (t) {
+            return '<button type="button" class="acc-ofilter__btn" data-ofilter="' + t[0] + '" aria-pressed="' + (f === t[0]) + '">' + t[1] + " <i>" + list.filter(G[t[0]]).length + "</i></button>";
+          }).join("") + "</div>" +
+          (shown.length ? shown.map(orderCard).join("") : '<p class="acc-sub">No orders here.</p>');
+      })()
     );
   }
 
@@ -1048,6 +1027,9 @@
     }
 
     if (tab === "orders") {
+      root.querySelectorAll("[data-ofilter]").forEach(function (b) {
+        b.addEventListener("click", function () { orderFilter = b.getAttribute("data-ofilter"); render("orders"); });
+      });
       root.querySelectorAll("[data-reorder]").forEach(function (b) {
         b.addEventListener("click", function () {
           var o = orders().filter(function (x) {

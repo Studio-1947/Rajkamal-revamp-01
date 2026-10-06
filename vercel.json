@@ -1,7 +1,55 @@
 {
   "trailingSlash": true,
   "redirects": [
-    { "source": "/kt3", "destination": "/mobile/", "permanent": false },
-    { "source": "/kt3/", "destination": "/mobile/", "permanent": false }
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/home/",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/kt",
+      "destination": "/offers/",
+      "permanent": false
+    },
+    {
+      "source": "/kt/",
+      "destination": "/offers/",
+      "permanent": false
+    },
+    {
+      "source": "/kt2",
+      "destination": "/offers/",
+      "permanent": false
+    },
+    {
+      "source": "/kt2/",
+      "destination": "/offers/",
+      "permanent": false
+    },
+    {
+      "source": "/kt3",
+      "destination": "/offers/",
+      "permanent": false
+    },
+    {
+      "source": "/kt3/",
+      "destination": "/offers/",
+      "permanent": false
+    },
+    {
+      "source": "/mobile",
+      "destination": "/offers/",
+      "permanent": false
+    },
+    {
+      "source": "/mobile/",
+      "destination": "/offers/",
+      "permanent": false
+    }
   ]
 }
