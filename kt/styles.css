@@ -4867,3 +4867,9 @@ html[data-theme="dark"] .rk-track li i { background: #1a0d0a; border-color: rgba
   html body .site-footer .footer-brand .footer-contact-list { padding-left: 10px; }
   html body .site-footer .footer-brand .footer-contact-list li { font-size: 0.66rem; }
 }
+@media (max-width: 720px) {
+  /* phone footer (user): larger social icons; the © line only shows once the footer is expanded */
+  html body .site-footer .social-row { gap: 12px; flex-wrap: wrap; }
+  html body .site-footer .social-row a { width: 42px; height: 42px; font-size: 1.15rem; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; }
+  html body .site-footer:not(.is-more) .footer-copy--end { visibility: hidden; height: 0; margin: 0; padding-top: 0; border: 0; overflow: hidden; } /* keeps its bottom padding: room for the floating tab bar */
+}

@@ -1191,3 +1191,50 @@ html[data-theme="light"] .offer-giftline__more { color: #a0361f; }
 }
 
 
+
+/* ---------- round 13 (user, from a phone screenshot) ----------
+   1. collection cards: the round arrow sits at the same spot on every card (the "30% OFF" text is a fixed width with
+      even-width digits), and the arrow itself is drawn, not a font glyph — it looked off-centre on some phones;
+   2. phones: each offer card is a ROW — the gifts picture on the left, amount + discount on the right. */
+.card-grid .badge { font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; justify-content: space-between; width: 7.7em; gap: 0; white-space: nowrap; }
+.card-grid .badge .arrow { flex: none; }
+.card-grid .badge .arrow i { display: block; width: 46%; height: 46%; font-size: 0; line-height: 0; transform: none; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 18 18 6M9 6h9v9'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 18 18 6M9 6h9v9'/%3E%3C/svg%3E") center / contain no-repeat; }
+
+@media (max-width: 720px) {
+  html[data-theme] .kt3-top .offer-tiers { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  html[data-theme] .kt3-top .offer-tiers .offer-tier,
+  html[data-theme] .kt3-top .offer-tiers .offer-tier:nth-child(3) { display: grid; grid-template-columns: 38% minmax(0, 1fr); align-items: stretch; padding: 0; border-radius: 16px; }
+  .kt3-top .offer-tiers .offer-thumb { grid-column: 1; grid-row: 1 / span 2; aspect-ratio: auto; height: 100%; min-height: 118px; }
+  .kt3-top .offer-tiers .offer-body { grid-column: 2; align-items: flex-start; justify-content: center; text-align: left; padding: 12px 14px 12px; }
+  .kt3-top .offer-tiers .offer-head { justify-content: flex-start; text-align: left; }
+  .kt3-top .offer-tiers .offer-spend { align-items: flex-start; }
+  .kt3-top .offer-tiers .offer-kicker { font-size: 0.62rem; letter-spacing: 0.12em; }
+  html[data-theme] .kt3-top .offer-tiers .offer-tier .offer-amount,
+  html[data-theme] .kt3-top .offer-tiers .offer-tier:nth-child(3) .offer-amount { font-size: 1.6rem; }
+  html[data-theme] .kt3-top .offer-tiers .offer-tier .offer-discount-pill,
+  html[data-theme] .kt3-top .offer-tiers .offer-tier .offer-discount-pill--highlight { align-self: flex-start; margin-top: 8px; padding: 5px 14px; font-size: 0.82rem; }
+  .offer-giftline { margin-top: 8px; font-size: 0.74rem; line-height: 1.35; }
+  .kt3-top .offer-tiers .offer-note { grid-column: 2; margin: 0 12px 12px 14px; padding: 8px 10px; font-size: 0.72rem; }
+}
+
+/* round 14 (user): on phones the gifts picture fills its side of the offer row edge to edge — the slot is now the
+   picture's own shape (wider, 44% of the card), so the picture is no longer a small scene inside a tall narrow strip */
+@media (max-width: 720px) {
+  html[data-theme] .kt3-top .offer-tiers .offer-tier,
+  html[data-theme] .kt3-top .offer-tiers .offer-tier:nth-child(3) { grid-template-columns: 44% minmax(0, 1fr); align-items: stretch; }
+  .kt3-top .offer-tiers .offer-thumb { align-self: stretch; height: auto; min-height: 0; aspect-ratio: 300 / 262; background: #f3c98f; }
+  .kt3-top .offer-tiers .offer-thumb img { object-fit: cover; object-position: center; transform: scale(1.12); }
+  .kt3-top .offer-tiers .offer-tier:hover .offer-thumb img { transform: scale(1.12); }
+  .kt3-top .offer-tiers .offer-body { padding: 10px 12px; }
+  html[data-theme] .kt3-top .offer-tiers .offer-tier .offer-amount,
+  html[data-theme] .kt3-top .offer-tiers .offer-tier:nth-child(3) .offer-amount { font-size: 1.45rem; }
+  html[data-theme] .kt3-top .offer-tiers .offer-tier .offer-discount-pill,
+  html[data-theme] .kt3-top .offer-tiers .offer-tier .offer-discount-pill--highlight { margin-top: 6px; padding: 4px 12px; font-size: 0.78rem; }
+  .offer-giftline { margin-top: 6px; font-size: 0.7rem; }
+}
+@media (max-width: 720px) {
+  .kt3-top .offer-tiers .offer-thumb { width: 100%; aspect-ratio: auto; min-height: 132px; } /* fills its whole column */
+  .kt3-top .offer-tiers .offer-thumb img, .kt3-top .offer-tiers .offer-tier:hover .offer-thumb img { transform: none; }
+}
