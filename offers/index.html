@@ -11,7 +11,7 @@
 <script>try{var t=localStorage.getItem("rk-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../kt/styles.css?v=b58"><link rel="stylesheet" href="set2.css?v=4"><link rel="stylesheet" href="set3.css?v=84">
+<link rel="stylesheet" href="../kt/styles.css?v=b58"><link rel="stylesheet" href="set2.css?v=4"><link rel="stylesheet" href="set3.css?v=88">
 </head>
 <body>
 
@@ -119,34 +119,41 @@
 </div>
 <section class="offer-tiers">
   <!-- one offer = one thumbnail: a picture of all its gifts across the top, then the amount and the extra discount -->
-  <div class="offer-tier">
-    <div class="offer-thumb"><img src="assets/gifts/tier1.svg?v=2" alt="Free gifts: संविधान थैला, बुकमार्क, Notepad" width="300" height="262" loading="lazy"></div>
-    <div class="offer-body">
-      <div class="offer-head"><div class="offer-spend"><span class="offer-kicker">Shop for</span><div class="offer-amount">₹2,000<span>+</span></div></div></div>
-      <div class="offer-discount-pill"><span class="d-long"><b>5%</b> extra discount</span><span class="d-short">Extra 5% off</span></div>
-      <p class="offer-giftline"><b>Free:</b> संविधान थैला · बुकमार्क · Notepad</p>
+  <div class="offer-tier-slot">
+    <div class="offer-tier">
+      <div class="offer-thumb"><img src="assets/gifts/tier1.svg?v=3" alt="Free gifts: संविधान थैला, बुकमार्क, Notepad" width="300" height="262" loading="lazy"></div>
+      <div class="offer-body">
+        <div class="offer-head"><div class="offer-spend"><span class="offer-kicker">Shop for</span><div class="offer-amount">₹2,000<span>+</span></div></div></div>
+        <div class="offer-discount-pill"><span class="d-long"><b>5%</b> extra discount</span><span class="d-short">Extra 5% off</span></div>
+        <p class="offer-giftline"><b>Free:</b> संविधान थैला · बुकमार्क · Notepad</p>
+      </div>
     </div>
   </div>
   <!-- one offer = one thumbnail: a picture of all its gifts across the top, then the amount and the extra discount -->
-  <div class="offer-tier">
-    <div class="offer-thumb"><img src="assets/gifts/tier2.svg?v=2" alt="Free gifts: संविधान थैला, बुकमार्क, Box Calendar, पेंसिल" width="300" height="262" loading="lazy"></div>
-    <div class="offer-body">
-      <div class="offer-head"><div class="offer-spend"><span class="offer-kicker">Shop for</span><div class="offer-amount">₹5,000<span>+</span></div></div></div>
-      <div class="offer-discount-pill"><span class="d-long"><b>7%</b> extra discount</span><span class="d-short">Extra 7% off</span></div>
-      <p class="offer-giftline"><b>Free:</b> संविधान थैला · बुकमार्क · Box Calendar · पेंसिल</p>
+  <div class="offer-tier-slot">
+    <div class="offer-tier">
+      <div class="offer-thumb"><img src="assets/gifts/tier2.svg?v=3" alt="Free gifts: संविधान थैला, बुकमार्क, Box Calendar, पेंसिल" width="300" height="262" loading="lazy"></div>
+      <div class="offer-body">
+        <div class="offer-head"><div class="offer-spend"><span class="offer-kicker">Shop for</span><div class="offer-amount">₹5,000<span>+</span></div></div></div>
+        <div class="offer-discount-pill"><span class="d-long"><b>7%</b> extra discount</span><span class="d-short">Extra 7% off</span></div>
+        <p class="offer-giftline"><b>Free:</b> संविधान थैला · बुकमार्क · Box Calendar · पेंसिल</p>
+      </div>
     </div>
   </div>
   <!-- one offer = one thumbnail: a picture of all its gifts across the top, then the amount and the extra discount -->
-  <div class="offer-tier">
-    <div class="offer-thumb"><img src="assets/gifts/tier3.svg?v=2" alt="Free gifts: आकर्षक थैला, Box Calendar, Pen, Notepad, Pustak Mitra Yojana membership (1 year)" width="300" height="262" loading="lazy"></div>
-    <div class="offer-body">
-      <div class="offer-head"><div class="offer-spend"><span class="offer-kicker">Shop for</span><div class="offer-amount">₹10,000<span>+</span></div></div></div>
-      <div class="offer-discount-pill"><span class="d-long"><b>10%</b> extra discount</span><span class="d-short">Extra 10% off</span></div>
-      <p class="offer-giftline"><b>Free:</b> आकर्षक थैला · Box Calendar · Pen + <a href="#offerGiftsDetails" class="offer-giftline__more" title="Notepad, Pustak Mitra Yojana membership (1 year)">2 more</a></p>
+  <div class="offer-tier-slot">
+    <div class="offer-tier">
+      <div class="offer-thumb"><img src="assets/gifts/tier3.svg?v=3" alt="Free gifts: आकर्षक थैला, Box Calendar, Pen, Notepad, Pustak Mitra Yojana membership (1 year)" width="300" height="262" loading="lazy"></div>
+      <div class="offer-body">
+        <div class="offer-head"><div class="offer-spend"><span class="offer-kicker">Shop for</span><div class="offer-amount">₹10,000<span>+</span></div></div></div>
+        <div class="offer-discount-pill"><span class="d-long"><b>10%</b> extra discount</span><span class="d-short">Extra 10% off</span></div>
+        <p class="offer-giftline"><b>Free:</b> आकर्षक थैला · Box Calendar · Pen <span class="offer-giftline__extra" id="extraGifts10k" hidden>· Notepad · पुस्तक मित्र योजना सदस्यता (1 year)</span> <button type="button" class="offer-giftline__more" id="toggleMoreGiftsBtn" aria-expanded="false" aria-controls="extraGifts10k">+ 2 more</button></p>
+      </div>
     </div>
   </div>
 </section>
 </div>
+
 
 <section class="card-grid" id="cardGrid">
   <!-- Cards injected by script.js -->
@@ -512,6 +519,30 @@
     window.addEventListener("storage", render);
     window.addEventListener("load", render);
     render();
+  })();
+
+  /* Inline reveal for the 2 extra gifts on the 10k tier */
+  (function () {
+    var btn = document.getElementById("toggleMoreGiftsBtn");
+    var extra = document.getElementById("extraGifts10k");
+    if (!btn || !extra) return;
+    var tierCard = btn.closest(".offer-tier");
+
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      var isExpanded = btn.getAttribute("aria-expanded") === "true";
+      if (isExpanded) {
+        extra.hidden = true;
+        btn.setAttribute("aria-expanded", "false");
+        btn.textContent = "+ 2 more";
+        if (tierCard) tierCard.classList.remove("is-gifts-expanded");
+      } else {
+        extra.hidden = false;
+        btn.setAttribute("aria-expanded", "true");
+        btn.textContent = "less";
+        if (tierCard) tierCard.classList.add("is-gifts-expanded");
+      }
+    });
   })();
 </script>
 </body>
