@@ -128,7 +128,7 @@
   }
   function open(full) {
     if (!root) build();
-    if (!window.RK_COLLECTIONS) { load(BASE + "books-data.js?v=2", function () { open(full); }); return; }
+    if (!window.RK_COLLECTIONS) { load(BASE + "books-data.js?v=4", function () { open(full); }); return; }
     lookup = null;
     lastFocus = document.activeElement;
     render();

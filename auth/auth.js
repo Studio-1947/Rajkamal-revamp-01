@@ -251,7 +251,7 @@
               field({ name: "password", label: "Password", type: "password", ph: "At least 8 characters", auto: "new-password", help: "At least 8 characters. Mix letters and numbers for a stronger password.", meter: true }) +
               primary("Create account")) +
         "</form>" +
-        '<p class="auth-fine">By continuing you agree to our <a class="auth-link" href="https://www.rajkamalprakashan.com/terms-and-conditions" target="_blank" rel="noopener noreferrer">Terms</a> and <a class="auth-link" href="https://www.rajkamalprakashan.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</p>' + DEMO);
+        '<p class="auth-fine">By continuing you agree to our <a class="auth-link" href="../../terms-and-conditions/">Terms</a> and <a class="auth-link" href="../../privacy-policy/">Privacy Policy</a>.</p>' + DEMO);
       onTabs(function (t) { if (t !== tab) { tab = t; draw(); root.querySelector(".auth-form input").focus(); } });
       root.querySelector(".auth-form").addEventListener("submit", function (e) {
         e.preventDefault();

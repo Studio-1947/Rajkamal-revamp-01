@@ -135,7 +135,7 @@
   function setExpanded(on) { expanded = on; panel.classList.toggle("is-full", on); root.querySelectorAll("[data-expand]").forEach(function (b) { b.setAttribute("aria-label", on ? "Shrink wishlist" : "Expand to full screen"); }); }
   function open(full) {
     if (!root) build();
-    if (!window.RK_COLLECTIONS) { var s = document.createElement("script"); s.src = BASE + "books-data.js?v=2"; s.onload = function () { open(full); }; document.head.appendChild(s); return; }
+    if (!window.RK_COLLECTIONS) { var s = document.createElement("script"); s.src = BASE + "books-data.js?v=4"; s.onload = function () { open(full); }; document.head.appendChild(s); return; }
     lookup = null;
     render();
     setExpanded(!!full);
