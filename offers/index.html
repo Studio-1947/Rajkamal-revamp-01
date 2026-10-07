@@ -11,7 +11,7 @@
 <script>try{var t=localStorage.getItem("rk-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../kt/styles.css?v=b54"><link rel="stylesheet" href="set2.css?v=4"><link rel="stylesheet" href="set3.css?v=77">
+<link rel="stylesheet" href="../kt/styles.css?v=b58"><link rel="stylesheet" href="set2.css?v=4"><link rel="stylesheet" href="set3.css?v=84">
 </head>
 <body>
 
@@ -118,86 +118,32 @@
   </div>
 </div>
 <section class="offer-tiers">
+  <!-- one offer = one thumbnail: a picture of all its gifts across the top, then the amount and the extra discount -->
   <div class="offer-tier">
-    <div class="offer-head">
-      <div class="diya-wrap diya-wrap--top-left">
-        <svg class="diya-icon" viewBox="0 0 64 76" width="40" height="47">
-          <ellipse class="diya-spark diya-spark-1" cx="14" cy="18" r="1.6"/>
-          <ellipse class="diya-spark diya-spark-2" cx="48" cy="14" r="1.3"/>
-          <ellipse class="diya-spark diya-spark-3" cx="34" cy="6" r="1.1"/>
-          <ellipse class="diya-spark diya-spark-4" cx="22" cy="8" r="1"/>
-          <g class="diya-flame-group">
-            <path class="diya-flame-outer" d="M32 12C24 24 22 32 27 39C29.5 42.5 34.5 42.5 37 39C42 32 40 24 32 12Z"/>
-            <path class="diya-flame-inner" d="M32 24C28 30 27.5 34 30.5 37C31.5 38 32.5 38 33.5 37C36.5 34 36 30 32 24Z"/>
-          </g>
-          <path class="diya-bowl" d="M6 46C6 46 16 58 32 58C48 58 58 46 58 46C58 46 52 66 32 66C12 66 6 46 6 46Z"/>
-          <ellipse class="diya-rim" cx="32" cy="46" rx="26" ry="7"/>
-        </svg>
-      </div>
-      <div class="offer-spend"><span class="offer-kicker">Shop for</span><div class="offer-amount">₹2,000<span>+</span></div></div>
+    <div class="offer-thumb"><img src="assets/gifts/tier1.svg?v=2" alt="Free gifts: संविधान थैला, बुकमार्क, Notepad" width="300" height="262" loading="lazy"></div>
+    <div class="offer-body">
+      <div class="offer-head"><div class="offer-spend"><span class="offer-kicker">Shop for</span><div class="offer-amount">₹2,000<span>+</span></div></div></div>
+      <div class="offer-discount-pill"><span class="d-long"><b>5%</b> extra discount</span><span class="d-short">Extra 5% off</span></div>
+      <p class="offer-giftline"><b>Free:</b> संविधान थैला · बुकमार्क · Notepad</p>
     </div>
-    <div class="offer-discount-pill"><span class="d-long"><b>5%</b> extra discount</span><span class="d-short">Extra 5% off</span></div>
-    <p class="offer-perk-title"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13M12 8c-1.6-3.4-5.4-3.4-5.4-1.2S9.800 8 12 8zm0 0c1.600-3.400 5.400-3.400 5.400-1.200S14.200 8 12 8z"/></svg><span>Free gifts<i> with your order</i></span></p>
-    <ul class="offer-gifts">
-      <li><span class="offer-gift__ic"><svg class="is-art" viewBox="0 0 48 48" aria-hidden="true"><path d="M9 19h30l-2.200 21a3 3 0 0 1-3 2.700H14.200a3 3 0 0 1-3-2.700z" fill="#ffc93c"/><path d="M9 19h30l-.5 5H9.500z" fill="#f0a91e"/><path d="M17 23v-9a7 7 0 0 1 14 0v9" fill="none" stroke="#c1442a" stroke-width="3.200" stroke-linecap="round"/><circle cx="24" cy="33" r="5.500" fill="#c1442a"/><path d="M21 31.500c1-.8 2-.8 3 0 1-.8 2-.8 3 0v4c-1-.8-2-.8-3 0-1-.8-2-.8-3 0z" fill="#fff3dc"/></svg></span><span class="offer-gift__tx">संविधान थैला</span></li>
-      <li><span class="offer-gift__ic"><svg class="is-art" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 4.500h20a2.500 2.500 0 0 1 2.500 2.500v37L24 35 11.500 44V7A2.500 2.500 0 0 1 14 4.500z" fill="#e2452c"/><path d="M11.500 13h25v6h-25z" fill="#ffc93c"/><path d="M24 23.500l1.700 3.400 3.800.6-2.700 2.700.6 3.800-3.400-1.800-3.400 1.800.6-3.800-2.700-2.700 3.800-.6z" fill="#fff3dc"/></svg></span><span class="offer-gift__tx">बुकमार्क</span></li>
-      <li><span class="offer-gift__ic"><svg class="is-art" viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="8" width="30" height="36" rx="3.500" fill="#fff3dc"/><path d="M9 11.500A3.500 3.500 0 0 1 12.500 8h23a3.500 3.500 0 0 1 3.500 3.500V18H9z" fill="#2f5fb3"/><path d="M16.500 4.500v8M24 4.500v8M31.500 4.500v8" fill="none" stroke="#4a1a0a" stroke-width="2.600" stroke-linecap="round"/><path d="M15 25h18M15 31h18M15 37h11" fill="none" stroke="#c1442a" stroke-width="2.400" stroke-linecap="round"/></svg></span><span class="offer-gift__tx">Notepad</span></li>
-    </ul>
   </div>
+  <!-- one offer = one thumbnail: a picture of all its gifts across the top, then the amount and the extra discount -->
   <div class="offer-tier">
-    <div class="offer-head">
-      <div class="diya-wrap diya-wrap--top-left">
-        <svg class="diya-icon" viewBox="0 0 64 76" width="40" height="47">
-          <ellipse class="diya-spark diya-spark-1" cx="14" cy="18" r="1.6"/>
-          <ellipse class="diya-spark diya-spark-2" cx="48" cy="14" r="1.3"/>
-          <ellipse class="diya-spark diya-spark-3" cx="34" cy="6" r="1.1"/>
-          <ellipse class="diya-spark diya-spark-4" cx="22" cy="8" r="1"/>
-          <g class="diya-flame-group">
-            <path class="diya-flame-outer" d="M32 12C24 24 22 32 27 39C29.5 42.5 34.5 42.5 37 39C42 32 40 24 32 12Z"/>
-            <path class="diya-flame-inner" d="M32 24C28 30 27.5 34 30.5 37C31.5 38 32.5 38 33.5 37C36.5 34 36 30 32 24Z"/>
-          </g>
-          <path class="diya-bowl" d="M6 46C6 46 16 58 32 58C48 58 58 46 58 46C58 46 52 66 32 66C12 66 6 46 6 46Z"/>
-          <ellipse class="diya-rim" cx="32" cy="46" rx="26" ry="7"/>
-        </svg>
-      </div>
-      <div class="offer-spend"><span class="offer-kicker">Shop for</span><div class="offer-amount">₹5,000<span>+</span></div></div>
+    <div class="offer-thumb"><img src="assets/gifts/tier2.svg?v=2" alt="Free gifts: संविधान थैला, बुकमार्क, Box Calendar, पेंसिल" width="300" height="262" loading="lazy"></div>
+    <div class="offer-body">
+      <div class="offer-head"><div class="offer-spend"><span class="offer-kicker">Shop for</span><div class="offer-amount">₹5,000<span>+</span></div></div></div>
+      <div class="offer-discount-pill"><span class="d-long"><b>7%</b> extra discount</span><span class="d-short">Extra 7% off</span></div>
+      <p class="offer-giftline"><b>Free:</b> संविधान थैला · बुकमार्क · Box Calendar · पेंसिल</p>
     </div>
-    <div class="offer-discount-pill"><span class="d-long"><b>7%</b> extra discount</span><span class="d-short">Extra 7% off</span></div>
-    <p class="offer-perk-title"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13M12 8c-1.6-3.4-5.4-3.4-5.4-1.2S9.800 8 12 8zm0 0c1.600-3.400 5.400-3.400 5.400-1.200S14.200 8 12 8z"/></svg><span>Free gifts<i> with your order</i></span></p>
-    <ul class="offer-gifts">
-      <li><span class="offer-gift__ic"><svg class="is-art" viewBox="0 0 48 48" aria-hidden="true"><path d="M9 19h30l-2.200 21a3 3 0 0 1-3 2.700H14.200a3 3 0 0 1-3-2.700z" fill="#ffc93c"/><path d="M9 19h30l-.5 5H9.500z" fill="#f0a91e"/><path d="M17 23v-9a7 7 0 0 1 14 0v9" fill="none" stroke="#c1442a" stroke-width="3.200" stroke-linecap="round"/><circle cx="24" cy="33" r="5.500" fill="#c1442a"/><path d="M21 31.500c1-.8 2-.8 3 0 1-.8 2-.8 3 0v4c-1-.8-2-.8-3 0-1-.8-2-.8-3 0z" fill="#fff3dc"/></svg></span><span class="offer-gift__tx">संविधान थैला</span></li>
-      <li><span class="offer-gift__ic"><svg class="is-art" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 4.500h20a2.500 2.500 0 0 1 2.500 2.500v37L24 35 11.500 44V7A2.500 2.500 0 0 1 14 4.500z" fill="#e2452c"/><path d="M11.500 13h25v6h-25z" fill="#ffc93c"/><path d="M24 23.500l1.700 3.400 3.800.6-2.700 2.700.6 3.800-3.400-1.800-3.400 1.800.6-3.800-2.700-2.700 3.800-.6z" fill="#fff3dc"/></svg></span><span class="offer-gift__tx">बुकमार्क</span></li>
-      <li><span class="offer-gift__ic"><svg class="is-art" viewBox="0 0 48 48" aria-hidden="true"><path d="M5 42l4.500-9h29L43 42z" fill="#8a2c18"/><rect x="8" y="9" width="32" height="27" rx="3.500" fill="#fff3dc"/><path d="M8 12.500A3.500 3.500 0 0 1 11.500 9h25a3.500 3.500 0 0 1 3.500 3.500V18H8z" fill="#e2452c"/><path d="M16 5.500v7M32 5.500v7" fill="none" stroke="#4a1a0a" stroke-width="2.600" stroke-linecap="round"/><text x="24" y="31.500" text-anchor="middle" font-family="Google Sans Flex, system-ui, sans-serif" font-size="12.500" font-weight="700" fill="#4a1a0a">20</text></svg></span><span class="offer-gift__tx">Box Calendar</span></li>
-      <li><span class="offer-gift__ic"><svg class="is-art" viewBox="0 0 48 48" aria-hidden="true"><g transform="rotate(40 24 24)"><rect x="18.500" y="3" width="11" height="7" rx="2.500" fill="#ef8fa5"/><rect x="18.500" y="9" width="11" height="4" fill="#cfcfcf"/><rect x="18.500" y="13" width="11" height="21" fill="#ffc93c"/><rect x="22.200" y="13" width="3.600" height="21" fill="#f0a91e"/><path d="M18.500 34h11L24 45z" fill="#f6d9b4"/><path d="M21.800 40.500h4.400L24 45z" fill="#4a1a0a"/></g></svg></span><span class="offer-gift__tx">पेंसिल</span></li>
-    </ul>
   </div>
+  <!-- one offer = one thumbnail: a picture of all its gifts across the top, then the amount and the extra discount -->
   <div class="offer-tier">
-    <div class="offer-head">
-      <div class="diya-wrap diya-wrap--top-left">
-        <svg class="diya-icon" viewBox="0 0 64 76" width="40" height="47">
-          <ellipse class="diya-spark diya-spark-1" cx="14" cy="18" r="1.6"/>
-          <ellipse class="diya-spark diya-spark-2" cx="48" cy="14" r="1.3"/>
-          <ellipse class="diya-spark diya-spark-3" cx="34" cy="6" r="1.1"/>
-          <ellipse class="diya-spark diya-spark-4" cx="22" cy="8" r="1"/>
-          <g class="diya-flame-group">
-            <path class="diya-flame-outer" d="M32 12C24 24 22 32 27 39C29.5 42.5 34.5 42.5 37 39C42 32 40 24 32 12Z"/>
-            <path class="diya-flame-inner" d="M32 24C28 30 27.5 34 30.5 37C31.5 38 32.5 38 33.5 37C36.5 34 36 30 32 24Z"/>
-          </g>
-          <path class="diya-bowl" d="M6 46C6 46 16 58 32 58C48 58 58 46 58 46C58 46 52 66 32 66C12 66 6 46 6 46Z"/>
-          <ellipse class="diya-rim" cx="32" cy="46" rx="26" ry="7"/>
-        </svg>
-      </div>
-      <div class="offer-spend"><span class="offer-kicker">Shop for</span><div class="offer-amount">₹10,000<span>+</span></div></div>
+    <div class="offer-thumb"><img src="assets/gifts/tier3.svg?v=2" alt="Free gifts: आकर्षक थैला, Box Calendar, Pen, Notepad, Pustak Mitra Yojana membership (1 year)" width="300" height="262" loading="lazy"></div>
+    <div class="offer-body">
+      <div class="offer-head"><div class="offer-spend"><span class="offer-kicker">Shop for</span><div class="offer-amount">₹10,000<span>+</span></div></div></div>
+      <div class="offer-discount-pill"><span class="d-long"><b>10%</b> extra discount</span><span class="d-short">Extra 10% off</span></div>
+      <p class="offer-giftline"><b>Free:</b> आकर्षक थैला · Box Calendar · Pen + <a href="#offerGiftsDetails" class="offer-giftline__more" title="Notepad, Pustak Mitra Yojana membership (1 year)">2 more</a></p>
     </div>
-    <div class="offer-discount-pill offer-discount-pill--highlight"><span class="d-long"><b>7%</b> extra discount</span><span class="d-short">Extra 7% off</span></div>
-    <p class="offer-perk-title"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13M12 8c-1.6-3.4-5.4-3.4-5.4-1.2S9.800 8 12 8zm0 0c1.600-3.400 5.400-3.400 5.400-1.200S14.200 8 12 8z"/></svg><span>Free gifts<i> with your order</i></span></p>
-    <ul class="offer-gifts">
-      <li><span class="offer-gift__ic"><svg class="is-art" viewBox="0 0 48 48" aria-hidden="true"><path d="M9 19h30l-2.200 21a3 3 0 0 1-3 2.700H14.200a3 3 0 0 1-3-2.700z" fill="#ffc93c"/><path d="M9 19h30l-.5 5H9.500z" fill="#f0a91e"/><path d="M17 23v-9a7 7 0 0 1 14 0v9" fill="none" stroke="#c1442a" stroke-width="3.200" stroke-linecap="round"/><circle cx="24" cy="33" r="5.500" fill="#c1442a"/><path d="M21 31.500c1-.8 2-.8 3 0 1-.8 2-.8 3 0v4c-1-.8-2-.8-3 0-1-.8-2-.8-3 0z" fill="#fff3dc"/></svg></span><span class="offer-gift__tx">आकर्षक थैला</span></li>
-      <li><span class="offer-gift__ic"><svg class="is-art" viewBox="0 0 48 48" aria-hidden="true"><path d="M5 42l4.500-9h29L43 42z" fill="#8a2c18"/><rect x="8" y="9" width="32" height="27" rx="3.500" fill="#fff3dc"/><path d="M8 12.500A3.500 3.500 0 0 1 11.500 9h25a3.500 3.500 0 0 1 3.500 3.500V18H8z" fill="#e2452c"/><path d="M16 5.500v7M32 5.500v7" fill="none" stroke="#4a1a0a" stroke-width="2.600" stroke-linecap="round"/><text x="24" y="31.500" text-anchor="middle" font-family="Google Sans Flex, system-ui, sans-serif" font-size="12.500" font-weight="700" fill="#4a1a0a">20</text></svg></span><span class="offer-gift__tx">Box Calendar</span></li>
-      <li><span class="offer-gift__ic"><svg class="is-art" viewBox="0 0 48 48" aria-hidden="true"><g transform="rotate(40 24 24)"><rect x="19.500" y="3" width="9" height="27" rx="3.500" fill="#2f5fb3"/><rect x="19.500" y="15" width="9" height="3" fill="#ffc93c"/><rect x="27" y="5" width="3" height="13" rx="1.300" fill="#ffc93c"/><path d="M19.500 30h9l-2.800 9h-3.400z" fill="#cfcfcf"/><path d="M22.300 39h3.400L24 45z" fill="#4a1a0a"/></g></svg></span><span class="offer-gift__tx">Pen</span></li>
-      <li><span class="offer-gift__ic"><svg class="is-art" viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="8" width="30" height="36" rx="3.500" fill="#fff3dc"/><path d="M9 11.500A3.500 3.500 0 0 1 12.500 8h23a3.500 3.500 0 0 1 3.500 3.500V18H9z" fill="#2f5fb3"/><path d="M16.500 4.500v8M24 4.500v8M31.500 4.500v8" fill="none" stroke="#4a1a0a" stroke-width="2.600" stroke-linecap="round"/><path d="M15 25h18M15 31h18M15 37h11" fill="none" stroke="#c1442a" stroke-width="2.400" stroke-linecap="round"/></svg></span><span class="offer-gift__tx">Notepad</span></li>
-      <li><span class="offer-gift__ic"><svg class="is-art" viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="10" width="40" height="28" rx="4.500" fill="#2f8f5b"/><path d="M4 16h40v5H4z" fill="#236f46"/><circle cx="15" cy="27" r="3.600" fill="#fff3dc"/><path d="M9 35c.9-3.400 3.200-4.800 6-4.800s5.100 1.400 6 4.800z" fill="#fff3dc"/><path d="M26 27h9M26 32h6" fill="none" stroke="#fff3dc" stroke-width="2.400" stroke-linecap="round"/><path d="M38 24.500l1.200 2.400 2.600.4-1.900 1.900.4 2.600-2.300-1.200-2.300 1.200.4-2.600-1.900-1.900 2.600-.4z" fill="#ffc93c"/></svg></span><span class="offer-gift__tx">Pustak Mitra Yojana<i>One-year membership benefits</i></span></li>
-    </ul>
   </div>
 </section>
 </div>
@@ -250,7 +196,7 @@
       <img class="footer-mark" src="../kt/assets/logo/rkp-logo-text-only-white.svg" alt="Rajkamal Prakashan Samuh">
       <ul class="footer-contact-list">
         <li><span class="fc-icon">✉️</span> <a href="mailto:info@rajkamalprakashan.com">info@rajkamalprakashan.com</a></li>
-        <li><span class="fc-icon">📞</span> <span>011 4263 8228<br>+91 98102 81912</span></li>
+        <li><span class="fc-icon">📞</span> <span><a href="tel:+911142638228">011 4263 8228</a><br><a href="tel:+919810281912">+91 98102 81912</a></span></li>
       </ul>
       <p class="footer-copy">© 2026 राजकमल प्रकाशन प्राइवेट लिमिटेड.</p>
     </div>
@@ -515,7 +461,7 @@
     io.observe(num);
   })();
 </script>
-<script src="../kt/mobile-nav.js?v=41"></script>
+<script src="../kt/mobile-nav.js?v=42"></script>
 <script src="../kt/all-books.js?v=9"></script>
 <script src="../kt/forms.js?v=3"></script>
 <script>
@@ -547,7 +493,7 @@
   (function () {
     var tiers = document.querySelectorAll(".kt3-top .offer-tier");
     if (!tiers.length) return;
-    var LIMITS = [2000, 5000, 10000], PCT = [5, 7, 7];
+    var LIMITS = [2000, 5000, 10000], PCT = [5, 7, 10];
     var prices = {}, C = window.RK_COLLECTIONS || {};
     Object.keys(C).forEach(function (k) { C[k].books.forEach(function (b) { prices[b[4]] = b[2]; }); });
     function fmt(n) { return "₹" + Math.round(n).toLocaleString("en-IN"); }

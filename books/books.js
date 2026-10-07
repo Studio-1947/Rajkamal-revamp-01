@@ -91,12 +91,14 @@
   function chip(attr, val, label, on, n) {
     return '<button type="button" class="bk-pop__chip' + (on ? " is-on" : "") + '" ' + attr + '="' + val + '" aria-pressed="' + on + '"' + (!on && !n ? " disabled" : "") + ">" + label + ' <i>' + n + "</i></button>";
   }
+  /* every panel starts with a title and a close (✕) button */
+  function popHead(t) { return '<div class="bk-pop__head"><b>' + t + '</b><button type="button" class="bk-pop__x" data-close aria-label="Close"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'; }
   function syncUI() {
-    popSort.innerHTML = SORTS.map(function (o) { var on = o[0] === state.sort; return '<button type="button" class="bk-pop__opt' + (on ? " is-on" : "") + '" role="option" aria-selected="' + on + '" data-sort="' + o[0] + '">' + o[1] + "</button>"; }).join("");
+    popSort.innerHTML = popHead("Sort by") + SORTS.map(function (o) { var on = o[0] === state.sort; return '<button type="button" class="bk-pop__opt' + (on ? " is-on" : "") + '" role="option" aria-selected="' + on + '" data-sort="' + o[0] + '">' + o[1] + "</button>"; }).join("");
     document.getElementById("bkSortLabel").textContent = SORTS.filter(function (o) { return o[0] === state.sort; })[0][1];
     sortBtn.classList.toggle("is-active", state.sort !== "rec");
     var shown = ALL.filter(function (b) { return pass(b, state, null); }).length;
-    popFilter.innerHTML =
+    popFilter.innerHTML = popHead("Filter") +
       '<p class="bk-pop__label">Format</p><div class="bk-pop__row">' + FORMATS.map(function (f) { var on = !!(state.fmt & f[0]); return chip("data-fmt", f[0], f[1], on, count("fmt", { fmt: on ? state.fmt : state.fmt | f[0] })); }).join("") + "</div>" +
       '<p class="bk-pop__label">Price</p><div class="bk-pop__row">' + PRICES.map(function (p) { return chip("data-price", p[0], p[1], state.price === p[0], count("price", { price: p[0] })); }).join("") + "</div>" +
       '<p class="bk-pop__label">Offer</p><div class="bk-pop__row">' + OFFERS.map(function (o) { return chip("data-disc", o[0], o[1], state.disc === o[0], count("disc", { disc: o[0] })); }).join("") + "</div>" +
@@ -107,7 +109,7 @@
       var on = f[0] ? !!(state.fmt & f[0]) : !state.fmt, n = count("fmt", { fmt: f[0] });
       return '<button type="button" class="bk-seg__opt' + (on ? " is-on" : "") + '" data-seg="' + f[0] + '" aria-pressed="' + on + '"' + (!on && !n ? " disabled" : "") + ">" + f[1] + " <i>" + n + "</i></button>";
     }).join("");
-    popDisc.innerHTML = OFFERS.map(function (o) {
+    popDisc.innerHTML = popHead("Discount") + OFFERS.map(function (o) {
       var on = state.disc === o[0], n = count("disc", { disc: o[0] });
       return '<button type="button" class="bk-pop__opt' + (on ? " is-on" : "") + '" role="option" aria-selected="' + on + '" data-disc="' + o[0] + '"' + (!on && !n ? " disabled" : "") + ">" + o[1] + " <i>" + n + "</i></button>";
     }).join("");
@@ -128,12 +130,15 @@
     discBtn = bar.querySelector('[data-pop="disc"]'); popDisc = document.getElementById("bkPopDisc"); seg = document.getElementById("bkSeg");
     function closePops() {
       popSort.hidden = true; popFilter.hidden = true; popDisc.hidden = true;
+      document.documentElement.classList.remove("bk-pop-open");
       sortBtn.setAttribute("aria-expanded", "false"); filterBtn.setAttribute("aria-expanded", "false"); discBtn.setAttribute("aria-expanded", "false");
     }
     function toggle(btn, pop) {
       return function (e) {
         e.stopPropagation();
         var open = pop.hidden; closePops(); pop.hidden = !open; btn.setAttribute("aria-expanded", String(open));
+        document.documentElement.classList.toggle("bk-pop-open", open);
+        if (open) { var x = pop.querySelector(".bk-pop__x"); if (x) x.focus({ preventScroll: true }); }
         /* keep the panel inside the screen: open it under its button, shifted left if it would run off the right edge */
         if (open && window.innerWidth > 720) {
           pop.style.left = "0px";
@@ -146,11 +151,12 @@
     sortBtn.addEventListener("click", toggle(sortBtn, popSort));
     filterBtn.addEventListener("click", toggle(filterBtn, popFilter));
     discBtn.addEventListener("click", toggle(discBtn, popDisc));
-    popDisc.addEventListener("click", function (e) { var o = e.target.closest("[data-disc]"); if (!o || o.disabled) return; state.disc = +o.dataset.disc; closePops(); apply(); });
+    popDisc.addEventListener("click", function (e) { if (e.target.closest("[data-close]")) { closePops(); return; } var o = e.target.closest("[data-disc]"); if (!o || o.disabled) return; state.disc = +o.dataset.disc; closePops(); apply(); });
     seg.addEventListener("click", function (e) { var o = e.target.closest("[data-seg]"); if (!o || o.disabled) return; state.fmt = +o.dataset.seg; apply(); });
     document.addEventListener("click", function (e) { if (!bar.contains(e.target)) closePops(); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") closePops(); });
     popSort.addEventListener("click", function (e) {
+      if (e.target.closest("[data-close]")) { closePops(); return; }
       var opt = e.target.closest("[data-sort]"); if (!opt) return;
       state.sort = opt.dataset.sort; closePops(); apply();
     });

@@ -4741,34 +4741,35 @@ html[data-theme="dark"] body .site-header .header-icons .pill-btn.pill-btn--wish
 
 /* ---------- footer accordion pieces: invisible as controls on larger screens ---------- */
 .footer-acc { all: unset; display: inline; cursor: default; pointer-events: none; }
-.footer-acc svg, .footer-offices-line { display: none; }
+.footer-acc svg, .footer-offices-line, .footer-more { display: none; }
 
-/* ---------- phones: a short footer (user) ----------
-   Hidden here, still one tap away: trust badges (checkout / FAQ say the same), the other imprints' social links and
-   the office cards (Contact page: #offices, #follow), and the link lists (tap a heading to open it). */
+/* ---------- phones: a short footer with "Show more" (user) ----------
+   Collapsed: logo + contact, "Connect with us" (Rajkamal Prakashan's links), a Show more button, the copyright line.
+   Show more (.site-footer.is-more, toggled in kt/mobile-nav.js) opens the whole footer — every imprint's social
+   links, the four link lists, the newsletter and the office cards — and the button becomes Show less. */
 @media (max-width: 720px) {
   html body .site-footer .trust-strip { display: none; }
   html body .site-footer .footer-main { padding-top: 28px; }
-  html body .site-footer .footer-connect .connect-group:not(:first-of-type) { display: none; }
-  html body .site-footer .footer-connect .connect-group h5 { display: none; }
+  html body .site-footer .footer-inner { row-gap: 0; padding-bottom: 6px; }
+  html body .site-footer .footer-brand { margin-bottom: 18px; }
   html body .site-footer .footer-connect { margin-bottom: 4px; }
-  /* link lists → accordion */
-  html body .site-footer .footer-accgroup { grid-column: 1 / -1; margin: 0; padding: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
-  html body .site-footer .footer-accgroup h4 { margin: 0; }
-  html body .site-footer .footer-acc { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; box-sizing: border-box; padding: 13px 2px; cursor: pointer; pointer-events: auto; font: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit; }
-  html body .site-footer .footer-acc svg { display: block; flex: none; opacity: 0.8; transition: transform 0.25s ease; }
-  html body .site-footer .footer-accgroup.is-open .footer-acc svg { transform: rotate(180deg); }
-  html body .site-footer .footer-accgroup > ul { display: none; margin: 0; padding: 0 2px 12px; }
-  html body .site-footer .footer-accgroup.is-open > ul { display: block; animation: ftAccIn 0.25s ease; }
-  html body .site-footer .footer-acc:focus-visible { outline: 2px solid #ffd9a0; outline-offset: 2px; border-radius: 6px; }
-  @keyframes ftAccIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
-  /* offices → one line */
-  html body .site-footer .footer-offices > .office-box, html body .site-footer .footer-offices > .office-group { display: none; }
-  html body .site-footer .footer-offices-line { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; grid-column: 1 / -1; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.06); color: inherit; text-decoration: none; }
-  html body .site-footer .footer-offices-line span { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; }
-  html body .site-footer .footer-offices-line b { grid-column: 1; font-size: 0.9rem; font-weight: 500; line-height: 1.35; }
-  html body .site-footer .footer-offices-line i { grid-column: 2; grid-row: 1 / span 2; font-style: normal; font-size: 1.1rem; }
-  html body .site-footer .footer-copy--end { margin-top: 14px; padding-bottom: calc(86px + env(safe-area-inset-bottom)); } /* clear of the floating tab bar */
+  html body .site-footer .footer-divider { display: none; }
+  html body .site-footer .footer-offices-line { display: none; }
+  html body .site-footer .footer-more { display: flex; align-items: center; justify-content: center; gap: 8px; grid-column: 1 / -1; width: 100%; box-sizing: border-box; margin: 14px 0 4px; padding: 11px 16px; border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.28); background: rgba(255, 255, 255, 0.07); color: inherit; cursor: pointer; font: 600 0.86rem "Google Sans Flex", "Noto Sans Devanagari", system-ui, sans-serif; }
+  html body .site-footer .footer-more svg { transition: transform 0.25s ease; }
+  html body .site-footer.is-more .footer-more svg { transform: rotate(180deg); }
+  html body .site-footer .footer-more:focus-visible { outline: 2px solid #ffd9a0; outline-offset: 2px; }
+  /* collapsed */
+  html body .site-footer:not(.is-more) .footer-connect .connect-group:not(:first-of-type),
+  html body .site-footer:not(.is-more) .footer-stack,
+  html body .site-footer:not(.is-more) .footer-offices { display: none; }
+  /* open */
+  html body .site-footer.is-more .footer-connect .connect-group { margin-top: 12px; }
+  html body .site-footer.is-more .footer-stack { margin-top: 18px; }
+  html body .site-footer.is-more .footer-stack, html body .site-footer.is-more .footer-offices, html body .site-footer.is-more .connect-group:not(:first-of-type) { animation: ftAccIn 0.3s ease; }
+  @keyframes ftAccIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  html body .site-footer .footer-copy--end { margin-top: 10px; padding-bottom: calc(86px + env(safe-area-inset-bottom)); } /* clear of the floating tab bar */
 
   /* ---------- floating bottom bar (user: like Instagram's floating menu) ----------
      A rounded glass pill that floats above the page instead of a strip stuck to the edge; the active tab gets a soft
@@ -4785,18 +4786,7 @@ html[data-theme="dark"] body .site-header .header-icons .pill-btn.pill-btn--wish
   html[data-theme="dark"] .mobile-tab.is-on { background: rgba(255, 171, 152, 0.14); }
   html.ios-safari .mobile-tabbar { bottom: calc(10px + env(safe-area-inset-bottom)); }
 }
-@media (max-width: 720px) and (prefers-reduced-motion: reduce) { .mobile-tabbar, .mobile-tab { transition: none; } html body .site-footer .footer-accgroup.is-open > ul { animation: none; } }
-@media (max-width: 720px) {
-  /* tighter: the four headings sit together as one list */
-  html body .site-footer .footer-inner { row-gap: 0; padding-bottom: 14px; }
-  html body .site-footer .footer-brand { margin-bottom: 18px; }
-  html body .site-footer .footer-connect { margin-bottom: 14px; }
-  html body .site-footer .footer-stack, html body .site-footer .footer-stack > div { margin: 0; gap: 0; }
-  html body .site-footer .footer-accgroup h4 { padding: 0; border: 0; }
-  html body .site-footer .footer-acc { padding: 12px 2px; }
-  html body .site-footer .footer-divider { display: none; }
-  html body .site-footer .footer-offices { margin-top: 4px; padding-top: 0; gap: 10px; }
-}
+@media (max-width: 720px) and (prefers-reduced-motion: reduce) { .mobile-tabbar, .mobile-tab { transition: none; } html body .site-footer.is-more .footer-stack, html body .site-footer.is-more .footer-offices { animation: none; } }
 @media (max-width: 720px) {
   /* Home tab in the floating bar: just the Rajkamal mark, larger — no capsule behind it and no padding around it */
   .mobile-tabbar .mobile-tab--home, .mobile-tabbar .mobile-tab--home.is-on, html[data-theme="dark"] .mobile-tabbar .mobile-tab--home.is-on { flex: 0 0 auto; padding: 0; margin: 0 6px 0 2px; background: none; opacity: 1; }
@@ -4846,3 +4836,34 @@ html[data-theme="dark"] .rk-track li i { background: #1a0d0a; border-color: rgba
   .rk-track:not(.rk-track--big) li:not(.is-now) b { font-weight: 500; }
 }
 @media (prefers-reduced-motion: reduce) { .rk-status--move::before { animation: none; } }
+@media (max-width: 720px) { .mobile-tabbar .mobile-tab__logo { width: 36px; height: 36px; } } /* user: a little smaller */
+@media (max-width: 350px) { .mobile-tabbar .mobile-tab__logo { width: 34px; height: 34px; } }
+
+/* ---------- phone footer, top block (user): logo with its emblem on the left, phone numbers and email beside it
+   (all tappable); "Rajkamal Prakashan" above the default social links shows only after Show more ---------- */
+.footer-contact-list a[href^="tel:"] { color: inherit; text-decoration: none; }
+.footer-contact-list a[href^="tel:"]:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  html body .site-footer .footer-brand { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px; margin-bottom: 16px; }
+  html body .site-footer .footer-brand .footer-mark { content: url("assets/logo/rkp-logo-dark.svg"); width: auto; height: 46px; max-width: 150px; margin: 0; }
+  html body .site-footer .footer-brand .footer-contact-list { margin: 0; padding: 0 0 0 14px; border-left: 1px solid rgba(255, 255, 255, 0.22); display: grid; gap: 5px; min-width: 0; }
+  html body .site-footer .footer-brand .footer-contact-list li { display: flex; align-items: flex-start; gap: 7px; margin: 0; font-size: 0.8rem; line-height: 1.4; min-width: 0; }
+  html body .site-footer .footer-brand .footer-contact-list a { overflow-wrap: anywhere; padding: 1px 0; }
+  html body .site-footer .footer-brand .fc-icon { flex: none; font-size: 0.8rem; }
+  html body .site-footer .footer-brand .footer-copy { display: none; }
+  html body .site-footer:not(.is-more) .footer-connect .connect-group:first-of-type h5 { display: none; }
+}
+@media (max-width: 350px) { html body .site-footer .footer-brand .footer-mark { height: 38px; } html body .site-footer .footer-brand .footer-contact-list li { font-size: 0.72rem; } }
+@media (max-width: 720px) {
+  /* room for the email on one line: no emoji icons, a slightly smaller mark */
+  html body .site-footer .footer-brand .fc-icon { display: none; }
+  html body .site-footer .footer-brand .footer-mark { height: 42px; }
+  html body .site-footer .footer-brand .footer-contact-list li { font-size: 0.78rem; }
+  html body .site-footer .footer-brand .footer-contact-list li:first-child a { white-space: nowrap; overflow-wrap: normal; }
+}
+@media (max-width: 380px) {
+  html body .site-footer .footer-brand { gap: 10px; }
+  html body .site-footer .footer-brand .footer-mark { height: 34px; }
+  html body .site-footer .footer-brand .footer-contact-list { padding-left: 10px; }
+  html body .site-footer .footer-brand .footer-contact-list li { font-size: 0.66rem; }
+}
