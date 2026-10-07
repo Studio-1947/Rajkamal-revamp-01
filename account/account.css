@@ -364,3 +364,39 @@ html[data-theme="dark"] .acc-order__meta div { border-left-color: rgba(255, 255,
   .acc-order__foot .acc-order__total { grid-column: 1 / -1; margin: 0; display: flex; justify-content: space-between; align-items: baseline; }
   .acc-order__foot .acc-btn { text-align: center; justify-content: center; }
 }
+
+/* ---------- Orders filters (user): status + year. Large screens: status chips with the Year menu on the right.
+   Phones: two compact menus side by side (Status, Year) — the chip row used to run off the screen. ---------- */
+.acc-obar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; margin: 0 0 10px; }
+.acc-obar .acc-ofilter { margin: 0; flex: 1 1 auto; }
+.acc-osel { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 6px 0 14px; border: 1px solid #e6cdae; border-radius: 999px; background: #fff7ec; font-size: 0.82rem; min-width: 0; }
+.acc-osel span { opacity: 0.6; flex: none; }
+.acc-osel select { min-width: 0; height: 100%; border: 0; outline: 0; background: none; color: inherit; cursor: pointer; padding-right: 6px; font: 600 0.86rem 'Google Sans Flex', 'Noto Sans Devanagari', system-ui, sans-serif; text-overflow: ellipsis; }
+.acc-osel:focus-within { border-color: #a0361f; box-shadow: 0 0 0 3px rgba(160, 54, 31, 0.12); }
+.acc-osel--status { display: none; }
+html[data-theme="dark"] .acc-osel { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.18); }
+html[data-theme="dark"] .acc-osel select option { background: #241109; }
+.acc-ocount { margin: 0 0 14px; font-size: 0.84rem; opacity: 0.8; }
+.acc-oclear { padding: 0; border: 0; background: none; color: #a0361f; font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
+html[data-theme="dark"] .acc-oclear { color: #ffab98; }
+@media (max-width: 720px) {
+  .acc-obar { flex-wrap: nowrap; gap: 8px; }
+  .acc-obar .acc-ofilter { display: none; }
+  .acc-osel--status { display: inline-flex; flex: 1.5 1 0; }
+  .acc-osel--year { flex: 1 1 0; }
+  .acc-osel { height: 42px; padding-left: 12px; gap: 6px; }
+  .acc-osel select { flex: 1; width: 100%; font-size: 0.84rem; }
+}
+@media (max-width: 360px) { .acc-osel span { display: none; } }
+/* phones: the Year menu is exactly as wide as its text (never cut off); Status takes the rest; no side labels */
+@media (max-width: 720px) {
+  .acc-osel span { display: none; }
+  .acc-osel { padding: 0 4px 0 12px; }
+  .acc-osel--year { flex: 0 0 auto; }
+  .acc-osel--year select { flex: none; width: auto; }
+  .acc-osel--status { flex: 1 1 0; min-width: 0; }
+  .acc-osel select { font-size: 0.86rem; text-overflow: clip; }
+}
+@media (max-width: 360px) { .acc-osel select { font-size: 0.8rem; } .acc-obar { gap: 6px; } }
+@media (max-width: 720px) { .acc-osel--year select { min-width: 6.6em; } }
+@media (max-width: 340px) { .acc-osel select { font-size: 0.76rem; } .acc-osel { padding-left: 10px; } }

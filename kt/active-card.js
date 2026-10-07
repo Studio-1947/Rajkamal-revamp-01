@@ -1,28 +1,29 @@
-/* Touch screens have no hover: the thumbnail nearest the middle of the screen (or the one just tapped) shows the "hover" look,
+/* Touch screens have no hover: the row of thumbnails nearest the middle of the screen (or the one just tapped) shows the "hover" look,
    with its diya lit, so people can see which card a tap will open. */
 (function () {
   if (!window.matchMedia("(hover: none)").matches) return;
   var grid = document.getElementById("cardGrid");
   if (!grid) return;
-  var cards = [], active = null, ticking = false, pinnedUntil = 0;
+  var cards = [], active = [], ticking = false, pinnedUntil = 0;
 
-  function setActive(c) {
-    if (c === active) return;
-    if (active) active.classList.remove("is-active");
-    active = c;
-    if (active) active.classList.add("is-active");
+  /* light every card in the chosen row (phones show two per row — lighting only one left the right-hand card dark) */
+  function setActive(list) {
+    active.forEach(function (c) { if (list.indexOf(c) < 0) c.classList.remove("is-active"); });
+    list.forEach(function (c) { c.classList.add("is-active"); });
+    active = list;
   }
   function pick() {
     ticking = false;
     if (Date.now() < pinnedUntil) return;
-    var mid = window.innerHeight * 0.5, best = null, bestD = Infinity;
+    var mid = window.innerHeight * 0.5, bestD = Infinity, bestTop = null, rects = [];
     cards.forEach(function (c) {
       var r = c.getBoundingClientRect();
+      rects.push(r);
       if (r.bottom < 0 || r.top > window.innerHeight) return;
       var d = Math.abs(r.top + r.height / 2 - mid);
-      if (d < bestD) { bestD = d; best = c; }
+      if (d < bestD - 0.5) { bestD = d; bestTop = r.top; }
     });
-    setActive(best);
+    setActive(bestTop === null ? [] : cards.filter(function (c, i) { return Math.abs(rects[i].top - bestTop) < 4; }));
   }
   function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(pick); } }
 
@@ -30,7 +31,7 @@
     cards = Array.prototype.slice.call(grid.querySelectorAll(".book-card"));
     if (!cards.length) return;
     cards.forEach(function (c) {
-      c.addEventListener("click", function () { pinnedUntil = Date.now() + 2500; setActive(c); });
+      c.addEventListener("click", function () { pinnedUntil = Date.now() + 2500; setActive([c]); });
     });
     pick();
     window.addEventListener("scroll", onScroll, { passive: true });

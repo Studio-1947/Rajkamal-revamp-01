@@ -146,7 +146,7 @@
   /* demo orders: one for every status, so the Orders tab shows the full range. Orders placed in this browser (checkout)
      are kept; the demo set is added once per seed version. */
   (function seedOrders() {
-    var SEED = "3", have = read(OKEY, null);
+    var SEED = "4", have = read(OKEY, null);
     try { if (have !== null && localStorage.getItem("rk-orders-seed") === SEED) return; } catch (e) {}
     var all = allBooks();
     function mk(id, date, eta, status, pay, addr, items, extra) {
@@ -168,7 +168,11 @@
       mk("RK71829304", "2026-09-18", "2026-09-24", "delivered", "upi", HOME, [["godan", 1], ["maila-anchal", 1]], { deliveredOn: "2026-09-23" }),
       mk("RK71760112", "2026-08-30", "2026-09-05", "delivered", "cod", WORK, [["nithalle-bahut-busy-hain", 1]], { deliveredOn: "2026-09-04" }),
       mk("RK71690877", "2026-08-12", "2026-08-18", "cancelled", "card", HOME, [["agam-bahai-dariyav", 1]], { closedOn: "2026-08-13" }),
-      mk("RK71544002", "2026-07-21", "2026-07-27", "returned", "upi", WORK, [["bholaram-ka-jeev", 1], ["varchasva", 1]], { deliveredOn: "2026-07-26", closedOn: "2026-08-01" })
+      mk("RK71544002", "2026-07-21", "2026-07-27", "returned", "upi", WORK, [["bholaram-ka-jeev", 1], ["varchasva", 1]], { deliveredOn: "2026-07-26", closedOn: "2026-08-01" }),
+      mk("RK69870341", "2025-12-14", "2025-12-20", "delivered", "card", HOME, [["chitralekha", 1], ["parinde", 1]], { deliveredOn: "2025-12-19" }),
+      mk("RK68122907", "2025-08-03", "2025-08-09", "delivered", "upi", HOME, [["tumhari-auqat-kya-hai", 1]], { deliveredOn: "2025-08-08" }),
+      mk("RK67450518", "2025-03-22", "2025-03-28", "cancelled", "cod", WORK, [["ghumakkad-shastra", 1]], { closedOn: "2025-03-23" }),
+      mk("RK64013776", "2024-11-09", "2024-11-15", "delivered", "upi", WORK, [["madam-sir", 1], ["kagaz-aur-canvas", 1]], { deliveredOn: "2024-11-14" })
     ];
     var mine = (have || []).filter(function (o) { return o && o.local; }); /* real checkouts from this browser */
     write(OKEY, mine.concat(demo).sort(function (x, y) { return x.date < y.date ? 1 : x.date > y.date ? -1 : 0; }));
@@ -394,7 +398,7 @@
 
   /* one order: status + a plain sentence, the facts (aligned label / value), progress steps while it is on its way,
      the books, then the total and the actions that fit the status */
-  var orderFilter = "all";
+  var orderFilter = "all", orderYear = "all";
   function orderCard(o) {
     var R = window.RKOrder, st = R.norm(o.status), on = R.active(o);
     var n = (o.items || []).reduce(function (t, it) { return t + (it.qty || 1); }, 0);
@@ -449,17 +453,31 @@
       );
     return (
       '<p class="acc-sub">Deliveries, returns and re-orders — demo data saved in this browser.</p>' +
-      /* filter: All · On the way · Delivered · Cancelled / returned */
+      /* filters: status (All · On the way · Delivered · Cancelled / returned) and year. Large screens show the status
+         as chips with the year menu beside them; phones show two compact menus side by side, so nothing runs off the screen. */
       (function () {
-        var R = window.RKOrder, f = orderFilter;
+        var R = window.RKOrder;
         var G = { all: function () { return true; }, active: function (o) { return R.active(o); }, delivered: function (o) { return R.norm(o.status) === "delivered"; },
                   closed: function (o) { var s = R.norm(o.status); return s === "cancelled" || s === "returned"; } };
-        var shown = list.filter(G[f] || G.all);
-        return '<div class="acc-ofilter" role="group" aria-label="Filter orders">' +
-          [["all", "All"], ["active", "On the way"], ["delivered", "Delivered"], ["closed", "Cancelled / returned"]].map(function (t) {
-            return '<button type="button" class="acc-ofilter__btn" data-ofilter="' + t[0] + '" aria-pressed="' + (f === t[0]) + '">' + t[1] + " <i>" + list.filter(G[t[0]]).length + "</i></button>";
-          }).join("") + "</div>" +
-          (shown.length ? shown.map(orderCard).join("") : '<p class="acc-sub">No orders here.</p>');
+        var LABELS = [["all", "All orders"], ["active", "On the way"], ["delivered", "Delivered"], ["closed", "Cancelled / returned"]];
+        function yr(o) { return String(o.date || "").slice(0, 4); }
+        var years = []; list.forEach(function (o) { var y = yr(o); if (y && years.indexOf(y) < 0) years.push(y); }); years.sort().reverse();
+        if (orderYear !== "all" && years.indexOf(orderYear) < 0) orderYear = "all";
+        function inYear(o) { return orderYear === "all" || yr(o) === orderYear; }
+        var byYear = list.filter(inYear), f = G[orderFilter] ? orderFilter : "all", shown = byYear.filter(G[f]);
+        var on = (f !== "all") + (orderYear !== "all");
+        return '<div class="acc-obar">' +
+          '<div class="acc-ofilter" role="group" aria-label="Filter orders by status">' +
+            LABELS.map(function (t) { return '<button type="button" class="acc-ofilter__btn" data-ofilter="' + t[0] + '" aria-pressed="' + (f === t[0]) + '">' + (t[0] === "all" ? "All" : t[1]) + " <i>" + byYear.filter(G[t[0]]).length + "</i></button>"; }).join("") +
+          "</div>" +
+          '<label class="acc-osel acc-osel--status"><span>Status</span><select data-oselect="status" aria-label="Filter orders by status">' +
+            LABELS.map(function (t) { return '<option value="' + t[0] + '"' + (f === t[0] ? " selected" : "") + ">" + t[1] + " (" + byYear.filter(G[t[0]]).length + ")</option>"; }).join("") + "</select></label>" +
+          '<label class="acc-osel acc-osel--year"><span>Year</span><select data-oselect="year" aria-label="Filter orders by year">' +
+            '<option value="all"' + (orderYear === "all" ? " selected" : "") + ">All years</option>" +
+            years.map(function (y) { return '<option value="' + y + '"' + (orderYear === y ? " selected" : "") + ">" + y + "</option>"; }).join("") + "</select></label>" +
+          "</div>" +
+          '<p class="acc-ocount">' + shown.length + (shown.length === 1 ? " order" : " orders") + (on ? ' · <button type="button" class="acc-oclear" data-oclear>Clear filters</button>' : "") + "</p>" +
+          (shown.length ? shown.map(orderCard).join("") : '<p class="acc-sub">No orders match these filters.</p>');
       })()
     );
   }
@@ -1030,6 +1048,10 @@
       root.querySelectorAll("[data-ofilter]").forEach(function (b) {
         b.addEventListener("click", function () { orderFilter = b.getAttribute("data-ofilter"); render("orders"); });
       });
+      root.querySelectorAll("[data-oselect]").forEach(function (sel) {
+        sel.addEventListener("change", function () { if (sel.getAttribute("data-oselect") === "year") orderYear = sel.value; else orderFilter = sel.value; render("orders"); });
+      });
+      root.querySelectorAll("[data-oclear]").forEach(function (b) { b.addEventListener("click", function () { orderFilter = "all"; orderYear = "all"; render("orders"); }); });
       root.querySelectorAll("[data-reorder]").forEach(function (b) {
         b.addEventListener("click", function () {
           var o = orders().filter(function (x) {
