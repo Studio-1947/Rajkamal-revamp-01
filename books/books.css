@@ -358,3 +358,4 @@ html[data-theme="dark"] .bk-pop__x:hover, html[data-theme="dark"] .bk-pop__x:foc
 }
 @keyframes bkSheetIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .bk-pop:not([hidden]) { animation: none; } }
+.bk-note a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }

@@ -6,6 +6,7 @@
 
   /* in this offer: every collection except the imprint shelves added by publications-data.js */
   var local = Object.keys(C).filter(function (k) { return k.indexOf("imprint-") !== 0; });
+  var liveLeft = 0;
   document.getElementById("clLocal").innerHTML = local.map(function (k) {
     var c = C[k], covers = c.books.slice(0, 3);
     return '<a class="cl-card" href="../books/?c=' + encodeURIComponent(k) + '">' +
@@ -15,15 +16,18 @@
       '<span class="cl-name">' + esc(c.name) + '</span><span class="cl-meta">' + c.books.length + " books</span></a>";
   }).join("");
 
-  function href(x) { return x.local ? "../books/?c=" + encodeURIComponent(x.local) : SITE + (x.path || "/collections/" + x.slug); }
-  function ext(x) { return x.local ? "" : ' target="_blank" rel="noopener noreferrer"'; }
+  /* a live collection we also have (same slug in books-data.js) opens our own page; so does Offers */
+  LIVE.forEach(function (x) { if (!x.local && C[x.slug]) x.local = x.slug; });
+  function href(x) { return x.local ? "../books/?c=" + encodeURIComponent(x.local) : x.path === "/offers" ? "../offers/" : SITE + (x.path || "/collections/" + x.slug); }
+  function ext(x) { return x.local || x.path === "/offers" ? "" : ' target="_blank" rel="noopener noreferrer"'; }
   var featured = LIVE.filter(function (x) { return x.img; }), rest = LIVE.filter(function (x) { return !x.img; });
   document.getElementById("clFeatured").innerHTML = featured.map(function (x) {
-    return '<a class="cl-tile" href="' + href(x) + '"' + ext(x) + ' aria-label="' + esc(x.name) + (x.local ? "" : " (opens rajkamalprakashan.com)") + '">' +
+    return '<a class="cl-tile" href="' + href(x) + '"' + ext(x) + ' aria-label="' + esc(x.name) + (x.local || x.path === "/offers" ? "" : " (opens rajkamalprakashan.com)") + '">' +
       '<img src="img/' + esc(x.slug) + '.jpg" alt="" loading="lazy"></a>';
   }).join("");
   document.getElementById("clMore").innerHTML = rest.map(function (x) {
-    return '<a class="cl-row" href="' + href(x) + '"' + ext(x) + "><span" + (/[ऀ-ॿ]/.test(x.name) ? ' lang="hi"' : "") + ">" + esc(x.name) + "</span>" + (x.local ? '<em>In this offer</em>' : OUT) + "</a>";
+    return '<a class="cl-row" href="' + href(x) + '"' + ext(x) + "><span" + (/[ऀ-ॿ]/.test(x.name) ? ' lang="hi"' : "") + ">" + esc(x.name) + "</span>" + (x.local || x.path === "/offers" ? '<em>On this site</em>' : OUT) + "</a>";
   }).join("");
-  document.getElementById("clCount").textContent = local.length + " in this offer · " + LIVE.length + " on rajkamalprakashan.com";
+  liveLeft = LIVE.filter(function (x) { return !x.local && x.path !== "/offers"; }).length;
+  document.getElementById("clCount").textContent = local.length + " on this site · " + liveLeft + " more on rajkamalprakashan.com";
 })();

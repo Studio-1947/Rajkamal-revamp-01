@@ -10,6 +10,8 @@
   /* ?g=<genre> (from the All Books menu): a genre page, or g=all for the whole catalogue.
      The mock data has no genre tags yet, so a genre shows a mix drawn from every collection. */
   var genre = q.get("g"), eyebrow = null;
+  /* the six home collections (Must Read, Deal of the Day…) are pages of their own: just their books, no fillers */
+  if (!genre && col.live) { MIN = 0; eyebrow = "Collection"; }
   if (genre) {
     var gHit = (window.RK_GENRES || []).filter(function (g) { return g.slug === genre; })[0];
     col = { name: genre === "all" ? "All Books" : gHit ? gHit.name : genre.replace(/-/g, " "), books: [] };
@@ -209,6 +211,11 @@
     check();
   })();
 
+  if (!genre && col.live) {
+    var note = document.querySelector(".bk-note");
+    if (note) note.innerHTML = (col.total > col.books.length ? "Showing " + col.books.length + " of " + col.total + " books in this collection. " : "") +
+      '<a href="' + col.live + '" target="_blank" rel="noopener noreferrer">See the full collection on rajkamalprakashan.com ↗</a>';
+  }
   document.getElementById("bkTitle").textContent = title || col.name;
   var bt = document.getElementById("bkBarTitle"); if (bt) bt.textContent = title || col.name;
   document.getElementById("bkCollection").textContent = eyebrow || col.name;

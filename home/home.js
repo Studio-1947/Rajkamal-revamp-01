@@ -17,7 +17,8 @@
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   function fmt(n) { return "₹" + (Math.round(n * 100) / 100).toLocaleString("en-IN", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); }
   var SITE = "https://www.rajkamalprakashan.com";
-  var TITLES = { "हिन्दी दिवस": ["Hindi Divas", "हिन्दी दिवस", "/hindi-divas"], "New Releases": ["Just arrived", "New Releases", "/collections/new-releases"], "Bestsellers": ["Readers' favourites", "Bestsellers", "/collections/bestsellers"], "Award Winners": ["Honoured writing", "Award Winners", "/collections/award-winners"], "Children Books": ["For young readers", "Children Books", "/collections/children-books"], "World Classic": ["Across languages", "World Classic", "/collections/world-classic"], "Magazine": ["Periodicals", "Magazine", "/collections/magazine"] };
+  /* shelf → [eyebrow, heading, collection slug]; "View all" opens that collection's own page (books/?c=<slug>) */
+  var TITLES = { "हिन्दी दिवस": ["Hindi Divas", "हिन्दी दिवस", "hindi-divas"], "New Releases": ["Just arrived", "New Releases", "new-releases"], "Bestsellers": ["Readers' favourites", "Bestsellers", "bestsellers"], "Award Winners": ["Honoured writing", "Award Winners", "award-winners"], "Children Books": ["For young readers", "Children Books", "children-books"], "World Classic": ["Across languages", "World Classic", "world-classic"], "Magazine": ["Periodicals", "Magazine", "magazine"] };
 
   /* ---- hero slider ---- */
   var slides = H.slides.map(function (s, i) {
@@ -37,15 +38,15 @@
     BIG.map(function (x, i) { return '<a class="hm-carousel__slide" href="' + x.href + '"><img src="' + x.img + '" alt="' + esc(x.t) + '"' + (i ? ' loading="lazy"' : ' fetchpriority="high"') + '>' + cap(x) + '</a>'; }).join("") +
     "</div>" + (BIG.length > 1 ? '<div class="hm-carousel__dots" id="hmBigDots">' + BIG.map(function (x, i) { return '<button type="button" data-i="' + i + '" aria-label="Show ' + esc(x.t) + '"></button>'; }).join("") + "</div>" : "") + "</div>";
   var EVENTS = [
-["Kitab Utsav : Barelly", "23–27 October", "Widmere Thetre", "Starting from 23rd October to 27th October", "/events"],
-    ["किताब उत्सव – इन्दौर", "4–8 सितम्बर", "प्रीतमलाल दुआ सभागृह, इन्दौर", "पाठक-लेखक संवाद, बातचीत, पाठ, चर्चा, लोकार्पण · प्रवेश निःशुल्क", "/events/kitab-utsav-indore-2026"],
-    ["मेरी माँ मेरी गैंगस्टर | बातचीत • बुक साइनिंग", "3 अगस्त", "इंडिया इंटरनेशनल सेंटर, नई दिल्ली", "अरुंधति रॉय की किताब पर बातचीत और बुक साइनिंग · प्रवेश निःशुल्क", "/events/meri-maan-meri-gangster-discussion-and-book-signing"]
+["Kitab Utsav : Barelly", "23–27 October", "Widmere Thetre", "Starting from 23rd October to 27th October", "kitab-utsav-bareilly"],
+    ["किताब उत्सव – इन्दौर", "4–8 सितम्बर", "प्रीतमलाल दुआ सभागृह, इन्दौर", "पाठक-लेखक संवाद, बातचीत, पाठ, चर्चा, लोकार्पण · प्रवेश निःशुल्क", "kitab-utsav-indore-2026"],
+    ["मेरी माँ मेरी गैंगस्टर | बातचीत • बुक साइनिंग", "3 अगस्त", "इंडिया इंटरनेशनल सेंटर, नई दिल्ली", "अरुंधति रॉय की किताब पर बातचीत और बुक साइनिंग · प्रवेश निःशुल्क", "meri-maan-meri-gangster-discussion-and-book-signing"]
   ];
   var eventArt = '<div class="hm-event__art" aria-hidden="true"><svg viewBox="0 0 160 88" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="26" r="12"/><path d="M10 68c0-18 10-28 22-28s22 10 22 28"/><circle cx="128" cy="26" r="12"/><path d="M106 68c0-18 10-28 22-28s22 10 22 28"/><path d="M58 62 80 52 102 62"/><path d="M58 62v10l22-10 22 10V62"/><line x1="80" y1="52" x2="80" y2="72"/><circle cx="70" cy="34" r="2" fill="currentColor" stroke="none"/><circle cx="80" cy="30" r="2" fill="currentColor" stroke="none"/><circle cx="90" cy="34" r="2" fill="currentColor" stroke="none"/></svg></div>';
   var eventHtml = '<article class="hm-feat__card hm-event" aria-label="Events"><div class="hm-event__body">' + eventArt + '<p class="hm-event__tag"><span></span>Events</p>' +
     '<ul class="hm-event__list">' + EVENTS.map(function (e, i) {
-      return '<li' + (i ? '' : ' class="is-first"') + '><a href="' + SITE + e[4] + '" target="_blank" rel="noopener noreferrer"><time>' + esc(e[1]) + '</time><b>' + esc(e[0]) + '</b><span class="hm-event__where">📍 ' + esc(e[2]) + '</span><span class="hm-event__desc">' + esc(e[3]) + '</span></a></li>';
-    }).join("") + '</ul><a class="hm-event__all" href="' + SITE + '/events" target="_blank" rel="noopener noreferrer"><span>Register</span><span class="hm-go" aria-hidden="true"><svg class="hm-go__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></div></article>';
+      return '<li' + (i ? '' : ' class="is-first"') + '><a href="' + siteURL("../events/event/?id=" + encodeURIComponent(e[4])) + '"><time>' + esc(e[1]) + '</time><b>' + esc(e[0]) + '</b><span class="hm-event__where">📍 ' + esc(e[2]) + '</span><span class="hm-event__desc">' + esc(e[3]) + '</span></a></li>';
+    }).join("") + '</ul><a class="hm-event__all" href="' + siteURL("../events/") + '"><span>All events</span><span class="hm-go" aria-hidden="true"><svg class="hm-go__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></div></article>';
 
   var top = '<section class="hm-top"><div class="hm-wrap hm-top__grid">' +
     '<div class="hm-intro"><h1 class="hm-intro__title">\u0938\u093e\u0925 <span class="hm-cycle"><span class="hm-cycle__word" id="hmCycleWord">\u091c\u0941\u0921\u093c\u0947\u0902</span></span></h1><p class="hm-intro__sub">\u0939\u0930 \u0915\u093f\u0924\u093e\u092c \u092e\u0947\u0902 \u0939\u0948 \u090f\u0915 \u0928\u0908 \u0926\u0941\u0928\u093f\u092f\u093e</p>' +
@@ -101,7 +102,8 @@
   }
   html += '<section class="hm-sec hm-tiles"><div class="hm-wrap"><div class="hm-tilegrid">' + H.tiles.map(function (t, i) {
     var l = twoLines(t.name);
-    return '<a class="hm-tile hm-tile--' + (i % 6 + 1) + '" href="' + SITE + '/collections/' + esc(t.slug) + '" target="_blank" rel="noopener noreferrer"><span class="hm-tile__ic"><svg class="hm-tile__motif" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true">' + MOTIFS[i % MOTIFS.length] + '</svg><span class="hm-tile__label"><span>' + esc(l[0]) + '</span><span>' + esc(l[1]) + '</span></span></span></a>';
+    /* each tile opens its own page: the All Books layout for that collection (books/?c=<slug>) */
+    return '<a class="hm-tile hm-tile--' + (i % 6 + 1) + '" href="' + siteURL("../books/?c=" + encodeURIComponent(t.slug) + "&from=home") + '"><span class="hm-tile__ic"><svg class="hm-tile__motif" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true">' + MOTIFS[i % MOTIFS.length] + '</svg><span class="hm-tile__label"><span>' + esc(l[0]) + '</span><span>' + esc(l[1]) + '</span></span></span></a>';
   }).join("") + '</div></div></section>';
 
   /* ---- release months ----
@@ -162,7 +164,7 @@
         '<p class="hm-scale__now" aria-live="polite">All months · ' + stops[0].n + " books</p></div>";
     }
     html += '<section class="hm-sec' + (idx % 2 ? " hm-sec--alt" : "") + '" id="' + slug(k) + '"><div class="hm-wrap"><header class="hm-head"><div><p class="hm-eyebrow">' + esc(t[0]) + '</p><h2>' + esc(t[1]) + '</h2></div>' +
-      '<div class="hm-ctl"><a class="hm-all" href="' + SITE + t[2] + '" target="_blank" rel="noopener noreferrer">View all ↗</a></div></header>' +
+      '<div class="hm-ctl"><a class="hm-all" href="' + (t[2] ? siteURL("../books/?c=" + encodeURIComponent(t[2]) + "&from=home") : siteURL("../books/?g=all")) + '">View all →</a></div></header>' +
       monthBar +
       /* arrows sit on the shelf's own left / right edges (large screens); phones swipe, with a small position bar */
       '<div class="hm-rail is-start"><button type="button" class="hm-nav hm-nav--prev" data-dir="-1" aria-label="Scroll left"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>' +
