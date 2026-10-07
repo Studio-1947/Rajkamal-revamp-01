@@ -964,3 +964,171 @@ html[data-theme="light"] .kt3-top .offer-tiers .offer-perk-title { background: #
   .kt3-top .offer-gift__tx { font-size: 0.7rem; }
 }
 @media (prefers-reduced-motion: reduce) { .offer-gifts li { animation: none; } .offer-gifts li .offer-gift__ic svg { transition: none; } }
+
+/* ==========================================================================================
+   round 11 (user)
+   - gifts are picture files now (offers/assets/gifts/*.svg — shaded drawings; drop real photos in with the same
+     names to replace them), shown without the sticker tilt;
+   - phones and tablets use the SAME STRUCTURE as the large screen: the picture (cut from the bottom), the two tiles
+     side by side, then the three offer cards in ONE ROW — with small gift cards.
+   ========================================================================================== */
+.offer-gift__ic img { display: block; width: 100%; height: 100%; object-fit: contain; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.offer-gifts li:hover .offer-gift__ic img { transform: scale(1.12); }
+@media (min-width: 981px) {
+  .kt3-top .offer-gift__ic { width: 58px; height: 58px; }
+  .kt3-top .offer-gifts li:has(.offer-gift__tx i) .offer-gift__ic { width: 48px; height: 48px; }
+}
+@media (min-width: 981px) and (max-width: 1240px) { .kt3-top .offer-gift__ic { width: 46px; height: 46px; } }
+
+@media (max-width: 980px) {
+  /* picture: top part only, like the large screen */
+  html[data-theme] .kt3-top .hero-img { aspect-ratio: 1 / 0.92; width: 100%; height: auto; object-fit: cover; object-position: center top; }
+  /* three offer cards in one row */
+  html[data-theme] .kt3-top .offer-tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; align-items: stretch; margin-top: 12px; }
+  html[data-theme] .kt3-top .offer-tiers .offer-tier,
+  html[data-theme] .kt3-top .offer-tiers .offer-tier:nth-child(3) { grid-column: auto; padding: 10px 6px 8px; border-radius: 14px; min-width: 0; }
+  .kt3-top .offer-tiers .offer-head { justify-content: center; text-align: center; gap: 0; }
+  .kt3-top .offer-tiers .offer-spend { align-items: center; }
+  .kt3-top .offer-tiers .offer-tier .diya-icon, .kt3-top .offer-tiers .diya-wrap { display: none; }
+  .kt3-top .offer-tiers .offer-kicker { font-size: 0.5rem; letter-spacing: 0.1em; }
+  html[data-theme] .kt3-top .offer-tiers .offer-tier .offer-amount,
+  html[data-theme] .kt3-top .offer-tiers .offer-tier:nth-child(3) .offer-amount { font-size: clamp(0.95rem, 4.3vw, 1.7rem); white-space: nowrap; }
+  html[data-theme] .kt3-top .offer-tiers .offer-tier .offer-discount-pill,
+  html[data-theme] .kt3-top .offer-tiers .offer-tier .offer-discount-pill--highlight { margin-top: 7px; padding: 4px 3px; border-radius: 999px; font-size: clamp(0.56rem, 2.3vw, 0.86rem); line-height: 1.2; }
+  .kt3-top .offer-tiers .offer-discount-pill b { font-size: 1.25em; margin-right: 0; }
+  .kt3-top .offer-tiers .offer-perk-title { margin: 8px 0 6px; padding: 2px 7px; font-size: clamp(0.46rem, 1.9vw, 0.66rem); letter-spacing: 0.06em; gap: 4px; }
+  .kt3-top .offer-tiers .offer-perk-title svg { display: none; }
+  .kt3-top .offer-tiers .offer-perk-title i { display: none; }
+  /* small gift cards: two per row, picture over a tiny name */
+  .kt3-top .offer-gifts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; align-content: start; }
+  .kt3-top .offer-gifts li { flex-direction: column; align-items: center; gap: 2px; padding: 5px 2px 4px; border-radius: 9px; text-align: center; animation: none; }
+  .kt3-top .offer-gift__ic { width: clamp(26px, 8.5vw, 52px); height: clamp(26px, 8.5vw, 52px); }
+  .kt3-top .offer-gift__tx { font-size: clamp(0.5rem, 2vw, 0.78rem); line-height: 1.15; font-weight: 600; overflow-wrap: anywhere; }
+  .kt3-top .offer-gift__tx i { display: none; }
+  .kt3-top .offer-gifts li:last-child:nth-child(odd), .kt3-top .offer-gifts li:has(.offer-gift__tx i) { grid-column: 1 / -1; }
+  .kt3-top .offer-tiers .offer-note { margin-top: 6px; padding: 6px; font-size: clamp(0.52rem, 2vw, 0.74rem); line-height: 1.3; }
+  .kt3-top .offer-tiers .offer-note__btn { font-size: 0.6rem; padding: 5px 6px; white-space: normal; }
+}
+@media (max-width: 350px) { .kt3-top .offer-gifts { gap: 3px; } .kt3-top .offer-gifts li { padding: 4px 1px 3px; } }
+
+/* ==========================================================================================
+   round 12 (user): each offer is ONE THUMBNAIL — a picture of all its gifts, edge to edge, fills the top half
+   (offers/assets/gifts/tier1–3.svg, composed from the single gift drawings); under it the amount and the extra
+   discount, then one small line naming the gifts. The "Free gifts" pill and the separate gift tiles are gone.
+   ========================================================================================== */
+html[data-theme] .kt3-top .offer-tiers .offer-tier,
+html[data-theme] .kt3-top .offer-tiers .offer-tier:nth-child(3) { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+.offer-thumb { position: relative; flex: 1 1 50%; min-height: 0; aspect-ratio: 300 / 262; overflow: hidden; background: #ffe2b8; }
+.offer-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.offer-tier:hover .offer-thumb img { transform: scale(1.05); }
+.offer-body { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 14px 14px 14px; }
+.kt3-top .offer-tiers .offer-head { justify-content: center; }
+.kt3-top .offer-tiers .offer-spend { align-items: center; }
+html[data-theme] .kt3-top .offer-tiers .offer-tier .offer-discount-pill { align-self: stretch; margin-top: 10px; }
+.offer-giftline { margin: 10px 0 0; font-size: 0.74rem; line-height: 1.4; color: #fff5e6; opacity: 0.85; }
+.offer-giftline b { font-weight: 600; color: #FFE174; }
+html[data-theme="light"] .offer-giftline { color: #4a1a0a; } html[data-theme="light"] .offer-giftline b { color: #a0361f; }
+.kt3-top .offer-tiers .offer-note { margin: 0 12px 12px; }
+@media (min-width: 981px) {
+  .kt3-top .offer-tiers .offer-tier .offer-thumb { flex: 1 1 auto; aspect-ratio: auto; min-height: 150px; }
+  .kt3-top .offer-tiers .offer-body { flex: none; }
+  html[data-theme] .kt3-top .offer-tiers .offer-tier .offer-amount,
+  html[data-theme] .kt3-top .offer-tiers .offer-tier:nth-child(3) .offer-amount { font-size: clamp(1.5rem, 2.1vw, 2rem); }
+  .kt3-top .offer-tiers .offer-kicker { font-size: 0.62rem; }
+}
+@media (max-width: 980px) {
+  .offer-body { padding: 8px 5px 9px; }
+  .offer-thumb { flex: none; aspect-ratio: 300 / 262; }
+  .offer-giftline { margin-top: 6px; font-size: clamp(0.5rem, 2vw, 0.74rem); line-height: 1.3; }
+  .kt3-top .offer-tiers .offer-note { margin: 0 5px 6px; }
+}
+@media (prefers-reduced-motion: reduce) { .offer-thumb img { transition: none; } .offer-tier:hover .offer-thumb img { transform: none; } }
+/* the picture is the same height on all three cards (about the top half); the text block takes the rest */
+@media (min-width: 981px) {
+  .kt3-top .offer-tiers .offer-tier .offer-thumb { flex: none; aspect-ratio: 300 / 262; min-height: 0; }
+  .kt3-top .offer-tiers .offer-body { flex: 1 1 auto; justify-content: center; }
+}
+
+.offer-giftline__more { display: inline-block; color: #FFE174; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; cursor: pointer; transition: opacity 0.2s ease; }
+.offer-giftline__more:hover { opacity: 0.8; }
+html[data-theme="light"] .offer-giftline__more { color: #a0361f; }
+
+/* ==========================================================================================
+   round 13 (user): on mobile view, offer cards are rows with the image on the left
+   ========================================================================================== */
+@media (max-width: 980px) {
+  html[data-theme] .kt3-top .offer-tiers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 14px 16px 20px;
+  }
+  html[data-theme] .kt3-top .offer-tiers .offer-tier,
+  html[data-theme] .kt3-top .offer-tiers .offer-tier:nth-child(3) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 16px;
+    padding: 8px 12px 8px 8px;
+    gap: 12px;
+    min-width: 0;
+  }
+  .offer-thumb {
+    flex: 0 0 clamp(92px, 28vw, 120px);
+    width: clamp(92px, 28vw, 120px);
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    min-height: 0;
+  }
+  .offer-thumb img {
+    border-radius: 12px;
+  }
+  .offer-body {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0;
+    align-items: flex-start;
+    text-align: left;
+    justify-content: center;
+  }
+  .kt3-top .offer-tiers .offer-head {
+    justify-content: flex-start;
+    text-align: left;
+  }
+  .kt3-top .offer-tiers .offer-spend {
+    align-items: flex-start;
+  }
+  .kt3-top .offer-tiers .offer-kicker {
+    font-size: 0.56rem;
+    letter-spacing: 0.08em;
+  }
+  html[data-theme] .kt3-top .offer-tiers .offer-tier .offer-amount,
+  html[data-theme] .kt3-top .offer-tiers .offer-tier:nth-child(3) .offer-amount {
+    font-size: clamp(1.2rem, 4.8vw, 1.55rem);
+    line-height: 1.1;
+  }
+  html[data-theme] .kt3-top .offer-tiers .offer-tier .offer-discount-pill,
+  html[data-theme] .kt3-top .offer-tiers .offer-tier .offer-discount-pill--highlight {
+    margin-top: 5px;
+    padding: 3px 8px;
+    font-size: clamp(0.66rem, 2.5vw, 0.78rem);
+    border-radius: 999px;
+    display: inline-block;
+    align-self: flex-start;
+    width: auto;
+  }
+  .offer-discount-pill .d-short { display: none; }
+  .offer-discount-pill .d-long { display: inline; }
+  .offer-giftline {
+    margin-top: 5px;
+    font-size: clamp(0.62rem, 2.4vw, 0.74rem);
+    line-height: 1.35;
+    text-align: left;
+  }
+  .kt3-top .offer-tiers .offer-note {
+    margin: 6px 0 0;
+    width: 100%;
+  }
+}
+
+

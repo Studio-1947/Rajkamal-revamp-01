@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><defs><linearGradient id="b" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7a2414"/><stop offset="1" stop-color="#4a140a"/></linearGradient>
+<linearGradient id="s" x1="0" x2="1"><stop offset="0" stop-color="#f1e8d6"/><stop offset=".5" stop-color="#fffaf0"/><stop offset="1" stop-color="#e2d6bd"/></linearGradient>
+<linearGradient id="r" x1="0" x2="1"><stop offset="0" stop-color="#c2331c"/><stop offset=".5" stop-color="#e8553c"/><stop offset="1" stop-color="#a82a16"/></linearGradient>
+<linearGradient id="m" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f4f4f4"/><stop offset=".5" stop-color="#8f8f8f"/><stop offset="1" stop-color="#dcdcdc"/></linearGradient></defs><ellipse cx="60" cy="108" rx="42" ry="5.500" fill="#000" opacity=".18"/><path d="M12 104l12-22h72l12 22z" fill="url(#b)"/>
+<path d="M22 28h76v60H22z" fill="#d6c9ac" transform="translate(3 2)"/>
+<rect x="21" y="24" width="78" height="62" rx="4" fill="url(#s)"/>
+<path d="M21 28a4 4 0 0 1 4-4h70a4 4 0 0 1 4 4v14H21z" fill="url(#r)"/>
+<text x="60" y="38" text-anchor="middle" font-family="Georgia, serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="1.500">OCTOBER</text>
+<g fill="#8a7c62"><rect x="29" y="49" width="7" height="6" rx="1"/><rect x="40" y="49" width="7" height="6" rx="1"/><rect x="51" y="49" width="7" height="6" rx="1"/><rect x="62" y="49" width="7" height="6" rx="1"/><rect x="73" y="49" width="7" height="6" rx="1"/><rect x="84" y="49" width="7" height="6" rx="1"/>
+<rect x="29" y="59" width="7" height="6" rx="1"/><rect x="40" y="59" width="7" height="6" rx="1"/><rect x="62" y="59" width="7" height="6" rx="1"/><rect x="73" y="59" width="7" height="6" rx="1"/><rect x="84" y="59" width="7" height="6" rx="1"/>
+<rect x="29" y="69" width="7" height="6" rx="1"/><rect x="40" y="69" width="7" height="6" rx="1"/><rect x="51" y="69" width="7" height="6" rx="1"/><rect x="62" y="69" width="7" height="6" rx="1"/><rect x="73" y="69" width="7" height="6" rx="1"/></g>
+<rect x="49.500" y="57" width="10" height="10" rx="2" fill="#e2452c"/><text x="54.500" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" font-weight="700" fill="#fff">20</text>
+<g fill="none" stroke="url(#m)" stroke-width="3.200" stroke-linecap="round"><path d="M36 17v13"/><path d="M52 17v13"/><path d="M68 17v13"/><path d="M84 17v13"/></g></svg>

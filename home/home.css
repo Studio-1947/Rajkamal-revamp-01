@@ -529,16 +529,35 @@ html[data-theme="dark"] .hm-tile__label { text-shadow: 0 0 6px #2e120b, 0 0 14px
 }
 
 /* Bestsellers (user): the tint no longer runs edge to edge — it's a rounded panel that ends just past the cards
-   (18px of breathing room; the shelf arrows sit outside it); beyond it the page keeps its normal background.
+   with clean breathing room away from the shelf arrows on both sides; beyond it the page keeps its normal background.
    --wp = the content column's side padding, --rp = the shelf's arrow gutter at that width. */
 #hm-sec-bestsellers, html[data-theme="dark"] #hm-sec-bestsellers { background: none; }
 #hm-sec-bestsellers .hm-wrap { --wp: 28px; --rp: 0px; position: relative; isolation: isolate; }
 #hm-sec-bestsellers .hm-wrap::before {
   content: ""; position: absolute; z-index: -1; top: -26px; bottom: -22px;
-  left: max(6px, calc(var(--wp) + var(--rp) - 18px)); right: max(6px, calc(var(--wp) + var(--rp) - 18px));
+  left: max(6px, calc(var(--wp) + var(--rp) + 6px)); right: max(6px, calc(var(--wp) + var(--rp) + 6px));
   border-radius: 24px; background: rgba(160, 54, 31, 0.09);
 }
 #hm-sec-bestsellers .hm-head { position: relative; }
 html[data-theme="dark"] #hm-sec-bestsellers .hm-wrap::before { background: rgba(217, 45, 32, 0.1); }
-@media (min-width: 721px) and (max-width: 1339px) { #hm-sec-bestsellers .hm-wrap { --rp: 58px; } #hm-sec-bestsellers .hm-head { margin-left: 58px; margin-right: 58px; } }
-@media (max-width: 720px) { #hm-sec-bestsellers .hm-wrap { --wp: 16px; } #hm-sec-bestsellers .hm-wrap::before { top: -20px; border-radius: 18px; } }
+@media (min-width: 1340px) {
+  #hm-sec-bestsellers .hm-wrap::before {
+    left: calc(var(--wp) + 12px); right: calc(var(--wp) + 12px);
+  }
+}
+@media (min-width: 721px) and (max-width: 1339px) {
+  #hm-sec-bestsellers .hm-wrap { --rp: 58px; }
+  #hm-sec-bestsellers .hm-head { margin-left: 58px; margin-right: 58px; }
+  #hm-sec-bestsellers .hm-wrap::before {
+    left: calc(var(--wp) + var(--rp) - 4px); right: calc(var(--wp) + var(--rp) - 4px);
+  }
+}
+@media (max-width: 720px) {
+  #hm-sec-bestsellers .hm-wrap { --wp: 16px; }
+  #hm-sec-bestsellers .hm-wrap::before {
+    top: -20px; left: 6px; right: 6px; border-radius: 18px;
+  }
+}
+/* dark theme: the hero's glow must start behind the nav too — the dark `background:` shorthand above resets
+   background-origin, which left a visible band under the nav */
+@media (min-width: 721px) { html[data-theme] .hm-top { background-origin: border-box; } }

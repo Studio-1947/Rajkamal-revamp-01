@@ -527,27 +527,18 @@
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") { setSearch(false); setMenu(false); } });
   mq.addEventListener && mq.addEventListener("change", function (e) { if (!e.matches) { setSearch(false); setMenu(false); } });
 
-  /* ---- footer on phones: link lists become tap-to-open headings, and the four office cards become one line that
-     opens the Contact page (styles: end of kt/styles.css; nothing changes on larger screens) ---- */
+  /* ---- footer on phones: collapsed to logo + contact + Rajkamal's social links, with a "Show more" button that
+     opens the whole footer and turns into "Show less" (styles: kt/styles.css; nothing changes on larger screens) ---- */
   (function () {
-    var f = document.querySelector(".site-footer"); if (!f) return;
-    var sc = document.querySelector('script[src*="mobile-nav.js"]'), R = sc ? sc.src.replace(/kt\/mobile-nav\.js.*$/, "") : "../";
-    f.querySelectorAll(".footer-stack > div").forEach(function (g, n) {
-      var h = g.querySelector("h4"), ul = g.querySelector("ul"); if (!h || !ul) return;
-      ul.id = ul.id || "ftAcc" + n;
-      var b = document.createElement("button");
-      b.type = "button"; b.className = "footer-acc"; b.setAttribute("aria-expanded", "false"); b.setAttribute("aria-controls", ul.id);
-      b.innerHTML = "<span>" + h.innerHTML + '</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
-      h.innerHTML = ""; h.appendChild(b); g.classList.add("footer-accgroup");
-      b.addEventListener("click", function () { var on = g.classList.toggle("is-open"); b.setAttribute("aria-expanded", String(on)); });
+    var f = document.querySelector(".site-footer"), con = f && f.querySelector(".footer-connect"); if (!f || !con || f.querySelector(".footer-more")) return;
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "footer-more"; b.setAttribute("aria-expanded", "false");
+    b.innerHTML = '<span>Show more</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+    con.parentNode.insertBefore(b, con.nextSibling);
+    b.addEventListener("click", function () {
+      var on = f.classList.toggle("is-more");
+      b.setAttribute("aria-expanded", String(on)); b.querySelector("span").textContent = on ? "Show less" : "Show more";
+      if (!on) b.scrollIntoView({ block: "center", behavior: "smooth" });
     });
-    var off = f.querySelector(".footer-offices");
-    if (off && !off.querySelector(".footer-offices-line")) {
-      var names = [].map.call(off.querySelectorAll(".office-box strong"), function (x) { return x.textContent.trim(); }).join(" · ");
-      var a = document.createElement("a");
-      a.className = "footer-offices-line"; a.href = R + "contact/#offices";
-      a.innerHTML = "<span>Our offices</span><b>" + names + '</b><i aria-hidden="true">→</i>';
-      off.appendChild(a);
-    }
   })();
 })();
