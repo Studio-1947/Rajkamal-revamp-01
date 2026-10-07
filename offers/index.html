@@ -488,54 +488,24 @@
 <script src="../kt/cards-link.js?v=3"></script>
 <script src="../books/books-data.js?v=2"></script>
 <script>
-  /* Offer tiers react to what the visitor has already picked (cart + wishlist): the tier they qualify for lights up
-     with "you have already added books worth ₹X — avail this offer"; the others say how much more is needed. */
+  /* Offer tiers: highlight the active unlocked tier if the visitor's picks cross a threshold */
   (function () {
     var tiers = document.querySelectorAll(".kt3-top .offer-tier");
     if (!tiers.length) return;
-    var LIMITS = [2000, 5000, 10000], PCT = [5, 7, 10];
+    var LIMITS = [2000, 5000, 10000];
     var prices = {}, C = window.RK_COLLECTIONS || {};
     Object.keys(C).forEach(function (k) { C[k].books.forEach(function (b) { prices[b[4]] = b[2]; }); });
-    function fmt(n) { return "₹" + Math.round(n).toLocaleString("en-IN"); }
-    var notes = [];
-    tiers.forEach(function (t, i) {
-      var n = document.createElement("div");
-      n.className = "offer-note"; n.hidden = true;
-      n.innerHTML = '<span class="offer-note__msg"></span><button type="button" class="offer-note__btn"></button>';
-      t.appendChild(n); notes.push(n);
-      n.querySelector("button").addEventListener("click", function () { avail(); });
-    });
     function picked() {
       var S = window.RKStore; if (!S) return [];
       var seen = {}, out = [];
       S.wish().concat(Object.keys(S.counts())).forEach(function (id) { if (prices[id] != null && !seen[id]) { seen[id] = 1; out.push(id); } });
       return out;
     }
-    function avail() {
-      var S = window.RKStore, inCart = S.counts();
-      picked().forEach(function (id) { if (!inCart[id]) S.addToCart(id); });
-      S.openCart(window.matchMedia("(max-width: 720px)").matches);
-    }
     function render() {
       var ids = picked(), total = ids.reduce(function (a, id) { return a + prices[id]; }, 0);
       var best = -1; LIMITS.forEach(function (l, i) { if (total >= l) best = i; });
-      var count = ids.length + (ids.length === 1 ? " book" : " books");
       tiers.forEach(function (t, i) {
-        var n = notes[i], msg = n.querySelector(".offer-note__msg"), btn = n.querySelector("button");
         t.classList.toggle("is-unlocked", i === best);
-        if (!ids.length) { n.hidden = true; return; }
-        n.hidden = false;
-        n.classList.toggle("is-on", i === best);
-        if (i === best) {
-          msg.innerHTML = "You have already added <b>" + count + " worth " + fmt(total) + "</b> — you can avail this special <b>Extra " + PCT[i] + "% off</b> offer" + (total * PCT[i] / 100 >= 1 ? " and save about " + fmt(total * PCT[i] / 100) : "") + ".";
-          btn.textContent = "Avail this offer"; btn.hidden = false;
-        } else if (i < best) {
-          msg.textContent = "You have already crossed " + fmt(LIMITS[i]) + " — a higher offer is active.";
-          btn.hidden = true;
-        } else {
-          msg.innerHTML = "Your picks are worth <b>" + fmt(total) + "</b>. Add <b>" + fmt(LIMITS[i] - total) + "</b> more to unlock Extra " + PCT[i] + "% off.";
-          btn.hidden = true;
-        }
       });
     }
     document.addEventListener("rk-store", render);
