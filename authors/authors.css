@@ -284,3 +284,4 @@ html[data-theme="dark"] .ap-hero { box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0
 .au-role, .au-role--main, html[data-theme="dark"] .au-role--main {
   color: var(--au-accent); background: color-mix(in srgb, var(--au-accent) 13%, transparent); border: 1px solid color-mix(in srgb, var(--au-accent) 34%, transparent); box-shadow: none;
 }
+.au-chip i { display: inline-block; min-width: 2ch; font-variant-numeric: tabular-nums; }

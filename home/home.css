@@ -22,45 +22,8 @@ html[data-theme="dark"] .hm-sec--alt { background: rgba(255, 255, 255, 0.04); }
 #hm-sec-bestsellers { background: rgba(160, 54, 31, 0.09); padding-bottom: 30px; margin-top: 26px; }
 html[data-theme="dark"] #hm-sec-bestsellers { background: rgba(217, 45, 32, 0.1); }
 .hm-tilegrid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
-/* collection tiles: one warm palette (sand + terracotta; maroon + gold in dark), no icons — each card carries a
-   traditional line motif (mandala, paisley, lotus, jaali, kolam, toran; SVG from home.js) and a thin inner frame.
-   The name sits on exactly two lines (home.js splits it). */
-.hm-tile { display: flex; flex-direction: column; color: #6b1d12; font-size: 1rem; font-weight: 600; }
-.hm-tile__ic {
-  --motif: #b5562e;
-  position: relative; overflow: hidden; isolation: isolate;
-  width: 100%; aspect-ratio: 1.55 / 1; display: flex; align-items: center; justify-content: center;
-  padding: 10px 12px; border-radius: 18px;
-  background: radial-gradient(110% 90% at 0% 0%, #fffaf2, transparent 60%), linear-gradient(145deg, #f9ebdb, #f0d8bf);
-  border: 1px solid #e6c9a8;
-  box-shadow: 0 10px 22px -12px rgba(122, 58, 29, 0.35);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
-}
-.hm-tile__ic::before { content: ""; position: absolute; inset: 5px; z-index: -1; border-radius: 13px; border: 1px solid color-mix(in srgb, var(--motif) 32%, transparent); pointer-events: none; }
-.hm-tile__motif { position: absolute; z-index: -1; color: var(--motif); opacity: 0.32; pointer-events: none; transition: opacity 0.3s ease, transform 0.6s ease; }
-.hm-tile--1 .hm-tile__motif { right: -16%; top: 50%; height: 135%; translate: 0 -50%; }          /* mandala */
-.hm-tile--2 .hm-tile__motif { right: -8%; bottom: -16%; height: 120%; }                          /* paisley */
-.hm-tile--3 .hm-tile__motif { right: -8%; bottom: -8%; height: 112%; }                           /* lotus */
-.hm-tile--4 .hm-tile__motif { inset: 0; width: 100%; height: 100%; opacity: 0.2; }               /* jaali */
-.hm-tile--5 .hm-tile__motif { right: -18%; top: 50%; height: 130%; translate: 0 -50%; }          /* kolam */
-.hm-tile--6 .hm-tile__motif { left: 0; top: -6%; width: 100%; height: auto; aspect-ratio: 1; }    /* toran */
-.hm-tile--1 .hm-tile__motif, .hm-tile--5 .hm-tile__motif { aspect-ratio: 1; }
-.hm-tile__label { display: flex; flex-direction: column; align-items: center; width: 100%; text-align: center; line-height: 1.22; letter-spacing: 0.01em; }
-.hm-tile--6 .hm-tile__label { padding-top: 4%; } /* just clear of the garland (its centre leaf is left out) */
-.hm-tile__label span { display: block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hm-tile:hover .hm-tile__ic, .hm-tile:focus-visible .hm-tile__ic { transform: translateY(-3px); box-shadow: 0 16px 28px -14px rgba(122, 58, 29, 0.5); }
-.hm-tile:hover .hm-tile__motif, .hm-tile:focus-visible .hm-tile__motif { opacity: 0.5; }
-.hm-tile--1:hover .hm-tile__motif, .hm-tile--5:hover .hm-tile__motif { transform: rotate(20deg); }
-.hm-tile:focus-visible { outline: none; }
-.hm-tile:focus-visible .hm-tile__ic { outline: 2px solid #a0361f; outline-offset: 3px; }
-html[data-theme="dark"] .hm-tile { color: #f6dcc0; }
-html[data-theme="dark"] .hm-tile__ic {
-  --motif: #e0a560;
-  background: radial-gradient(110% 90% at 0% 0%, rgba(224, 165, 96, 0.14), transparent 60%), linear-gradient(145deg, #3a1610, #250e08);
-  border-color: rgba(224, 165, 96, 0.24); box-shadow: 0 10px 22px -12px rgba(0, 0, 0, 0.7);
-}
-html[data-theme="dark"] .hm-tile:focus-visible .hm-tile__ic { outline-color: #e0a560; }
-@media (prefers-reduced-motion: reduce) { .hm-tile__ic, .hm-tile__motif { transition: none; } .hm-tile:hover .hm-tile__motif { transform: none; } }
+/* the six collection tiles are defined at the bottom of this file (image top, text bar bottom with arrow, no shadow) */
+
 
 /* shelf headers */
 .hm-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
@@ -470,7 +433,7 @@ html[data-theme="dark"] .hm-rail .hm-nav:hover { background: #ffab98; color: #2a
 .hm-tile__ic { border: 0; box-shadow: 0 1px 2px rgba(122, 58, 29, 0.08), 0 6px 14px -4px rgba(122, 58, 29, 0.16), 0 18px 34px -12px rgba(122, 58, 29, 0.32); }
 .hm-tile__ic::before { content: none; }
 .hm-tile__motif { opacity: 0.24; }
-.hm-tile--4 .hm-tile__motif { opacity: 0.15; }
+/* (removed: the lattice motif was held at 15% opacity, so "Representative Poem" looked blank on the light theme until hovered) */
 .hm-tile:hover .hm-tile__motif, .hm-tile:focus-visible .hm-tile__motif { opacity: 0.38; }
 .hm-tile:hover .hm-tile__ic, .hm-tile:focus-visible .hm-tile__ic { box-shadow: 0 2px 4px rgba(122, 58, 29, 0.1), 0 10px 20px -6px rgba(122, 58, 29, 0.22), 0 26px 44px -14px rgba(122, 58, 29, 0.42); }
 .hm-tile { color: #4e1209; font-size: 1.06rem; }
@@ -561,3 +524,122 @@ html[data-theme="dark"] #hm-sec-bestsellers .hm-wrap::before { background: rgba(
 /* dark theme: the hero's glow must start behind the nav too — the dark `background:` shorthand above resets
    background-origin, which left a visible band under the nav */
 @media (min-width: 721px) { html[data-theme] .hm-top { background-origin: border-box; } }
+
+/* home search: a drawn arrow in the round button (user) */
+.hm-search button[type="submit"] { display: grid; place-items: center; font-size: 0; }
+.hm-search .hm-search__go { width: 20px; height: 20px; opacity: 1; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.2s ease; }
+.hm-search button[type="submit"]:hover .hm-search__go { transform: translateX(2px); }
+
+/* ---------- the six collection tiles (user): no shadow; the motif SVG fills the top with animations on all cards,
+   the name sits in a bar underneath with an arrow on the right ---------- */
+.hm-tile { display: flex; flex-direction: column; border-radius: 16px; overflow: hidden; background: #fff7ec; border: 1px solid #ecd3bb; box-shadow: none; color: #4e1209; font-size: 0.95rem; transition: border-color 0.25s ease, transform 0.25s ease; text-decoration: none; }
+.hm-tile:hover, .hm-tile:focus-visible { border-color: #a0361f; transform: translateY(-3px); outline: none; }
+.hm-tile__pic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1.35 / 1;
+  overflow: hidden;
+  position: relative;
+  background: radial-gradient(110% 90% at 50% 50%, #fffaf2, #f5e4d2);
+  border-bottom: 1px solid #ecd3bb;
+}
+.hm-tile__motif {
+  width: 62%;
+  height: 62%;
+  color: #b5562e;
+  opacity: 0.8;
+  transform-origin: center center;
+  transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.hm-tile:hover .hm-tile__motif { opacity: 1; }
+
+/* Continuous & distinct animations on ALL 6 cards when hovered */
+@keyframes tileSpin { to { transform: rotate(360deg) scale(1.1); } }
+@keyframes tileSway { 0%, 100% { transform: rotate(0deg) scale(1.1); } 25% { transform: rotate(-10deg) scale(1.12); } 75% { transform: rotate(10deg) scale(1.12); } }
+@keyframes tileFloat { 0%, 100% { transform: translateY(0) scale(1.1); } 50% { transform: translateY(-5px) scale(1.14); } }
+@keyframes tilePulse { 0%, 100% { transform: scale(1.06); } 50% { transform: scale(1.16); } }
+@keyframes tileToran { 0%, 100% { transform: translateY(0) scale(1.06); } 50% { transform: translateY(4px) scale(1.1); } }
+
+.hm-tile--1:hover .hm-tile__motif { animation: tileSpin 8s linear infinite; }
+.hm-tile--2:hover .hm-tile__motif { animation: tileSway 2.5s ease-in-out infinite; }
+.hm-tile--3:hover .hm-tile__motif { animation: tileFloat 2s ease-in-out infinite; }
+.hm-tile--4:hover .hm-tile__motif { animation: tilePulse 2.5s ease-in-out infinite; }
+.hm-tile--5:hover .hm-tile__motif { animation: tileSpin 12s linear infinite reverse; }
+.hm-tile--6:hover .hm-tile__motif { animation: tileToran 2s ease-in-out infinite; }
+
+.hm-tile__bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px 11px; }
+.hm-tile__bar .hm-tile__label { display: flex; flex-direction: column; align-items: flex-start; width: auto; min-width: 0; text-align: left; line-height: 1.22; font-weight: 600; text-shadow: none; }
+.hm-tile__bar .hm-tile__label span { display: block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hm-tile__go { flex: none; width: 28px; height: 28px; padding: 6px; box-sizing: border-box; border-radius: 50%; background: #a0361f; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.2s ease, background-color 0.2s ease; }
+.hm-tile:hover .hm-tile__go { transform: translateX(3px); background: #8a2a17; }
+
+html[data-theme="dark"] .hm-tile { background: #26120c; border-color: rgba(255, 220, 180, 0.18); color: #fbe9d6; }
+html[data-theme="dark"] .hm-tile:hover { border-color: #f28b7d; }
+html[data-theme="dark"] .hm-tile__pic { background: radial-gradient(110% 90% at 50% 50%, #3a1610, #220c07); border-bottom-color: rgba(255, 220, 180, 0.18); }
+html[data-theme="dark"] .hm-tile__motif { color: #f28b7d; }
+html[data-theme="dark"] .hm-tile__bar .hm-tile__label { text-shadow: none; }
+html[data-theme="dark"] .hm-tile__go { background: #f28b7d; stroke: #3a0d08; }
+html[data-theme="dark"] .hm-tile:hover .hm-tile__go { background: #ff9d89; }
+.hm-tiles { padding-bottom: 8px; }
+@media (max-width: 720px) {
+  /* phones: three narrow tiles per row — smaller type and arrow so "Representative" fits */
+  .hm-tile { font-size: min(0.68rem, 2.75vw); border-radius: 12px; }
+  .hm-tile__pic { aspect-ratio: 1.25 / 1; }
+  .hm-tile__bar { padding: 6px 6px 7px; gap: 3px; }
+  .hm-tile__go { width: 18px; height: 18px; padding: 4px; }
+}
+@media (max-width: 400px) { .hm-tile { font-size: min(0.65rem, 2.7vw); } .hm-tile__go { width: 18px; height: 18px; padding: 4px; } }
+@media (prefers-reduced-motion: reduce) { .hm-tile, .hm-tile__motif, .hm-tile__go { transition: none; animation: none !important; } .hm-tile:hover { transform: none; } }
+
+
+/* ---------- Bestsellers panel, round 2 (user): stands out more in both themes, and lines up with the cards ----------
+   Large screens: a rounded panel exactly as wide as the content column (the same edges as every other shelf), with the
+   heading and the books padded inside it. Phones: a full-width band, because the shelf scrolls edge to edge there. */
+#hm-sec-bestsellers { padding-top: 62px; padding-bottom: 46px; }
+#hm-sec-bestsellers .hm-wrap::before, html[data-theme="dark"] #hm-sec-bestsellers .hm-wrap::before {
+  left: var(--wp); right: var(--wp); top: -28px; bottom: -26px; border-radius: 26px;
+  background: linear-gradient(135deg, #f6d9c2, #f3c9a8 55%, #f0b98f); border: 1px solid #e6a57e; box-shadow: 0 18px 40px -22px rgba(160, 54, 31, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+html[data-theme="dark"] #hm-sec-bestsellers .hm-wrap::before { background: linear-gradient(135deg, #4a1a10, #5c2114 55%, #6b2716); border-color: rgba(242, 139, 125, 0.4); box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 200, 170, 0.12); }
+#hm-sec-bestsellers .hm-eyebrow { color: #8a2c18; } html[data-theme="dark"] #hm-sec-bestsellers .hm-eyebrow { color: #ffc2a8; }
+@media (min-width: 721px) {
+  #hm-sec-bestsellers .hm-head, #hm-sec-bestsellers .hm-head[class] { margin-left: 24px; margin-right: 24px; }
+  #hm-sec-bestsellers .hm-rail, #hm-sec-bestsellers .hm-progress { margin-left: 24px; margin-right: 24px; }
+}
+@media (min-width: 1340px) { #hm-sec-bestsellers .hm-rail .hm-nav--prev { left: -47px; } #hm-sec-bestsellers .hm-rail .hm-nav--next { right: -47px; } } /* arrows sit on the panel's edge */
+@media (max-width: 720px) {
+  #hm-sec-bestsellers { padding-top: 46px; padding-bottom: 30px; }
+  #hm-sec-bestsellers .hm-wrap::before, html[data-theme="dark"] #hm-sec-bestsellers .hm-wrap::before { left: 0; right: 0; top: -22px; bottom: -16px; border-radius: 0; border-left: 0; border-right: 0; }
+}
+
+/* the six collection tiles (user): each motif is drawn large and anchored to the frame's top-left corner, so only
+   its top-left part shows (the rest runs off the right and bottom); the hover movement is slight — a slow drift,
+   no spinning or bouncing */
+.hm-tile__pic { display: block; }
+.hm-tile__motif, html[data-theme="dark"] .hm-tile__motif { position: absolute; left: 6%; top: 8%; width: 118%; height: auto; aspect-ratio: 1; opacity: 0.7; transform: none; transform-origin: 30% 30%;
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease; }
+.hm-tile--1:hover .hm-tile__motif, .hm-tile--2:hover .hm-tile__motif, .hm-tile--3:hover .hm-tile__motif,
+.hm-tile--4:hover .hm-tile__motif, .hm-tile--5:hover .hm-tile__motif, .hm-tile--6:hover .hm-tile__motif,
+.hm-tile:focus-visible .hm-tile__motif { animation: none; opacity: 0.9; transform: translate(-2.5%, -2.5%) scale(1.04); }
+.hm-tile--1:hover .hm-tile__motif, .hm-tile--5:hover .hm-tile__motif { transform: translate(-2%, -2%) scale(1.04) rotate(4deg); } /* the two round motifs turn a touch */
+.hm-tile, .hm-tile:hover, .hm-tile:focus-visible { transition: border-color 0.3s ease, transform 0.4s ease; }
+.hm-tile:hover, .hm-tile:focus-visible { transform: translateY(-2px); }
+.hm-tile__go { transition: transform 0.4s ease, background-color 0.3s ease; }
+.hm-tile:hover .hm-tile__go { transform: translateX(2px); }
+@media (prefers-reduced-motion: reduce) { .hm-tile__motif { transition: none; } .hm-tile:hover .hm-tile__motif { transform: none; } }
+
+/* shelves line up with the nav (user): on wide screens the shelf is exactly as wide as the nav pill, and five cards
+   fill it edge to edge — the first card starts on the nav's left edge and the fifth ends on its right edge
+   (before, fixed 230px cards stopped 10px short). The Hindi Divas grid loses its 2px side padding for the same reason. */
+@media (min-width: 1340px) {
+  .hm-shelf, #hm-sec- .hm-shelf { padding-left: 0; padding-right: 0; }
+  .hm-shelf { grid-auto-columns: calc((100% - 64px) / 5); }
+  .hm-all { margin-right: 0; } /* "View all" ends on the same edge */
+}
+
+/* Bestsellers arrows sit clear of the coloured panel (user): 8px outside its edge instead of straddling it */
+@media (min-width: 1340px) { #hm-sec-bestsellers .hm-rail .hm-nav--prev { left: -78px; } #hm-sec-bestsellers .hm-rail .hm-nav--next { right: -78px; } }
+/* 1340–1351px: the other shelves' arrows come in 6px so they don't push the page 6px wider than the screen */
+@media (min-width: 1340px) and (max-width: 1351px) { .hm-rail .hm-nav--prev { left: -58px; } .hm-rail .hm-nav--next { right: -58px; } }

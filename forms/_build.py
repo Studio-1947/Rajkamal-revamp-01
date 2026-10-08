@@ -18,7 +18,7 @@ for slug, title in pages:
         '<link rel="stylesheet" href="../kt/content.css?v=8">',
         '<link rel="stylesheet" href="../kt/content.css?v=8"><link rel="stylesheet" href="../forms/forms.css?v=1">',
     )
-    p = p.replace('<link rel="stylesheet" href="catalogues.css?v=2">', "")  # the catalogue page's own styles
+    p = p.replace('<link rel="stylesheet" href="catalogues.css?v=3">', "")  # the catalogue page's own styles
     p, n_main = re.subn(r"<main class=\"hp-main cnt-main[^\"]*\">.*?</main>", lambda m: frag, p, count=1, flags=re.S)
     p, n_scr = re.subn(
         r"<script>\n/\* catalogues page:.*?</script>",

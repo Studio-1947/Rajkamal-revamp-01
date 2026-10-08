@@ -83,10 +83,9 @@ html[data-theme="dark"] .bk-btn--wish.is-on { color: #ff6a5b; border-color: #ff6
 @media (max-width: 720px) {
   .bk-actions { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; margin-top: 6px; }
   .bk-btn { font-size: 0.74rem; padding: 7px 8px; text-align: center; }
-  .bk-btn--cart { grid-column: 1; grid-row: 1; }
-  .bk-btn--wish { grid-column: 2; grid-row: 1; width: 32px; height: 32px; }
+  .bk-btn--cart { grid-column: 1; }
+  .bk-btn--wish { grid-column: 2; width: 32px; height: 32px; }
   .bk-btn--wish svg { width: 16px; height: 16px; }
-  .bk-btn--buy { grid-column: 1 / -1; grid-row: 2; }
 }
 
 /* real cover images; the generated cover text only shows if a picture is missing */
@@ -273,9 +272,9 @@ html[data-theme="dark"] .bk-banner::after { background: linear-gradient(rgba(0, 
 .bk-banner .bk-bar { margin-top: 14px; }
 /* large screens: title on the left, controls on the right, on one line */
 @media (min-width: 1024px) {
-  .bk-banner { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
-  .bk-banner .bk-head { flex: 1 1 auto; }
-  .bk-banner .bk-bar { flex: none; margin: 0 0 2px; }
+  .bk-banner { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: nowrap; }
+  .bk-banner .bk-head { flex: 0 1 auto; min-width: 0; }
+  .bk-banner .bk-bar { flex: 0 0 auto; margin: 0 0 2px; }
   .bk-banner .bk-bar__in { justify-content: flex-end; }
 }
 /* pinned: the same banner, condensed */
@@ -302,9 +301,8 @@ html[data-theme="dark"] .bk-banner::after { background: linear-gradient(rgba(0, 
 @media (max-width: 599px) { .bk-banner::before, .bk-banner::after { left: -16px; right: -16px; } } /* = the page's side padding there */
 .bk-banner.is-stuck::before { top: calc(-1 * var(--bk-top) - env(safe-area-inset-top)); } /* pinned: the band runs up behind the nav, so no books show between them */
 
-/* round 3 (user): no shadow under the pinned banner; a format segment on the bar; Discount is a dropdown */
 .bk-banner::after, .bk-banner.is-stuck::after { display: none; }
-@media (min-width: 1024px) { .bk-banner { flex-wrap: wrap; row-gap: 14px; } } /* controls drop under the title when they don't fit beside it */
+
 .bk-seg { flex: none; display: inline-flex; align-items: center; gap: 2px; padding: 3px; border-radius: 999px; border: 1px solid #e6cdae; background: #fff7ec; }
 .bk-seg__opt { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border: 0; border-radius: 999px; background: none; color: inherit; cursor: pointer; white-space: nowrap;
   font: 600 0.82rem 'Google Sans Flex', 'Noto Sans Devanagari', system-ui, sans-serif; transition: background-color 0.18s ease, color 0.18s ease; }
@@ -359,3 +357,77 @@ html[data-theme="dark"] .bk-pop__x:hover, html[data-theme="dark"] .bk-pop__x:foc
 @keyframes bkSheetIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .bk-pop:not([hidden]) { animation: none; } }
 .bk-note a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- no nudge when filter numbers change (user) ----------
+   Counts use even-width tabular digits in a fixed slot so numbers don't jitter,
+   while toolbar buttons stay compact and never drop to another line. */
+.bk-seg__opt i, .bk-pop__chip i, .bk-pop__opt i, .bk-count, .bk-pop__apply, .au-chip i {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+.bk-seg__opt i { display: inline-flex; align-items: center; justify-content: center; min-width: 2.2ch; text-align: center; }
+.bk-pop__chip i { display: inline-flex; align-items: center; justify-content: center; min-width: 2.2ch; text-align: center; }
+.bk-pop__opt i { display: inline-flex; align-items: center; justify-content: center; min-width: 2.2ch; text-align: center; }
+.bk-filt__badge[hidden] { display: none !important; }
+
+
+/* ---------- batch (user) ----------
+   - phones: the page stays visible behind an open Sort / Filter sheet (lighter dimming);
+   - large screens: the filter bar lines up with the "N books" line on the left;
+   - counts sit in a slot wide enough for four digits, and the panel has a fixed width, so nothing shifts when a
+     number goes from 1,000s to a single digit. */
+@media (max-width: 720px) { .bk-pop:not([hidden]) { box-shadow: 0 0 0 100vmax rgba(20, 8, 4, 0.2), 0 -10px 34px rgba(0, 0, 0, 0.28); } }
+.bk-seg__opt i, .bk-pop__chip i { min-width: 4ch; }
+.bk-pop__opt i { display: inline-block; min-width: 4ch; text-align: right; }
+.bk-count { min-width: 11em; white-space: nowrap; }
+@media (min-width: 721px) { .bk-pop--filter { width: 380px; min-width: 0; max-width: none; box-sizing: border-box; } .bk-pop--sort, .bk-pop--disc { width: 240px; box-sizing: border-box; } }
+@media (min-width: 1024px) {
+  .bk-banner:not(.is-stuck) { align-items: flex-end; }
+  .bk-banner:not(.is-stuck) .bk-bar { margin: 0 0 -8px; } /* the 38px-tall bar is centred on the 22px count line */
+  .bk-banner .bk-head { flex: 0 0 auto; }
+  .bk-banner .bk-bar { margin-left: auto; }
+}
+@media (max-width: 720px) { .bk-seg__opt i { min-width: 0; } }
+/* the Filter badge keeps its slot even with no filters on (it used to appear and push the bar 24px), and every
+   control in the bar is one fixed height */
+.bk-filters .bk-filt .bk-filt__badge[hidden] { display: inline-grid !important; visibility: hidden; }
+@media (min-width: 721px) { .bk-filters .bk-filt { height: 38px; box-sizing: border-box; padding-top: 0; padding-bottom: 0; } .bk-filters .bk-seg { height: 38px; box-sizing: border-box; } }
+
+/* phones (user): no format row on the bar — Paperback / Hardcover / E-Book are chosen inside Filter (its "Format"
+   section, first in the panel); the Filter badge counts a chosen format like any other filter */
+@media (max-width: 720px) {
+  .bk-banner .bk-filters .bk-seg { display: none; }
+  .bk-banner .bk-filters { flex-wrap: nowrap; gap: 8px; }
+  .bk-banner .bk-filt { flex: 1 1 auto; justify-content: center; }
+  .bk-banner .bk-filt--sort { flex: 0 0 auto; }
+}
+
+/* phones (user): once the page scrolls, the pinned banner is only the filter line — the title and count are hidden
+   so more of the books show; they come back at the top of the page */
+@media (max-width: 720px) {
+  .bk-banner.is-stuck .bk-head { display: none; }
+  .bk-banner.is-stuck { padding: 8px 0; }
+  .bk-banner.is-stuck .bk-bar { margin-top: 0; }
+}
+
+/* phones (user): the Sort / Filter / Discount sheet is see-through — frosted glass over the books, with only a
+   faint dimming of the page, so you can see the list behind it while you choose */
+@media (max-width: 720px) {
+  .bk-pop:not([hidden]) {
+    background: rgba(255, 247, 236, 0.72); border-color: rgba(230, 205, 174, 0.9);
+    backdrop-filter: blur(14px) saturate(160%); -webkit-backdrop-filter: blur(14px) saturate(160%);
+    box-shadow: 0 0 0 100vmax rgba(20, 8, 4, 0.1), 0 -10px 34px rgba(60, 25, 10, 0.25);
+  }
+  html[data-theme="dark"] .bk-pop:not([hidden]) { background: rgba(42, 24, 17, 0.7); border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.18), 0 -10px 34px rgba(0, 0, 0, 0.5); }
+}
+
+/* tablets / small laptops (721–1279px): the filter bar with the format row was wider than the screen, so the whole
+   page scrolled sideways. Same answer as on phones — the format row goes, and formats are picked inside Filter. */
+@media (min-width: 721px) and (max-width: 1279px) {
+  .bk-banner .bk-filters .bk-seg, .bk-banner .bk-filters .bk-seg + .bk-filt__div { display: none; }
+}
+/* ≥1280px: a long collection title plus the full filter bar can be wider than the page (it used to scroll the page
+   sideways by up to 200px). When they don't fit on one line the bar drops under the title; short titles are unchanged. */
+@media (min-width: 1280px) { .bk-banner { flex-wrap: wrap; row-gap: 14px; } }
+/* only the chosen format shows its count, which shortens the bar enough for most titles to share its line */
+@media (min-width: 1280px) { .bk-banner .bk-seg__opt:not(.is-on) i { display: none; } }

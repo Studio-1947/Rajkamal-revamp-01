@@ -142,3 +142,28 @@ html[data-theme="dark"] .hp .site-header .header-nav-main a.is-current { backgro
   html[data-theme] .hp .site-header .header-top,
   html[data-theme] .hp .site-header.scrolled .header-top { padding: 9px 10px; }
 }
+
+/* nav (user): more room between the menu items on wide screens — there was space left
+   (as wide as fits beside the full logo at the top of the page: the nav bar itself is capped at 1224px) */
+@media (min-width: 1280px) { .hp .site-header .header-nav-main ul { gap: 10px; } }
+
+/* large screens: no dead band in the pill (user). The links used to sit hard left with ~300px of nothing before the
+   icons. Now the pill has three clear zones — logo, links centred in the space between, icons — and once the search
+   box appears (scrolled) it takes the spare room itself, so the links run straight up to the icons. */
+@media (min-width: 1024px) {
+  .hp .site-header .header-nav-main { display: flex; justify-content: center; }
+  .hp .site-header.scrolled .header-nav-main, .hp:not(.home-page) .site-header .header-nav-main { flex: 0 0 auto; }
+  .hp .site-header.scrolled .header-search, .hp:not(.home-page) .site-header .header-search { flex: 1 1 250px; max-width: none; }
+}
+
+/* large screens: the red search button sits the same 3px from the box's right edge as from its top and bottom (was 7px) */
+@media (min-width: 1024px) { .hp .site-header .header-search, .hp .site-header.scrolled .header-search { padding-right: 2px; } }
+
+/* 1200–1279px (iPad Pro 11 landscape, small laptops) — user: the wordmark was missing. With the links centred there
+   is room, so the full logo shows at the top of the page; it still shrinks to the emblem once the page scrolls,
+   like on wider screens. */
+@media (min-width: 1200px) and (max-width: 1279px) {
+  .hp .site-header:not(.scrolled) .logo { width: var(--logo-w, 133px); }
+  .hp .site-header:not(.scrolled) .logo-img--top { opacity: 1; }
+  .hp .site-header:not(.scrolled) .logo-img--scrolled { opacity: 0; }
+}

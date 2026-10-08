@@ -87,3 +87,14 @@ html[data-theme="dark"] .eb-store--play { border-color: #ffab98; color: #ffab98 
   .eb-more .eb-card:nth-child(n+5) { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .eb-card, .eb-cover img { transition: none; } }
+
+/* E-Books uses the All Books banner + filter bar (user); the search box sits in the bar */
+.eb-banner .eb-head { margin-bottom: 0; }
+.eb-banner .eb-search { flex: 0 1 300px; max-width: none; height: 40px; min-width: 160px; }
+.eb-banner + .eb-how { margin-top: 4px; }
+@media (max-width: 720px) {
+  .eb-banner .eb-search { order: -1; flex: 1 1 100%; height: 42px; }
+  .eb-banner .bk-filt { flex: 1 1 0; justify-content: center; }
+  .eb-banner .bk-filt--sort span { position: static; width: auto; height: auto; clip: auto; overflow: visible; }
+  .eb-banner .bk-filt .bk-filt__chev { display: inline; }
+}

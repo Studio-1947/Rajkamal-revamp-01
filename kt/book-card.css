@@ -19,9 +19,8 @@ html[data-theme="dark"] .hm-price strong { color: #ffab98; }
 .hm-price s { font-size: 0.8rem; opacity: 0.5; }
 .hm-actions { margin-top: auto; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; }
 .hm-actions .bk-btn { font-size: 0.78rem; padding: 8px 8px; }
-.hm-actions .bk-btn--cart { grid-column: 1; grid-row: 1; }
-.hm-actions .bk-btn--wish { grid-column: 2; grid-row: 1; width: 34px; height: 34px; }
-.hm-actions .bk-btn--buy { grid-column: 1 / -1; grid-row: 2; }
+.hm-actions .bk-btn--cart { grid-column: 1; }
+.hm-actions .bk-btn--wish { grid-column: 2; width: 34px; height: 34px; }
 .hm-oos { grid-column: 1 / -1; text-align: center; padding: 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 500; background: rgba(0, 0, 0, 0.06); opacity: 0.7; }
 html[data-theme="dark"] .hm-oos { background: rgba(255, 255, 255, 0.08); }
 /* no cover image: show the title on a warm block instead of a broken image */
@@ -40,4 +39,13 @@ html[data-theme="dark"] .hm-oos { background: rgba(255, 255, 255, 0.08); }
   .hm-price { display: grid; grid-template-columns: auto auto; justify-content: start; align-items: baseline; column-gap: 8px; row-gap: 4px; min-height: 2.9rem; }
   .hm-price .hm-off { grid-column: 1 / -1; justify-self: start; }
   .bk-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 10px; }
+}
+/* cards have no "Buy now" (user): one row — Add to cart + wishlist */
+.hm-actions .bk-btn--cart { padding: 9px 8px; }
+
+/* large screens (user): no empty band between the price and the Add to cart button — the price's spare
+   height and bottom margin go, and the button row sits 8px under it */
+@media (min-width: 721px) {
+  .hm-card .hm-price { margin-bottom: 0; min-height: 0; }
+  .hm-card .hm-actions { padding-top: 4px; }
 }

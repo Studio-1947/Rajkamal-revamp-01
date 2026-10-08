@@ -400,3 +400,5 @@ html[data-theme="dark"] .acc-oclear { color: #ffab98; }
 @media (max-width: 360px) { .acc-osel select { font-size: 0.8rem; } .acc-obar { gap: 6px; } }
 @media (max-width: 720px) { .acc-osel--year select { min-width: 6.6em; } }
 @media (max-width: 340px) { .acc-osel select { font-size: 0.76rem; } .acc-osel { padding-left: 10px; } }
+.acc-ofilter__btn i { display: inline-block; min-width: 2ch; text-align: left; font-variant-numeric: tabular-nums; } /* counts don't nudge the row */
+.acc-ocount { font-variant-numeric: tabular-nums; }

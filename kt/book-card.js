@@ -6,6 +6,7 @@
 (function () {
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   function fmt(n) { return "₹" + (Math.round(n * 100) / 100).toLocaleString("en-IN", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); }
+  var CART = '<svg class="bk-btn__cartic" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 3h2.2l2.4 11.2a2 2 0 0 0 2 1.6h8.700a2 2 0 0 0 1.950-1.550L21.500 7H5.600"/><circle cx="9.500" cy="20" r="1.400"/><circle cx="17.500" cy="20" r="1.400"/></svg>';
   var HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>';
 
   window.RKBookCard = function (o) {
@@ -15,9 +16,8 @@
     var price = o.p != null ? '<span class="hm-price"><strong>' + fmt(o.p) + "</strong>" + (o.m && o.m > o.p ? "<s>" + fmt(o.m) + "</s>" : "") + off + "</span>" : "";
     var actions = o.oos
       ? '<div class="hm-actions"><span class="hm-oos">Out of stock</span></div>'
-      : '<div class="hm-actions bk-actions" data-id="' + esc(o.id) + '"><button type="button" class="bk-btn bk-btn--cart" data-act="cart">Add to cart</button>' +
-        '<button type="button" class="bk-btn bk-btn--wish' + (wished ? " is-on" : "") + '" data-act="wish" aria-label="Add to wishlist" aria-pressed="' + (wished ? "true" : "false") + '">' + HEART + "</button>" +
-        '<button type="button" class="bk-btn bk-btn--buy" data-act="buy">Buy now</button></div>';
+      : '<div class="hm-actions bk-actions" data-id="' + esc(o.id) + '"><button type="button" class="bk-btn bk-btn--cart" data-act="cart">' + CART + '<span>Add to cart</span></button>' +
+        '<button type="button" class="bk-btn bk-btn--wish' + (wished ? " is-on" : "") + '" data-act="wish" aria-label="Add to wishlist" aria-pressed="' + (wished ? "true" : "false") + '">' + HEART + "</button></div>"; /* cards: Add to cart + wishlist only (Buy now lives on the book page) */
     return '<article class="hm-card"' + (o.month ? ' data-month="' + esc(o.month) + '"' : "") + ">" +
       '<a class="hm-cover" href="' + esc(o.href) + '"' + tgt + ' aria-label="' + esc(o.t) + '">' +
         '<img src="' + esc(o.img) + '" alt="' + esc(o.t) + ' — cover" loading="lazy" decoding="async" width="300" height="440" onerror="this.parentNode.classList.add(\'no-img\');this.remove()">' +
@@ -38,7 +38,15 @@
     if (!btn) return;
     var S = window.RKStore; if (!S) return;
     var id = btn.closest(".bk-actions").getAttribute("data-id"), phone = window.matchMedia("(max-width: 720px)").matches;
-    if (btn.dataset.act === "cart") { S.addToCart(id); if (phone) S.toast("Added to cart"); else S.openCart(false); }
+    if (btn.dataset.act === "cart") {
+      S.addToCart(id);
+      /* the button itself confirms: it fills, the cart hops, the label reads "Added" for a moment */
+      var lbl = btn.querySelector("span");
+      btn.classList.remove("is-added"); void btn.offsetWidth; btn.classList.add("is-added"); if (lbl) lbl.textContent = "Added";
+      clearTimeout(btn.__t); btn.__t = setTimeout(function () { btn.classList.remove("is-added"); if (lbl) lbl.textContent = "Add to cart"; }, 1600);
+      S.toast("Added to cart");
+      if (!phone) S.openCart(false);
+    }
     else if (btn.dataset.act === "wish") { var on = S.toggleWish(id); btn.classList.toggle("is-on", on); btn.setAttribute("aria-pressed", String(on)); S.toast(on ? "Saved to wishlist" : "Removed from wishlist"); }
     else if (btn.dataset.act === "buy") { S.addToCart(id); S.openCart(phone); }
   });
