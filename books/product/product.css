@@ -319,3 +319,11 @@ html[data-theme="dark"] a.pd-person:hover .pd-person__tx span, html[data-theme="
 html[data-theme="dark"] .pd-related__all { color: #ffab98; }
 .pd-related--author + .pd-related { margin-top: 44px; }
 @media (max-width: 560px) { .pd-related__head { flex-direction: column; align-items: flex-start; gap: 4px; } }
+
+/* offers + delivery promises sit together in one quiet box (user): a soft tint and hairline border, nothing loud;
+   the trust strip keeps its dotted rule on top as the divider inside the box */
+.pd-box { max-width: 602px; margin-top: 26px; padding: 18px 20px 16px; border-radius: 16px; background: rgba(160, 54, 31, 0.035); border: 1px solid rgba(160, 54, 31, 0.14); box-sizing: border-box; }
+html[data-theme="dark"] .pd-box { background: rgba(255, 255, 255, 0.035); border-color: rgba(255, 230, 205, 0.14); }
+.pd-box .pd-offers { margin-top: 0; max-width: none; }
+.pd-box .pd-trust { max-width: none; margin-top: 16px; padding: 14px 0 0; border-bottom: 0; }
+@media (max-width: 560px) { .pd-box { padding: 16px 14px 14px; border-radius: 14px; } }

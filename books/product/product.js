@@ -128,12 +128,12 @@
           return '<button type="button" class="pd-format' + (on ? " is-on" : "") + (inStock(x) ? "" : " is-oos") + '" role="radio" aria-checked="' + on + '" data-fmt="' + i + '"><b>' + esc(x.t) + "</b><span>" + (x.p != null ? fmt(x.p) : "") + (inStock(x) ? "" : " · Out of stock") + "</span></button>";
         }).join("") + "</div>" : '<div class="pd-meta"><span class="pd-pill">' + esc(f.t) + "</span>" + ((F.lang || d.lang) ? '<span class="pd-pill">' + esc(F.lang || d.lang) + "</span>" : "") + ((F.pages || d.pages) ? '<span class="pd-pill">' + (F.pages || d.pages) + " pages</span>" : "") + "</div>") +
         actions(f) +
-        '<section class="pd-offers"><h3>' + I.tag + "Available Offers</h3><ul>" +
+        '<div class="pd-box"><section class="pd-offers"><h3>' + I.tag + "Available Offers</h3><ul>" +
           [[2000, 5], [5000, 7], [10000, 10]].map(function (t) { return "<li><b>" + t[1] + "% off</b><span>on orders above " + fmt(t[0]) + "</span></li>"; }).join("") +
           "</ul><p>Discounts apply automatically in your cart. Have a coupon code? Apply it at checkout.</p></section>" +
         '<ul class="pd-trust">' +
           "<li>" + I.ship + "<span>Ships in<b>7 Days</b></span></li><li>" + I.orig + "<span>100%<b>Original</b></span></li>" +
-          "<li>" + I.ret + "<span>Easy<b>Returns</b></span></li><li>" + I.free + "<span>Free above<b>₹1,200</b></span></li></ul>" +
+          "<li>" + I.ret + "<span>Easy<b>Returns</b></span></li><li>" + I.free + "<span>Free above<b>₹1,200</b></span></li></ul></div>" +
         '<section class="pd-sec"><h2>About Book</h2><div class="pd-desc">' + descHtml + "</div>" +
           '<div class="pd-people">' + people("Author", authors.filter(function (p) { return p[1]; })) + people("Editor", F.edr || []) + people("Translator", F.tr || []) + "</div></section>" +
         '<section class="pd-sec"><h2>Book Details</h2><dl class="pd-table">' + details(f) + "</dl></section>" +

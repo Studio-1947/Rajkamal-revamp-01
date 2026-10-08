@@ -31,8 +31,11 @@
       wrap.classList.toggle("can-left", on && x > 4);
       wrap.classList.toggle("can-right", on && x < max - 4);
       if (on) {
-        thumb.style.width = (sc.clientWidth / sc.scrollWidth * 100) + "%";   // thumb width = share that's visible
-        thumb.style.transform = "translateX(" + (x / sc.clientWidth * 100) + "%)";
+        /* thumb width = the share that's visible, but never under 18px; its travel is the track minus the thumb,
+           so on a very long strip (the Hindi letters) the thumb stops at the track's end instead of running past it */
+        var bw = bar.clientWidth, tw = Math.max(18, Math.min(bw, bw * sc.clientWidth / sc.scrollWidth));
+        thumb.style.width = tw + "px";
+        thumb.style.transform = "translateX(" + (max > 0 ? Math.min(1, Math.max(0, x / max)) * (bw - tw) : 0) + "px)";
       }
       return on;
     }

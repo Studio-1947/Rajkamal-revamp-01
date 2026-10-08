@@ -1238,3 +1238,4 @@ html[data-theme="light"] .offer-giftline__more { color: #a0361f; }
   .kt3-top .offer-tiers .offer-thumb { width: 100%; aspect-ratio: auto; min-height: 132px; } /* fills its whole column */
   .kt3-top .offer-tiers .offer-thumb img, .kt3-top .offer-tiers .offer-tier:hover .offer-thumb img { transform: none; }
 }
+@media (min-width: 1280px) { .site-header .header-nav-main ul { gap: 10px; } } /* same wider menu spacing as the other pages */

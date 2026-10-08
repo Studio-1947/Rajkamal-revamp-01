@@ -312,13 +312,9 @@ body.home-page .site-header {
 }
 
 .search-scroll-track {
-  display: block;
-  animation: searchScroll 6.6s ease-in-out infinite;
-}
-
-.search-scroll-track {
   display: flex;
   flex-direction: column;
+  animation: searchScrollLoop 7.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 
 .search-scroll-track span {
@@ -328,24 +324,6 @@ body.home-page .site-header {
   font-size: 0.81rem;
   color: rgba(255, 255, 255, 0.7);
   white-space: nowrap;
-}
-
-@keyframes searchScroll {
-  0%,
-  28% {
-    transform: translateY(0);
-  }
-  33%,
-  61% {
-    transform: translateY(-20px);
-  }
-  66%,
-  94% {
-    transform: translateY(-40px);
-  }
-  100% {
-    transform: translateY(-40px);
-  }
 }
 
 .header-search input::placeholder {
@@ -437,7 +415,7 @@ body.home-page .site-header {
   list-style: none;
   display: flex;
   justify-content: flex-start;
-  gap: 12px;
+  gap: 18px;
   margin: 0;
   padding: 0;
 }
@@ -1146,20 +1124,14 @@ body.home-page .site-header {
 }
 
 .scroll-top i {
-  font-family:
-    "Google Sans Flex",
-    "Noto Sans Devanagari",
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 1.01rem;
-  line-height: 1;
+  width: 18px;
+  height: 18px;
   display: block;
-  transform: rotate(-90deg);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  font-size: 0;
+  line-height: 0;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 19V5M5 12l7-7 7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 19V5M5 12l7-7 7 7'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 .scroll-top.visible:hover {
@@ -2032,7 +2004,7 @@ body.home-page .site-header {
   order: 0;
 }
 .site-header .header-nav-main ul {
-  gap: 8px;
+  gap: clamp(14px, 1.4vw, 20px);
 }
 .site-header .header-nav-main {
   flex: 1 1 0;
@@ -2349,7 +2321,7 @@ html[data-theme="light"] .pill-btn--theme .ic-moon {
   height: 36px;
 }
 .site-header .header-nav-main ul {
-  gap: 6px;
+  gap: clamp(14px, 1.4vw, 20px);
 }
 .site-header .header-search {
   flex-basis: 270px;
@@ -4873,3 +4845,101 @@ html[data-theme="dark"] .rk-track li i { background: #1a0d0a; border-color: rgba
   html body .site-footer .social-row a { width: 42px; height: 42px; font-size: 1.15rem; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; }
   html body .site-footer:not(.is-more) .footer-copy--end { visibility: hidden; height: 0; margin: 0; padding-top: 0; border: 0; overflow: hidden; } /* keeps its bottom padding: room for the floating tab bar */
 }
+
+/* ---------- nav search: the rolling word loops smoothly (user) ----------
+   Seamless 3-step loop: Books -> Authors -> Publishers -> Books (::after).
+   Each word holds for 25% (1.875s) and slides smoothly for 8.33% (0.625s), eliminating the flat pause. */
+.search-scroll-track::after { content: "Books"; display: flex; align-items: center; height: 20px; font-size: 0.81rem; white-space: nowrap; color: rgba(255, 255, 255, 0.7); }
+html[data-theme="light"] .search-scroll-track::after, .hp .search-scroll-track::after { color: #8a8a8a; }
+html[data-theme="dark"] .hp .search-scroll-track::after { color: rgba(255, 255, 255, 0.85); }
+.search-scroll-track { animation: searchScrollLoop 7.5s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+@keyframes searchScrollLoop {
+  0%, 25% { transform: translateY(0); }
+  33.33%, 58.33% { transform: translateY(-20px); }
+  66.67%, 91.67% { transform: translateY(-40px); }
+  100% { transform: translateY(-60px); }
+}
+@media (prefers-reduced-motion: reduce) { .search-scroll-track { animation: none; } }
+
+
+/* ==========================================================================================
+   Batch (user): toast at the top with an icon · Add-to-cart button feedback · Explore sheet (search + every nav link)
+   · "Designed by Studio 1947" · drawn social icons · lighter dimming behind the phone filter sheets
+   ========================================================================================== */
+/* ---- toast: top of the screen, where it isn't missed ---- */
+.rk-toast, body:has(.mobile-tabbar.is-visible) .rk-toast { top: calc(92px + env(safe-area-inset-top)); bottom: auto; transform: translate(-50%, -24px) scale(0.96); display: inline-flex; align-items: center; gap: 10px; max-width: calc(100vw - 32px);
+  padding: 9px 20px 9px 9px; background: #4a140c; color: #fff7ec; font-size: 0.92rem; font-weight: 600; border: 1px solid rgba(255, 220, 180, 0.3);
+  box-shadow: 0 16px 34px -10px rgba(60, 15, 5, 0.6); transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 500; white-space: nowrap; }
+.rk-toast.show { transform: translate(-50%, 0) scale(1); }
+html[data-theme="dark"] .rk-toast { background: #fff7ec; color: #4a140c; border-color: transparent; }
+.rk-toast__ic { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #ffd24d; color: #4a140c; }
+.rk-toast__ic svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.rk-toast__ic--heart svg { fill: currentColor; }
+.rk-toast.show .rk-toast__ic { animation: rkToastPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both; }
+.rk-toast__tick { stroke-dasharray: 12; stroke-dashoffset: 12; }
+.rk-toast.show .rk-toast__tick { animation: rkTick 0.35s ease 0.35s forwards; }
+@keyframes rkToastPop { from { transform: scale(0.4) rotate(-20deg); } to { transform: none; } }
+@keyframes rkTick { to { stroke-dashoffset: 0; } }
+@media (max-width: 720px) { .rk-toast, body:has(.mobile-tabbar.is-visible) .rk-toast { top: calc(14px + env(safe-area-inset-top)); } }
+
+/* ---- Add to cart on book cards: cart icon; on tap the button fills, the cart hops, the label says "Added" ---- */
+.hm-actions .bk-btn--cart { display: inline-flex; align-items: center; justify-content: center; gap: 7px; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease; }
+.bk-btn__cartic { flex: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.hm-actions .bk-btn--cart:active { transform: scale(0.96); }
+.hm-actions .bk-btn--cart.is-added { background: #2f7a4c; border-color: #2f7a4c; color: #fff; animation: rkAdded 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.hm-actions .bk-btn--cart.is-added .bk-btn__cartic { animation: rkCartHop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+html[data-theme="dark"] .hm-actions .bk-btn--cart.is-added { background: #7fd6a0; border-color: #7fd6a0; color: #10301d; }
+@keyframes rkAdded { 0% { transform: scale(0.94); } 60% { transform: scale(1.04); } 100% { transform: none; } }
+@keyframes rkCartHop { 0% { transform: translateX(-8px) rotate(-12deg); opacity: 0.3; } 60% { transform: translateX(3px) rotate(4deg); opacity: 1; } 100% { transform: none; } }
+
+/* ---- footer: credit line (always visible) ---- */
+.footer-credit { margin: 6px 0 0; padding: 0 28px 16px; text-align: center; font-size: 0.72rem; letter-spacing: 0.06em; color: inherit; opacity: 0.55; }
+.footer-credit b { font-weight: 600; letter-spacing: 0.08em; }
+/* ---- footer: drawn social icons, in the footer's own cream / gold ---- */
+.social-row a { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; font-size: 0; color: #ffe9c9;
+  background: rgba(255, 233, 201, 0.08); border: 1px solid rgba(255, 233, 201, 0.32); transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease; }
+.social-row a svg { width: 18px; height: 18px; }
+.social-row a:hover, .social-row a:focus-visible { background: #ffd9a0; border-color: #ffd9a0; color: #5a160c; transform: translateY(-3px); box-shadow: 0 8px 16px -6px rgba(0, 0, 0, 0.5); outline: none; }
+@media (max-width: 720px) {
+  html body .site-footer .social-row a { width: 44px; height: 44px; border-radius: 50%; font-size: 0; }
+  html body .site-footer .social-row a svg { width: 21px; height: 21px; }
+  /* the credit carries the room for the floating tab bar now; it shows whether the footer is open or not */
+  html body .site-footer .footer-copy--end { padding-bottom: 0; }
+  html body .site-footer .footer-credit { margin-top: 14px; padding: 0 16px calc(84px + env(safe-area-inset-bottom)); }
+}
+
+/* ---- Explore sheet (phone tab bar): search box + results + every section as a link ---- */
+@media (max-width: 720px) {
+  .mobile-explore__find { display: flex; align-items: center; gap: 10px; height: 50px; padding: 0 8px 0 14px; border: 1.5px solid rgba(160, 54, 31, 0.3); border-radius: 14px; background: #fff; }
+  .mobile-explore__find svg { flex: none; opacity: 0.6; }
+  .mobile-explore__find input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: none; color: inherit; font: 500 16px "Google Sans Flex", "Noto Sans Devanagari", system-ui, sans-serif; }
+  .mobile-explore__find:focus-within { border-color: #a0361f; box-shadow: 0 0 0 3px rgba(160, 54, 31, 0.12); }
+  .mobile-explore__clear { flex: none; width: 32px; height: 32px; border: 0; border-radius: 50%; background: rgba(160, 54, 31, 0.1); color: inherit; font-size: 0.8rem; cursor: pointer; }
+  .mobile-explore__clear[hidden] { display: none; }
+  html[data-theme="dark"] .mobile-explore__find { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.2); }
+  .mobile-explore__res { margin-top: 8px; display: grid; gap: 2px; }
+  .mobile-explore__res[hidden] { display: none; }
+  .mobile-explore__res a { display: flex; align-items: center; gap: 12px; padding: 7px 6px; border-radius: 10px; color: inherit; text-decoration: none; }
+  .mobile-explore__res a:active { background: rgba(160, 54, 31, 0.08); }
+  .mobile-explore__res img { flex: none; width: 34px; height: 50px; object-fit: contain; background: #efe3d3; }
+  .mobile-explore__res span { display: flex; flex-direction: column; min-width: 0; }
+  .mobile-explore__res b { font-weight: 600; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mobile-explore__res i { font-style: normal; font-size: 0.78rem; opacity: 0.7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mobile-explore__res p { margin: 4px 6px; font-size: 0.8rem; opacity: 0.7; }
+  a.mobile-search-sheet__tile { text-decoration: none; color: inherit; }
+  /* the sheet stays in place at the bottom; results stack ABOVE the search box (closest match nearest the box) */
+  .mobile-explore__res { margin: 0 0 8px; display: flex; flex-direction: column-reverse; gap: 2px; max-height: 46dvh; overflow-y: auto; }
+  .mobile-search-sheet.is-kb .mobile-search-sheet__sheet { padding-bottom: 12px; transition: bottom 0.18s ease; }
+  /* only while the on-screen keyboard is up, the Browse tiles fold away so the box sits right above the keyboard */
+  .mobile-search-sheet.is-kb .mobile-search-sheet__label, .mobile-search-sheet.is-kb .mobile-search-sheet__grid { display: none; }
+  .mobile-explore__res { max-height: 38dvh; }
+}
+@media (prefers-reduced-motion: reduce) { .rk-toast, .rk-toast.show .rk-toast__ic, .hm-actions .bk-btn--cart.is-added, .hm-actions .bk-btn--cart.is-added .bk-btn__cartic, .social-row a { animation: none; transition: none; } .rk-toast__tick { stroke-dashoffset: 0; } }
+.mobile-explore__find input::-webkit-search-cancel-button { display: none; } /* our own ✕ clears it */
+.hm-actions .bk-btn--cart span { white-space: nowrap; }
+@media (max-width: 720px) { .hm-actions .bk-btn--cart:not(.is-added) .bk-btn__cartic { display: none; } } /* narrow cards: the cart icon shows only in the "Added" state */
+/* footer credit: a link to the studio; on phones it sits well clear of the floating tab bar */
+.footer-credit a { color: inherit; font-weight: 600; letter-spacing: 0.08em; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+.footer-credit a:hover, .footer-credit a:focus-visible { opacity: 1; color: #ffd9a0; outline: none; }
+.footer-credit:hover { opacity: 0.9; }
+@media (max-width: 720px) { html body .site-footer .footer-credit { margin-top: 18px; padding-bottom: calc(112px + env(safe-area-inset-bottom)); } }

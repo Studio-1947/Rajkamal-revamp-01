@@ -109,10 +109,19 @@
   }
   function uid() { return "w" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
   var toastEl, toastTimer;
+  /* a small banner at the TOP of the screen (people missed it at the bottom), with an icon that fits the message */
+  var TOAST_IC = {
+    cart: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 3h2.2l2.4 11.2a2 2 0 0 0 2 1.6h8.700a2 2 0 0 0 1.950-1.550L21.500 7H5.600"/><circle cx="9.500" cy="20" r="1.400"/><circle cx="17.500" cy="20" r="1.400"/><path class="rk-toast__tick" d="m10.500 10.500 2 2 3.500-4"/></svg>',
+    heart: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.490-1.460 3-3.210 3-5.500A5.500 5.500 0 0 0 16.500 3c-1.760 0-3 .5-4.500 2-1.500-1.500-2.740-2-4.500-2A5.500 5.500 0 0 0 2 8.500c0 2.300 1.500 4.050 3 5.500l7 7Z"/></svg>',
+    ok: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.500 3 3 5-6"/></svg>'
+  };
   function toast(msg) {
     if (!toastEl) { toastEl = document.createElement("div"); toastEl.className = "rk-toast"; toastEl.setAttribute("role", "status"); document.body.appendChild(toastEl); }
-    toastEl.textContent = msg; toastEl.classList.add("show");
-    clearTimeout(toastTimer); toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 1800);
+    var kind = /cart/i.test(msg) ? "cart" : /wish/i.test(msg) ? "heart" : "ok";
+    toastEl.innerHTML = '<span class="rk-toast__ic rk-toast__ic--' + kind + '">' + TOAST_IC[kind] + "</span><span></span>";
+    toastEl.lastChild.textContent = msg;
+    toastEl.classList.remove("show"); void toastEl.offsetWidth; toastEl.classList.add("show");
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 2200);
   }
   /* ---- add-to-cart pulse: overshoot bounce + a small burst of dots + a rolling badge count ---- */
   function spawnBurst(host) {
@@ -277,7 +286,7 @@
     bar.setAttribute("aria-label", "Quick navigation");
     bar.innerHTML =
       '<a class="mobile-tab mobile-tab--home" href="' + ROOT + '" data-tab="home"><img class="mobile-tab__logo mobile-tab__logo--light" src="' + ROOT + 'kt/assets/logo/rkp-favicon.svg" alt="" width="20" height="20"><img class="mobile-tab__logo mobile-tab__logo--dark" src="' + ROOT + 'kt/assets/logo/rkp-favicon-dark.svg" alt="" width="20" height="20"><span>Home</span></a>' +
-      '<button type="button" class="mobile-tab" data-tab="search" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M12 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M7 4.5c1.6-1 3.4-1 5 0"/><circle cx="16.3" cy="15.3" r="3.3"/><path d="m18.7 17.7 2 2"/></svg><span>Search Books</span></button>' +
+      '<button type="button" class="mobile-tab" data-tab="search" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M12 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M7 4.5c1.6-1 3.4-1 5 0"/><circle cx="16.3" cy="15.3" r="3.3"/><path d="m18.7 17.7 2 2"/></svg><span>Explore</span></button>' +
       '<button type="button" class="mobile-tab" data-tab="profile"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"/></svg><span>Profile</span></button>' +
       '<button type="button" class="mobile-tab" data-tab="wish"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><span class="mobile-tab__badge" hidden></span><span>Wishlist</span></button>' +
       '<button type="button" class="mobile-tab" data-tab="cart"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2.5 3h2l2.3 12.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6"/></svg><span class="mobile-tab__badge" hidden></span><span>Cart</span></button>';
@@ -292,19 +301,66 @@
       '<div class="mobile-search-sheet__sheet" role="dialog" aria-modal="true" aria-label="Search">' +
         '<button type="button" class="mobile-search-sheet__close" data-search-close aria-label="Close"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' +
         '<div class="mobile-search-sheet__grab" data-search-close></div>' +
-        '<h2 class="mobile-search-sheet__title">Search</h2>' +
-        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__find" data-pop-act="books"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M12 4.5c1.6-1 3.4-1 5 0v11.5c-1.6-1-3.4-1-5 0V4.5z"/><path d="M7 4.5c1.6-1 3.4-1 5 0"/><circle cx="16.3" cy="15.3" r="3.3"/><path d="m18.7 17.7 2 2"/></svg></span><span>Search by Book Names<i>Titles, authors, ISBN</i></span></button>' +
+        '<h2 class="mobile-search-sheet__title">Explore</h2>' +
+        /* a real search box: finds books by title or author as you type (books-data.js is loaded on demand) */
+        /* results appear ABOVE the box, so the sheet stays where it is and the box stays under the thumb */
+        '<div class="mobile-explore__res" id="mxRes" aria-live="polite" hidden></div>' +
+        '<form class="mobile-explore__find" role="search" autocomplete="off"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>' +
+          '<input type="search" id="mxQ" placeholder="Search books or authors" aria-label="Search books or authors" enterkeyhint="search"><button type="button" class="mobile-explore__clear" id="mxClear" aria-label="Clear search" hidden>✕</button></form>' +
         '<p class="mobile-search-sheet__label">Browse</p><div class="mobile-search-sheet__grid">' +
-        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="cat"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span><span>Categories</span></button>' +
-        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="authors"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 14.8c1.9.7 3.2 2.4 3.5 5.2"/></svg></span><span>Authors</span></button>' +
-        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="ebooks"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M9 6h6M9 10h6M9 14h3"/></svg></span><span>E-Books</span></button>' +
-        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="collections"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h4v15H4zM10 3h4v17h-4z"/><path d="m16.5 5.5 3.8-1 3 14.5-3.8 1z"/></svg></span><span>Collections</span></button>' +
-        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="publications"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg></span><span>Publications</span></button>' +
-        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="offers"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v6c0 5 4 8.5 9 9 5-.5 9-4 9-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span><span>Offers</span></button>' +
-        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="all"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span><span>All Sections</span></button>' +
+        '<a class="mobile-search-sheet__row mobile-search-sheet__tile" href="' + ROOT + 'books/?g=all"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.500c2.400-1.400 5.200-1.400 7.500 0v14c-2.300-1.400-5.100-1.400-7.500 0zM19.500 5.500c-2.300-1.400-5.100-1.400-7.500 0v14c2.400-1.400 5.200-1.400 7.500 0z"/></svg></span><span>All Books</span></a>' +
+        '<a class="mobile-search-sheet__row mobile-search-sheet__tile" href="' + ROOT + 'authors/"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><span>Authors</span></a>' +
+        '<a class="mobile-search-sheet__row mobile-search-sheet__tile" href="' + ROOT + 'ebooks/"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.500" width="12" height="19" rx="2.500"/><path d="M10 7h4M10 11h4M11 18h2"/></svg></span><span>E-Books</span></a>' +
+        '<a class="mobile-search-sheet__row mobile-search-sheet__tile" href="' + ROOT + 'publications/"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6M2 21h20"/></svg></span><span>Publications</span></a>' +
+        '<a class="mobile-search-sheet__row mobile-search-sheet__tile" href="' + ROOT + 'catalogues/"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></span><span>Catalogue</span></a>' +
+        '<a class="mobile-search-sheet__row mobile-search-sheet__tile" href="' + ROOT + 'events/"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.500" y="5" width="17" height="15" rx="2"/><path d="M3.500 10h17M8 3v4M16 3v4"/></svg></span><span>Events</span></a>' +
+        '<button type="button" class="mobile-search-sheet__row mobile-search-sheet__tile" data-pop-act="cat"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.500"/><rect x="13" y="3" width="8" height="8" rx="1.500"/><rect x="3" y="13" width="8" height="8" rx="1.500"/><rect x="13" y="13" width="8" height="8" rx="1.500"/></svg></span><span>Categories</span></button>' +
+        '<a class="mobile-search-sheet__row mobile-search-sheet__tile" href="' + ROOT + 'collections/"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="5" rx="1.500"/><rect x="4" y="12" width="16" height="8" rx="1.500"/></svg></span><span>Collections</span></a>' +
+        '<a class="mobile-search-sheet__row mobile-search-sheet__tile" href="' + ROOT + 'offers/"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.500" cy="8.500" r="1.400"/></svg></span><span>Offers</span></a>' +
+        '<a class="mobile-search-sheet__row mobile-search-sheet__tile" href="' + ROOT + '"><span class="mobile-profile__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.500 12 4l9 7.500"/><path d="M5.500 10v10h13V10"/></svg></span><span>Home</span></a>' +
         '</div>' +
       '</div>';
     document.body.appendChild(searchSheet);
+    (function () {
+      var q = searchSheet.querySelector("#mxQ"), res = searchSheet.querySelector("#mxRes"), clear = searchSheet.querySelector("#mxClear"), form = searchSheet.querySelector(".mobile-explore__find"), all = null, loading = false;
+      function esc2(t) { return String(t == null ? "" : t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+      function build() { var C = window.RK_COLLECTIONS || {}, seen = {}; all = []; Object.keys(C).forEach(function (k) { C[k].books.forEach(function (b) { if (!seen[b[4]]) { seen[b[4]] = 1; all.push({ b: b, k: k, hay: (b[0] + " " + b[1]).toLowerCase() }); } }); }); }
+      function ready(cb) {
+        if (all) return cb();
+        if (window.RK_COLLECTIONS) { build(); return cb(); }
+        if (loading) return; loading = true;
+        var sc = document.createElement("script"); sc.src = ROOT + "books/books-data.js?v=4"; sc.onload = function () { build(); cb(); }; document.head.appendChild(sc);
+      }
+      function show() {
+        var v = q.value.trim().toLowerCase(); clear.hidden = !q.value;
+        searchSheet.classList.toggle("is-searching", v.length >= 2);
+        if (v.length < 2) { res.hidden = true; res.innerHTML = ""; return; }
+        ready(function () {
+          if (q.value.trim().toLowerCase() !== v) return;
+          var hits = all.filter(function (x) { return x.hay.indexOf(v) > -1; });
+          hits.sort(function (x, y) { return (x.b[0].toLowerCase().indexOf(v) === 0 ? 0 : 1) - (y.b[0].toLowerCase().indexOf(v) === 0 ? 0 : 1); });
+          res.innerHTML = hits.length ? hits.slice(0, 6).map(function (x) {
+            return '<a href="' + ROOT + "books/product/?id=" + encodeURIComponent(x.b[4]) + "&c=" + encodeURIComponent(x.k) + '"><img src="' + ROOT + "books/covers/" + esc2(x.b[4]) + '.jpg" alt="" width="34" height="50" loading="lazy" onerror="this.style.visibility=\'hidden\'"><span><b>' + esc2(x.b[0]) + "</b><i>" + esc2(x.b[1]) + "</i></span></a>";
+          }).join("") + (hits.length > 6 ? '<p>' + (hits.length - 6) + " more — keep typing to narrow it down</p>" : "") : "<p>No book or author matches that.</p>";
+          res.hidden = false;
+        });
+      }
+      q.addEventListener("input", show);
+      /* the sheet stays at the bottom; when the on-screen keyboard opens it is lifted just above it */
+      var panel = searchSheet.querySelector(".mobile-search-sheet__sheet"), vv = window.visualViewport;
+      function lift() {
+        var kb = vv ? Math.max(0, window.innerHeight - vv.height - vv.offsetTop) : 0;
+        panel.style.bottom = kb > 60 ? kb + "px" : "";
+        panel.style.maxHeight = kb > 60 ? Math.max(200, vv.height - 10) + "px" : "";
+        searchSheet.classList.toggle("is-kb", kb > 60);
+      }
+      if (vv) { vv.addEventListener("resize", lift); vv.addEventListener("scroll", lift); }
+      q.addEventListener("focus", function () { searchSheet.classList.add("is-typing"); setTimeout(lift, 250); });
+      q.addEventListener("blur", function () { setTimeout(function () { searchSheet.classList.remove("is-typing"); lift(); }, 150); });
+      clear.addEventListener("click", function () { q.value = ""; show(); q.focus(); });
+      form.addEventListener("submit", function (e) { e.preventDefault(); var first = res.querySelector("a"); if (first) location.href = first.href; });
+      searchSheet.__reset = function () { q.value = ""; res.hidden = true; res.innerHTML = ""; clear.hidden = true; searchSheet.classList.remove("is-typing", "is-searching", "is-kb"); panel.style.bottom = ""; panel.style.maxHeight = ""; };
+    })();
     /* a sheet taller than the screen (small phone / large text) shows a soft fade at the bottom until you reach the end */
     function sheetCue(panel) {
       if (!panel || panel.__cue) return; panel.__cue = true;
@@ -317,7 +373,7 @@
       searchSheet.hidden = !open;
       searchTab.setAttribute("aria-expanded", String(open));
       if (open) { requestAnimationFrame(function () { searchSheet.classList.add("is-open"); }); var ps = searchSheet.querySelector(".mobile-search-sheet__sheet"); sheetCue(ps); ps.scrollTop = 0; cueNow(ps); }
-      else searchSheet.classList.remove("is-open");
+      else { searchSheet.classList.remove("is-open"); if (searchSheet.__reset) searchSheet.__reset(); }
     }
     searchSheet.addEventListener("click", function (e) {
       if (e.target.closest("[data-search-close]")) { setSearchSheet(false); return; }

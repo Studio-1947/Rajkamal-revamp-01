@@ -11,8 +11,8 @@
 <script>try{var t=localStorage.getItem("rk-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../kt/styles.css?v=b59">
-<link rel="stylesheet" href="../hp/hp.css?v=b5"><link rel="stylesheet" href="../books/books.css?v=29"><link rel="stylesheet" href="../authors/authors.css?v=12"><link rel="stylesheet" href="ebooks.css?v=4">
+<link rel="stylesheet" href="../kt/styles.css?v=b65">
+<link rel="stylesheet" href="../hp/hp.css?v=b8"><link rel="stylesheet" href="../books/books.css?v=35"><link rel="stylesheet" href="../authors/authors.css?v=13"><link rel="stylesheet" href="ebooks.css?v=11">
 </head>
 <body class="hp">
 
@@ -76,33 +76,38 @@
 
 <main class="hp-main bk-main eb-main">
   <div class="hp-wrap">
-    <header class="bk-head eb-head">
-      <p class="bk-eyebrow">Rajkamal Prakashan</p>
-      <h1 class="bk-title">E-Books</h1>
-      <p class="bk-count" id="ebCount"></p>
-    </header>
+    <!-- same title banner + sort / filter bar as All Books (books.css); it stays pinned under the nav while you scroll -->
+    <div class="bk-banner eb-banner" id="ebBanner">
+      <header class="bk-head eb-head">
+        <p class="bk-eyebrow">Rajkamal Prakashan</p>
+        <h1 class="bk-title">E-Books</h1>
+        <p class="bk-count" id="ebCount"></p>
+      </header>
+      <div class="bk-bar">
+        <div class="bk-bar__in">
+          <div class="bk-filters" id="ebFilters" role="toolbar" aria-label="Search, sort and filter e-books">
+            <label class="au-search eb-search">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+              <input type="search" id="ebSearch" placeholder="Search title or author" aria-label="Search e-books" autocomplete="off">
+            </label>
+            <button type="button" class="bk-filt bk-filt--sort" data-pop="sort" aria-expanded="false" aria-controls="ebPopSort">
+              <svg class="bk-filt__ic" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v14M7 17l-3-3M7 17l3-3M17 21V7M17 7l-3 3M17 7l3 3"/></svg>
+              <span id="ebSortLabel">Featured</span><svg class="bk-filt__chev" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <button type="button" class="bk-filt bk-filt--filter" data-pop="filter" aria-expanded="false" aria-controls="ebPopFilter">
+              <svg class="bk-filt__ic" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+              <span>Filter</span><b class="bk-filt__badge" id="ebFiltBadge" hidden></b><svg class="bk-filt__chev" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="bk-pop bk-pop--sort" id="ebPopSort" role="listbox" aria-label="Sort by" hidden></div>
+            <div class="bk-pop bk-pop--filter" id="ebPopFilter" role="dialog" aria-label="Filter e-books" hidden></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <aside class="eb-how" aria-label="How e-books work">
       <span class="eb-how__ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M9 6h6M9 10h6M9 14h3"/><circle cx="12" cy="18.5" r=".6" fill="currentColor"/></svg></span>
       <p><b>Read instantly on your phone, tablet or e-reader.</b> Pick a book here, then buy it on <b>Kindle</b> or <b>Google Play Books</b> — it lands in your library right away.</p>
     </aside>
-    <div class="au-tools" role="search">
-      <label class="au-search">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="search" id="ebSearch" placeholder="Search e-books by title or author" aria-label="Search e-books" autocomplete="off">
-      </label>
-      <label class="au-sort">
-        <span>Sort</span>
-        <select id="ebSort" aria-label="Sort e-books">
-          <option value="featured">Featured</option>
-          <option value="new">Newest first</option>
-          <option value="price-asc">Price: low to high</option>
-          <option value="price-desc">Price: high to low</option>
-          <option value="az">Title A–Z</option>
-        </select>
-      </label>
-    </div>
-    <div class="au-chips" id="ebGenres" role="group" aria-label="Filter by genre"></div>
-    <div class="au-chips eb-prices" id="ebPrices" role="group" aria-label="Filter by price"></div>
     <div class="eb-grid" id="ebGrid" aria-live="polite"></div>
     <p class="au-empty" id="ebEmpty" hidden>No e-book matches that. <button type="button" id="ebReset">Clear filters</button></p>
     <p class="bk-note">Showing 20 e-books. <a href="https://www.rajkamalprakashan.com/ebooks" target="_blank" rel="noopener noreferrer">See all 1,162 on rajkamalprakashan.com ↗</a></p>
@@ -163,36 +168,36 @@
       <div class="connect-group">
         <h5>Rajkamal Prakashan</h5>
         <div class="social-row">
-          <a href="https://www.youtube.com/@RajkamalBooks" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Prakashan on YouTube">▶</a>
-          <a href="https://www.instagram.com/rajkamalbooks" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Prakashan on Instagram">◎</a>
-          <a href="https://www.facebook.com/RajkamalPrakashanSamooh" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Prakashan on Facebook">f</a>
-          <a href="https://x.com/RajkamalBooks" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Prakashan on X">✕</a>
-          <a href="https://in.linkedin.com/company/rajkamalbooks" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Prakashan on LinkedIn">in</a>
-          <a href="https://www.threads.com/@rajkamalbooks" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Prakashan on Threads">@</a>
+          <a href="https://www.youtube.com/@RajkamalBooks" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Prakashan on YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.600 7.200a2.500 2.500 0 0 0-1.800-1.800C18.200 5 12 5 12 5s-6.200 0-7.800.4A2.500 2.500 0 0 0 2.400 7.200C2 8.800 2 12 2 12s0 3.200.4 4.800a2.500 2.500 0 0 0 1.800 1.800C5.800 19 12 19 12 19s6.200 0 7.800-.4a2.500 2.500 0 0 0 1.800-1.800c.4-1.600.4-4.800.4-4.800s0-3.200-.4-4.800z"/><path d="m10 9 5 3-5 3z" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.instagram.com/rajkamalbooks" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Prakashan on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.500" y="3.500" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.100" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.facebook.com/RajkamalPrakashanSamooh" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Prakashan on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 21v-7h2.500l.5-3H14V9.200c0-1 .4-1.700 1.800-1.700H17V4.800c-.5-.1-1.400-.2-2.300-.2-2.300 0-3.700 1.400-3.700 3.900V11H8.500v3H11v7z" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://x.com/RajkamalBooks" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Prakashan on X"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.500 4.500 19.500 19.500M19.500 4.500 4.500 19.500"/></svg></a>
+          <a href="https://in.linkedin.com/company/rajkamalbooks" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Prakashan on LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.500" y="3.500" width="17" height="17" rx="3"/><path d="M8 10.500V17M8 7.400v.1M12 17v-3.700c0-1.600 1-2.600 2.300-2.600S16.500 11.700 16.500 13.300V17M12 10.500V17"/></svg></a>
+          <a href="https://www.threads.com/@rajkamalbooks" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Prakashan on Threads"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.500 11.300c-.3-2.700-1.800-4.300-4.300-4.300-2.900 0-4.700 2-4.700 5.200 0 3.300 1.800 5.300 4.800 5.300 2.400 0 4-1.300 4-3.200 0-1.800-1.400-2.900-3.600-2.900-1.800 0-3 .8-3 2"/></svg></a>
         </div>
       </div>
       <div class="connect-group">
         <h5>Radhakrishna Prakashan</h5>
         <div class="social-row">
-          <a href="https://www.instagram.com/radhakrishnaprakashan" target="_blank" rel="noopener noreferrer" aria-label="Radhakrishna Prakashan on Instagram">◎</a>
-          <a href="https://www.facebook.com/RadhakrishnaPrakashan" target="_blank" rel="noopener noreferrer" aria-label="Radhakrishna Prakashan on Facebook">f</a>
-          <a href="https://x.com/RadhakrishnaPub" target="_blank" rel="noopener noreferrer" aria-label="Radhakrishna Prakashan on X">✕</a>
+          <a href="https://www.instagram.com/radhakrishnaprakashan" target="_blank" rel="noopener noreferrer" aria-label="Radhakrishna Prakashan on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.500" y="3.500" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.100" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.facebook.com/RadhakrishnaPrakashan" target="_blank" rel="noopener noreferrer" aria-label="Radhakrishna Prakashan on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 21v-7h2.500l.5-3H14V9.200c0-1 .4-1.700 1.800-1.700H17V4.800c-.5-.1-1.400-.2-2.300-.2-2.300 0-3.700 1.400-3.700 3.900V11H8.500v3H11v7z" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://x.com/RadhakrishnaPub" target="_blank" rel="noopener noreferrer" aria-label="Radhakrishna Prakashan on X"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.500 4.500 19.500 19.500M19.500 4.500 4.500 19.500"/></svg></a>
         </div>
       </div>
       <div class="connect-group">
         <h5>Lokbharti Prakashan</h5>
         <div class="social-row">
-          <a href="https://www.instagram.com/lokbhartiprakashan" target="_blank" rel="noopener noreferrer" aria-label="Lokbharti Prakashan on Instagram">◎</a>
-          <a href="https://www.facebook.com/LokbhartiBooks" target="_blank" rel="noopener noreferrer" aria-label="Lokbharti Prakashan on Facebook">f</a>
-          <a href="https://x.com/LokbhartiBooks" target="_blank" rel="noopener noreferrer" aria-label="Lokbharti Prakashan on X">✕</a>
+          <a href="https://www.instagram.com/lokbhartiprakashan" target="_blank" rel="noopener noreferrer" aria-label="Lokbharti Prakashan on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.500" y="3.500" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.100" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.facebook.com/LokbhartiBooks" target="_blank" rel="noopener noreferrer" aria-label="Lokbharti Prakashan on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 21v-7h2.500l.5-3H14V9.200c0-1 .4-1.700 1.800-1.700H17V4.800c-.5-.1-1.400-.2-2.300-.2-2.300 0-3.700 1.400-3.700 3.900V11H8.500v3H11v7z" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://x.com/LokbhartiBooks" target="_blank" rel="noopener noreferrer" aria-label="Lokbharti Prakashan on X"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.500 4.500 19.500 19.500M19.500 4.500 4.500 19.500"/></svg></a>
         </div>
       </div>
       <div class="connect-group">
         <h5>Rajkamal Urdu</h5>
         <div class="social-row">
-          <a href="https://www.instagram.com/rajkamalurdu" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Urdu on Instagram">◎</a>
-          <a href="https://www.facebook.com/rajkamalurdu" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Urdu on Facebook">f</a>
-          <a href="https://x.com/RajkamalUrdu" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Urdu on X">✕</a>
+          <a href="https://www.instagram.com/rajkamalurdu" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Urdu on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.500" y="3.500" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.100" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.facebook.com/rajkamalurdu" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Urdu on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 21v-7h2.500l.5-3H14V9.200c0-1 .4-1.700 1.800-1.700H17V4.800c-.5-.1-1.400-.2-2.300-.2-2.300 0-3.700 1.400-3.700 3.900V11H8.500v3H11v7z" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://x.com/RajkamalUrdu" target="_blank" rel="noopener noreferrer" aria-label="Rajkamal Urdu on X"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.500 4.500 19.500 19.500M19.500 4.500 4.500 19.500"/></svg></a>
         </div>
       </div>
     </div>
@@ -287,6 +292,7 @@
 
 
     <p class="footer-copy footer-copy--end">© 2026 राजकमल प्रकाशन प्राइवेट लिमिटेड.</p>
+    <p class="footer-credit">Designed by <a href="https://1947.io" target="_blank" rel="noopener">Studio 1947</a></p>
 
   <button class="scroll-top" aria-label="Scroll to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i>→</i></button>
 </footer>
@@ -357,11 +363,11 @@
     sync();
   })();
 </script>
-<script src="../kt/mobile-nav.js?v=42"></script>
+<script src="../kt/mobile-nav.js?v=44"></script>
 <script src="../kt/all-books.js?v=9"></script>
 <script src="../kt/forms.js?v=3"></script>
-<script src="../kt/strip.js?v=7"></script>
+<script src="../kt/strip.js?v=8"></script>
 <script src="ebooks-data.js?v=2"></script>
-<script src="ebooks.js?v=1"></script>
+<script src="ebooks.js?v=2"></script>
 </body>
 </html>
