@@ -420,3 +420,14 @@ html[data-theme="dark"] .bk-pop__x:hover, html[data-theme="dark"] .bk-pop__x:foc
   }
   html[data-theme="dark"] .bk-pop:not([hidden]) { background: rgba(42, 24, 17, 0.7); border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.18), 0 -10px 34px rgba(0, 0, 0, 0.5); }
 }
+
+/* tablets / small laptops (721–1279px): the filter bar with the format row was wider than the screen, so the whole
+   page scrolled sideways. Same answer as on phones — the format row goes, and formats are picked inside Filter. */
+@media (min-width: 721px) and (max-width: 1279px) {
+  .bk-banner .bk-filters .bk-seg, .bk-banner .bk-filters .bk-seg + .bk-filt__div { display: none; }
+}
+/* ≥1280px: a long collection title plus the full filter bar can be wider than the page (it used to scroll the page
+   sideways by up to 200px). When they don't fit on one line the bar drops under the title; short titles are unchanged. */
+@media (min-width: 1280px) { .bk-banner { flex-wrap: wrap; row-gap: 14px; } }
+/* only the chosen format shows its count, which shortens the bar enough for most titles to share its line */
+@media (min-width: 1280px) { .bk-banner .bk-seg__opt:not(.is-on) i { display: none; } }

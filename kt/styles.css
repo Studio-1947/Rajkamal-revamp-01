@@ -3323,7 +3323,7 @@ html[data-theme="light"] .pill-badge {
 .mobile-tabbar {
   display: none;
 }
-@media (max-width: 720px) {
+@media (max-width: 1199px) {
   .mobile-tabbar {
     display: flex;
     position: fixed;
@@ -3435,7 +3435,7 @@ html[data-theme="light"] .pill-badge {
 .mobile-search-sheet {
   display: none;
 }
-@media (max-width: 720px) {
+@media (max-width: 1199px) {
   .mobile-profile,
   .mobile-search-sheet {
     display: block;
@@ -4555,7 +4555,7 @@ html[data-theme="dark"] .rk-strip--acc { --strip-bg: #281c19; }
 
 /* ---------- phone Search sheet: search-box row + 2-column one-line tiles — compact enough to fit a phone with the
    browser's address bar and toolbar showing (≈ 430px tall in all) ---------- */
-@media (max-width: 720px) {
+@media (max-width: 1199px) {
   .mobile-search-sheet__sheet { padding-top: 6px; }
   .mobile-search-sheet__sheet .mobile-search-sheet__grab { margin: 4px auto 6px; }
   .mobile-search-sheet__title { margin-bottom: 8px; }
@@ -4706,7 +4706,7 @@ html[data-theme="dark"] body .site-header .header-icons .pill-btn.pill-btn--wish
 .bk-btn--wish:hover svg, .bk-btn--wish:focus-visible svg { fill: currentColor; animation: rkHeartBeat 0.8s ease; transform-origin: center; }
 @media (prefers-reduced-motion: reduce) { .bk-btn--wish:hover svg { animation: none; } }
 /* phone Profile sheet: Log out is the last row, set apart by a rule and shown in red */
-@media (max-width: 720px) {
+@media (max-width: 1199px) {
   .mobile-profile__row--logout { margin-top: 6px; border-top: 1px dotted rgba(160, 54, 31, 0.3); color: #bc0005; }
   html[data-theme="dark"] .mobile-profile__row--logout { border-top-color: rgba(255, 255, 255, 0.18); color: #ffab98; }
 }
@@ -4759,12 +4759,12 @@ html[data-theme="dark"] body .site-header .header-icons .pill-btn.pill-btn--wish
   html.ios-safari .mobile-tabbar { bottom: calc(10px + env(safe-area-inset-bottom)); }
 }
 @media (max-width: 720px) and (prefers-reduced-motion: reduce) { .mobile-tabbar, .mobile-tab { transition: none; } html body .site-footer.is-more .footer-stack, html body .site-footer.is-more .footer-offices { animation: none; } }
-@media (max-width: 720px) {
+@media (max-width: 1199px) {
   /* Home tab in the floating bar: just the Rajkamal mark, larger — no capsule behind it and no padding around it */
   .mobile-tabbar .mobile-tab--home, .mobile-tabbar .mobile-tab--home.is-on, html[data-theme="dark"] .mobile-tabbar .mobile-tab--home.is-on { flex: 0 0 auto; padding: 0; margin: 0 6px 0 2px; background: none; opacity: 1; }
   .mobile-tabbar .mobile-tab__logo { width: 44px; height: 44px; }
 }
-@media (max-width: 720px) { .mobile-tabbar .mobile-tab span { white-space: nowrap; } }
+@media (max-width: 1199px) { .mobile-tabbar .mobile-tab span { white-space: nowrap; } }
 @media (max-width: 350px) { .mobile-tabbar .mobile-tab { font-size: 0.56rem; } .mobile-tabbar .mobile-tab__logo { width: 40px; height: 40px; } }
 
 /* ---------- order status chip + progress steps (books/order-status.js; My Account → Orders, order details) ---------- */
@@ -4808,7 +4808,7 @@ html[data-theme="dark"] .rk-track li i { background: #1a0d0a; border-color: rgba
   .rk-track:not(.rk-track--big) li:not(.is-now) b { font-weight: 500; }
 }
 @media (prefers-reduced-motion: reduce) { .rk-status--move::before { animation: none; } }
-@media (max-width: 720px) { .mobile-tabbar .mobile-tab__logo { width: 36px; height: 36px; } } /* user: a little smaller */
+@media (max-width: 1199px) { .mobile-tabbar .mobile-tab__logo { width: 36px; height: 36px; } } /* user: a little smaller */
 @media (max-width: 350px) { .mobile-tabbar .mobile-tab__logo { width: 34px; height: 34px; } }
 
 /* ---------- phone footer, top block (user): logo with its emblem on the left, phone numbers and email beside it
@@ -4909,7 +4909,7 @@ html[data-theme="dark"] .hm-actions .bk-btn--cart.is-added { background: #7fd6a0
 }
 
 /* ---- Explore sheet (phone tab bar): search box + results + every section as a link ---- */
-@media (max-width: 720px) {
+@media (max-width: 1199px) {
   .mobile-explore__find { display: flex; align-items: center; gap: 10px; height: 50px; padding: 0 8px 0 14px; border: 1.5px solid rgba(160, 54, 31, 0.3); border-radius: 14px; background: #fff; }
   .mobile-explore__find svg { flex: none; opacity: 0.6; }
   .mobile-explore__find input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: none; color: inherit; font: 500 16px "Google Sans Flex", "Noto Sans Devanagari", system-ui, sans-serif; }
@@ -4943,3 +4943,34 @@ html[data-theme="dark"] .hm-actions .bk-btn--cart.is-added { background: #7fd6a0
 .footer-credit a:hover, .footer-credit a:focus-visible { opacity: 1; color: #ffd9a0; outline: none; }
 .footer-credit:hover { opacity: 0.9; }
 @media (max-width: 720px) { html body .site-footer .footer-credit { margin-top: 18px; padding-bottom: calc(112px + env(safe-area-inset-bottom)); } }
+
+
+/* ---------- tablets and foldables (721–1199px: iPad portrait and landscape, Galaxy Z Fold open) ----------
+   (user) The link row is hidden below 981px, so on these screens there was no way to reach the menu. They now get the
+   phone menu: the floating bottom bar (Home · Explore · Profile · Wishlist · Cart) and its sheets. The top bar keeps
+   the logo and the search box; its icon buttons go, because the bottom bar has the same things. The bar and the
+   sheets are capped at 560px and centred so they don't stretch across a wide screen. */
+@media (min-width: 721px) and (max-width: 1199px) {
+  .mobile-tabbar { left: 12px; right: 12px; bottom: calc(10px + env(safe-area-inset-bottom)); padding: 6px 8px; border-radius: 999px;
+    border: 1px solid rgba(160, 54, 31, 0.14); background: rgba(255, 253, 251, 0.78); backdrop-filter: blur(22px) saturate(180%); -webkit-backdrop-filter: blur(22px) saturate(180%);
+    box-shadow: 0 12px 32px -8px rgba(110, 51, 13, 0.35), 0 2px 6px rgba(110, 51, 13, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    transform: translateY(calc(100% + 24px)); transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+  .mobile-tabbar.is-visible { transform: translateY(0); }
+  html[data-theme="dark"] .mobile-tabbar { background: rgba(38, 20, 14, 0.72); border: 1px solid rgba(255, 255, 255, 0.14); box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
+  .mobile-tab { padding: 6px 2px 5px; border-radius: 999px; transition: background-color 0.25s ease, opacity 0.2s ease, transform 0.2s ease; }
+  .mobile-tab:active { transform: scale(0.94); }
+  .mobile-tab.is-on { background: rgba(160, 54, 31, 0.1); }
+  html[data-theme="dark"] .mobile-tab.is-on { background: rgba(255, 171, 152, 0.14); }
+  html.ios-safari .mobile-tabbar { bottom: calc(10px + env(safe-area-inset-bottom)); }
+  .mobile-tabbar, .mobile-tabbar.is-visible { left: 50%; right: auto; width: min(560px, calc(100% - 32px)); box-sizing: border-box; transform: translateX(-50%) !important; }
+  .mobile-tab { font-size: 0.7rem; }
+  .mobile-profile__sheet, .mobile-search-sheet__sheet { left: 50%; right: auto; width: min(560px, 100%); margin-left: max(-280px, -50%); }
+  html body .site-header .header-icons, html body .site-header .header-nav-main { display: none !important; }
+  /* the full logo with the "राजकमल प्रकाशन समूह" wordmark stays in its place, scrolled or not — there is room for it
+     here, so it never shrinks to the emblem */
+  html body .site-header .logo, html body .site-header.scrolled .logo { width: var(--logo-w, 133px) !important; flex: none; }
+  html body .site-header .logo-img--top, html body .site-header.scrolled .logo-img--top { opacity: 1 !important; }
+  html body .site-header .logo-img--scrolled, html body .site-header.scrolled .logo-img--scrolled { opacity: 0 !important; } /* 981–1199px used to show a cramped link row */
+  html body .site-header .header-search, html body .site-header.scrolled .header-search { flex: 1 1 auto !important; max-width: none; }
+  html body .site-footer { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+}
