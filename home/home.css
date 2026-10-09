@@ -43,11 +43,10 @@ html[data-theme="dark"] .hm-all { color: #ffab98; }
 .hm-shelf .hm-card { scroll-snap-align: start; }
 .hm > .hm-sec:last-child { padding-bottom: 56px; }
 
-/* Hindi Divas: a fixed grid (5 x 2 = 10 on desktop, no swipe); on phones it uses the same
-   scroll shelf + card style as every other section */
+/* Hindi Divas: a fixed grid (5 x 2 = 10 on desktop, no swipe); on phones it uses a 3x3 grid */
 @media (min-width: 721px) {
-  #hm-sec- .hm-nav { display: none; }
-  #hm-sec- .hm-shelf {
+  #hm-sec-hindi-divas .hm-nav, #hm-sec- .hm-nav { display: none; }
+  #hm-sec-hindi-divas .hm-shelf, #hm-sec- .hm-shelf {
     display: grid; grid-auto-flow: row; grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 16px; overflow: visible; scroll-snap-type: none; padding: 4px 2px 18px;
   }
@@ -66,8 +65,193 @@ html[data-theme="dark"] .hm-all { color: #ffab98; }
   .hm-nav { display: none; }
 }
 
-/* (the old compact 3-per-row phone grid for Bestsellers / Children Books / Hindi Divas was removed —
-   every section now uses the same scroll shelf and the same card style on phones) */
+/* Hindi Divas & Bestsellers: 3x3 grid on mobile (user request), 1-line title, optimized cards for 3-column density */
+@media (max-width: 720px) {
+  #hm-sec-hindi-divas .hm-rail,
+  #hm-sec- .hm-rail,
+  #hm-sec-bestsellers .hm-rail {
+    padding: 0;
+  }
+  #hm-sec-hindi-divas .hm-nav,
+  #hm-sec- .hm-nav,
+  #hm-sec-hindi-divas .hm-progress,
+  #hm-sec- .hm-progress,
+  #hm-sec-bestsellers .hm-nav,
+  #hm-sec-bestsellers .hm-progress {
+    display: none !important;
+  }
+  #hm-sec-hindi-divas .hm-shelf,
+  #hm-sec- .hm-shelf,
+  #hm-sec-bestsellers .hm-shelf {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px 6px;
+    margin: 0;
+    padding: 2px 0 14px;
+    overflow: visible;
+    scroll-snap-type: none;
+    -webkit-overflow-scrolling: auto;
+  }
+  /* Exactly 3x3 grid (9 cards) on mobile — hide cards past 9 */
+  #hm-sec-hindi-divas .hm-card:nth-child(n+10),
+  #hm-sec- .hm-card:nth-child(n+10),
+  #hm-sec-bestsellers .hm-card:nth-child(n+10) {
+    display: none !important;
+  }
+  /* Optimized card styling for 3-column mobile density */
+  #hm-sec-hindi-divas .hm-card,
+  #hm-sec- .hm-card,
+  #hm-sec-bestsellers .hm-card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(122, 58, 29, 0.08);
+  }
+  #hm-sec-hindi-divas .hm-info,
+  #hm-sec- .hm-info,
+  #hm-sec-bestsellers .hm-info {
+    padding: 6px 6px 8px;
+    gap: 2px;
+  }
+  /* Book title in one line (user request) */
+  #hm-sec-hindi-divas .hm-name,
+  #hm-sec- .hm-name,
+  #hm-sec-bestsellers .hm-name {
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.25;
+    height: 1.25em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    -webkit-line-clamp: unset;
+  }
+  #hm-sec-hindi-divas .hm-name a,
+  #hm-sec- .hm-name a,
+  #hm-sec-bestsellers .hm-name a {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #hm-sec-hindi-divas .hm-author,
+  #hm-sec- .hm-author,
+  #hm-sec-bestsellers .hm-author {
+    font-size: 0.62rem;
+    height: 1.25em;
+    line-height: 1.25;
+  }
+  #hm-sec-hindi-divas .hm-cat,
+  #hm-sec- .hm-cat,
+  #hm-sec-bestsellers .hm-cat {
+    font-size: 0.55rem;
+    height: 1.15em;
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+  }
+  #hm-sec-hindi-divas .hm-price,
+  #hm-sec- .hm-price,
+  #hm-sec-bestsellers .hm-price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 1px 4px;
+    margin: 2px 0 4px;
+    min-height: auto;
+  }
+  #hm-sec-hindi-divas .hm-price strong,
+  #hm-sec- .hm-price strong,
+  #hm-sec-bestsellers .hm-price strong {
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+  #hm-sec-hindi-divas .hm-price s,
+  #hm-sec- .hm-price s,
+  #hm-sec-bestsellers .hm-price s {
+    font-size: 0.62rem;
+  }
+  #hm-sec-hindi-divas .hm-off,
+  #hm-sec- .hm-off,
+  #hm-sec-bestsellers .hm-off {
+    font-size: 0.55rem;
+    padding: 1px 4px;
+    border-radius: 4px;
+    line-height: 1.2;
+  }
+  #hm-sec-hindi-divas .hm-actions,
+  #hm-sec- .hm-actions,
+  #hm-sec-bestsellers .hm-actions {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding-top: 0;
+  }
+  #hm-sec-hindi-divas .bk-btn--wish,
+  #hm-sec- .bk-btn--wish,
+  #hm-sec-bestsellers .bk-btn--wish {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #hm-sec-hindi-divas .bk-btn--wish svg,
+  #hm-sec- .bk-btn--wish svg,
+  #hm-sec-bestsellers .bk-btn--wish svg {
+    width: 13px;
+    height: 13px;
+  }
+  #hm-sec-hindi-divas .bk-btn--cart,
+  #hm-sec- .bk-btn--cart,
+  #hm-sec-bestsellers .bk-btn--cart {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 5px 3px;
+    font-size: 0.62rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  #hm-sec-hindi-divas .bk-btn--cart span,
+  #hm-sec- .bk-btn--cart span,
+  #hm-sec-bestsellers .bk-btn--cart span {
+    font-size: 0.62rem;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #hm-sec-hindi-divas .bk-btn--cart.is-added .bk-btn__cartic,
+  #hm-sec- .bk-btn--cart.is-added .bk-btn__cartic,
+  #hm-sec-bestsellers .bk-btn--cart.is-added .bk-btn__cartic {
+    display: none;
+  }
+}
+@media (max-width: 360px) {
+  #hm-sec-hindi-divas .bk-btn--cart span,
+  #hm-sec- .bk-btn--cart span,
+  #hm-sec-bestsellers .bk-btn--cart span {
+    font-size: 0;
+  }
+  #hm-sec-hindi-divas .bk-btn--cart span::before,
+  #hm-sec- .bk-btn--cart span::before,
+  #hm-sec-bestsellers .bk-btn--cart span::before {
+    content: "+ Cart";
+    font-size: 0.6rem;
+  }
+  #hm-sec-hindi-divas .bk-btn--cart.is-added span::before,
+  #hm-sec- .bk-btn--cart.is-added span::before,
+  #hm-sec-bestsellers .bk-btn--cart.is-added span::before {
+    content: "Added";
+    font-size: 0.6rem;
+  }
+}
+
 .hm-heroSec .hm-nav { display: inline-block; }
 @media (max-width: 720px) { .hm-heroSec .hm-nav { display: none; } }
 
@@ -387,7 +571,7 @@ html[data-theme="dark"] .hm-scale__bubble { color: #3a0d08; box-shadow: 0 6px 14
   .hm-rail { padding: 0 58px; }
   .hm-rail .hm-nav--prev { left: 0; }
   .hm-rail .hm-nav--next { right: 0; }
-  #hm-sec- .hm-rail { padding: 0; } /* Hindi Divas is a fixed grid on desktop — no buttons, full width */
+  #hm-sec-hindi-divas .hm-rail, #hm-sec- .hm-rail { padding: 0; } /* Hindi Divas is a fixed grid on desktop — no buttons, full width */
 }
 /* wide screens have room outside the content column, so the shelf keeps its full width */
 @media (min-width: 1340px) {
@@ -634,7 +818,7 @@ html[data-theme="dark"] #hm-sec-bestsellers .hm-wrap::before { background: linea
    fill it edge to edge — the first card starts on the nav's left edge and the fifth ends on its right edge
    (before, fixed 230px cards stopped 10px short). The Hindi Divas grid loses its 2px side padding for the same reason. */
 @media (min-width: 1340px) {
-  .hm-shelf, #hm-sec- .hm-shelf { padding-left: 0; padding-right: 0; }
+  .hm-shelf, #hm-sec-hindi-divas .hm-shelf, #hm-sec- .hm-shelf { padding-left: 0; padding-right: 0; }
   .hm-shelf { grid-auto-columns: calc((100% - 64px) / 5); }
   .hm-all { margin-right: 0; } /* "View all" ends on the same edge */
 }

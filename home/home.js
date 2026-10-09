@@ -167,7 +167,9 @@
         '<div class="hm-scale__labels">' + labels + "</div>" +
         '<p class="hm-scale__now" aria-live="polite">All months · ' + stops[0].n + " books</p></div>";
     }
-    html += '<section class="hm-sec' + (idx % 2 ? " hm-sec--alt" : "") + '" id="' + slug(k) + '"><div class="hm-wrap"><header class="hm-head"><div><p class="hm-eyebrow">' + esc(t[0]) + '</p><h2>' + esc(t[1]) + '</h2></div>' +
+    var sId = t[2] ? "hm-sec-" + t[2] : slug(k);
+    var sClass = t[2] ? " hm-sec--" + t[2] : "";
+    html += '<section class="hm-sec' + (idx % 2 ? " hm-sec--alt" : "") + sClass + '" id="' + sId + '"><div class="hm-wrap"><header class="hm-head"><div><p class="hm-eyebrow">' + esc(t[0]) + '</p><h2>' + esc(t[1]) + '</h2></div>' +
       '<div class="hm-ctl"><a class="hm-all" href="' + (t[2] ? siteURL("../books/?c=" + encodeURIComponent(t[2]) + "&from=home") : siteURL("../books/?g=all")) + '">View all →</a></div></header>' +
       monthBar +
       /* arrows sit on the shelf's own left / right edges (large screens); phones swipe, with a small position bar */

@@ -91,7 +91,7 @@
     var en = state.ab === "en";
     var primary = nameHtml(en ? a.name : a.hi, h && (en ? a.name : a.hi).split(/\s+/).map(clean).indexOf(h.w) >= 0 ? h : null);
     return '<a class="au-card" href="author/?id=' + encodeURIComponent(a.id) + '">' +
-      '<span class="au-photo"><img src="photos/' + esc(a.id) + '.jpg?v=4" alt="" width="480" height="600" loading="lazy" decoding="async" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(a.name)) + "</b></span>" +
+      '<span class="au-photo"><img src="photos/' + esc(a.id) + '.jpg?v=5" alt="" width="960" height="1200" loading="lazy" decoding="async" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(a.name)) + "</b></span>" +
       '<span class="au-body">' +
       '<span class="au-name"' + (en ? "" : ' lang="hi"') + ' title="' + esc(en ? a.name : a.hi) + '"><span>' + primary + "</span></span>" +
       (en ? '<span class="au-hi" lang="hi">' + esc(a.hi) + "</span>" : "") +

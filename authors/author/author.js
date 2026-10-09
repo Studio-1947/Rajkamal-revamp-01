@@ -36,7 +36,7 @@
   }
   function authorCard(o) {
     return '<a class="au-card au-card--sm" href="?id=' + encodeURIComponent(o.id) + '">' +
-      '<span class="au-photo" style="--img:url(' + new URL('../photos/' + o.id + '.jpg?v=4', location.href).href + ')"><img src="../photos/' + esc(o.id) + '.jpg?v=4" alt="" width="480" height="600" loading="lazy" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(o.name)) + "</b></span>" +
+      '<span class="au-photo" style="--img:url(' + new URL('../photos/' + o.id + '.jpg?v=5', location.href).href + ')"><img src="../photos/' + esc(o.id) + '.jpg?v=5" alt="" width="960" height="1200" loading="lazy" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(o.name)) + "</b></span>" +
       '<span class="au-body"><span class="au-name" lang="hi" title="' + esc(o.hi) + '"><span>' + esc(o.hi) + '</span></span>' + rolePills(o.role) + "</span></a>";
   }
 
@@ -49,7 +49,7 @@
 
   root.innerHTML =
     '<header class="ap-hero">' +
-      '<div class="ap-photo" style="--img:url(' + new URL('../photos/' + a.id + '.jpg?v=4', location.href).href + ')"><img src="../photos/' + esc(a.id) + '.jpg?v=4" alt="' + esc(a.name) + '" width="480" height="600" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(a.name)) + "</b></div>" +
+      '<div class="ap-photo" style="--img:url(' + new URL('../photos/' + a.id + '.jpg?v=5', location.href).href + ')"><img src="../photos/' + esc(a.id) + '.jpg?v=5" alt="' + esc(a.name) + '" width="960" height="1200" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"><b aria-hidden="true">' + esc(initials(a.name)) + "</b></div>" +
       '<div class="ap-intro">' +
         rolePills(a.role) +
         '<h1 class="pd-title">' + esc(a.name) + "</h1>" +
