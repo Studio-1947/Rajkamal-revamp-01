@@ -1,4 +1,5 @@
 /* Set 3: on wide screens the offer tiers sit to the right of the banner, stacked vertically */
+html, body { overflow-x: hidden; }
 picture { display: block; }
 @media (min-width: 981px) {
   .kt3-top {
@@ -1239,3 +1240,220 @@ html[data-theme="light"] .offer-giftline__more { color: #a0361f; }
   .kt3-top .offer-tiers .offer-thumb img, .kt3-top .offer-tiers .offer-tier:hover .offer-thumb img { transform: none; }
 }
 @media (min-width: 1280px) { .site-header .header-nav-main ul { gap: 10px; } } /* same wider menu spacing as the other pages */
+
+/* Present the discount and delivery as two balanced benefits inside ONE card.
+   No boxes inside the box: the two halves are parted by a single hairline that fades at both ends, and each half is a
+   tight lockup (label / figure / note) centred in the card. The three rows share ONE set of tracks (subgrid), so the
+   halves line up row for row. Narrow card (phones): the halves stack, one benefit per row, parted by the same hairline.
+   Sizes follow the card's own width (cqw), so the same rules serve every breakpoint. */
+.kt3-top .kt3-info .offer-info--offer {
+  --bn-ink: #FFE174;
+  --bn-note: #fff5e6;
+  --bn-line: rgba(255, 225, 116, 0.6);
+  --bn-pill-bg: rgba(255, 255, 255, 0.12);
+  --bn-pill-bd: rgba(255, 255, 255, 0.45);
+  --bn-gap: clamp(16px, 7cqw, 30px);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 12px;
+  box-sizing: border-box;
+  gap: 0;
+}
+.kt3-top .offer-info__benefits {
+  width: 100%;
+  height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto auto auto;
+  align-content: center;
+  column-gap: var(--bn-gap);
+  row-gap: clamp(5px, 3cqw, 14px);
+  box-sizing: border-box;
+}
+.kt3-top .offer-info__benefit {
+  grid-row: 1 / -1;
+  display: grid;
+  grid-template-rows: subgrid;
+  justify-items: center;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  position: relative;
+  z-index: 2;
+}
+/* the hairline between the two halves */
+.kt3-top .offer-info__benefit--delivery::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--bn-gap) / -2);
+  top: -6%;
+  bottom: -6%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--bn-line) 22%, var(--bn-line) 78%, transparent);
+  pointer-events: none;
+}
+
+/* Row 1: label / badge */
+.offer-benefit__tag {
+  font-size: clamp(0.72rem, 5.2cqw, 1.2rem);
+  font-weight: 600;
+  color: var(--bn-ink);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.offer-benefit__badge {
+  width: clamp(30px, 14cqw, 52px);
+  height: clamp(30px, 14cqw, 52px);
+  border-radius: 50%;
+  background: var(--bn-pill-bg);
+  border: 1px solid var(--bn-pill-bd);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bn-ink);
+  flex-shrink: 0;
+}
+.offer-benefit__badge svg {
+  width: 56%;
+  height: 56%;
+}
+
+/* Row 2: the figure */
+.kt3-top .offer-info__benefit .offer-info__pct {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  line-height: 0.86;
+}
+.kt3-top .kt3-info .offer-info--offer .offer-info__num {
+  font-family: 'Google Sans Flex', 'Noto Sans Devanagari', system-ui, sans-serif;
+  font-size: clamp(2.6rem, 24cqw, 6rem);
+  font-weight: 600;
+  color: var(--bn-ink);
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  min-width: 0;
+  text-align: center;
+}
+.kt3-top .kt3-info .offer-info--offer .offer-info__benefit .offer-info__pct small {
+  font-family: 'Google Sans Flex', 'Noto Sans Devanagari', system-ui, sans-serif;
+  font-size: clamp(1.1rem, 10cqw, 2.6rem);
+  font-weight: 500;
+  color: var(--bn-ink);
+  margin: 0 0 0 2px;
+}
+.offer-benefit__deliv-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  min-width: 0;
+}
+.offer-benefit__deliv-title {
+  max-width: min-content; /* always "Free" over "Delivery": a two-line block that balances the big 40% */
+  font-size: clamp(1.05rem, 8.6cqw, 2.2rem);
+  font-weight: 700;
+  color: var(--bn-ink);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+/* Row 3: the note */
+.offer-benefit__sub {
+  font-size: clamp(0.76rem, 5.2cqw, 1.2rem);
+  font-weight: 500;
+  color: var(--bn-note);
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+}
+/* the delivery condition is a pill, like "Starts in … days" on the date card beside it */
+.kt3-top .offer-info__benefit--delivery .offer-benefit__sub {
+  font-size: clamp(0.58rem, 3.7cqw, 0.9rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 0.34em 0.72em;
+  border-radius: 999px;
+  background: var(--bn-pill-bg);
+  border: 1px solid var(--bn-pill-bd);
+}
+
+/* Narrow card (phones, where the card is half the screen): one benefit per row.
+   Discount  →  label on top, then "40% तक की छूट" on one baseline.
+   Delivery  →  the badge, with "Free Delivery" and its note beside it. */
+@container (max-width: 236px) {
+  .kt3-top .offer-info__benefits {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    column-gap: 0;
+    row-gap: 13px;
+  }
+  .kt3-top .offer-info__benefit {
+    grid-row: auto;
+    grid-template-rows: none;
+    align-content: center;
+    justify-content: center;
+    padding: 0 2px;
+  }
+  .kt3-top .offer-info__benefit--delivery::before {
+    left: 6%;
+    right: 6%;
+    top: -7px;
+    bottom: auto;
+    width: auto;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--bn-line) 22%, var(--bn-line) 78%, transparent);
+  }
+  .kt3-top .offer-info__benefit--discount {
+    grid-template-columns: auto auto;
+    grid-template-areas: "tag tag" "pct sub";
+    column-gap: 6px;
+    row-gap: 4px;
+    align-items: baseline;
+  }
+  .kt3-top .offer-info__benefit--discount .offer-benefit__tag { grid-area: tag; font-size: clamp(0.62rem, 7.2cqw, 0.8rem); }
+  .kt3-top .offer-info__benefit--discount .offer-info__pct { grid-area: pct; }
+  .kt3-top .offer-info__benefit--discount .offer-benefit__sub { grid-area: sub; font-size: clamp(0.66rem, 7.8cqw, 0.86rem); }
+  .kt3-top .kt3-info .offer-info--offer .offer-info__num { font-size: clamp(1.7rem, 22cqw, 2.5rem); }
+  .kt3-top .kt3-info .offer-info--offer .offer-info__benefit .offer-info__pct small { font-size: clamp(0.9rem, 11cqw, 1.25rem); margin-left: 1px; }
+
+  .kt3-top .offer-info__benefit--delivery {
+    grid-template-columns: auto minmax(0, auto);
+    grid-template-areas: "badge title" "badge sub";
+    column-gap: 8px;
+    row-gap: 2px;
+    justify-items: start;
+    text-align: left;
+  }
+  .kt3-top .offer-info__benefit--delivery .offer-benefit__badge { grid-area: badge; width: clamp(26px, 18cqw, 32px); height: clamp(26px, 18cqw, 32px); }
+  .kt3-top .offer-info__benefit--delivery .offer-benefit__deliv-wrap { grid-area: title; align-items: flex-start; align-self: end; }
+  .kt3-top .offer-info__benefit--delivery .offer-benefit__deliv-title { max-width: none; font-size: clamp(0.74rem, 9cqw, 0.98rem); line-height: 1.15; text-align: left; white-space: nowrap; }
+  .kt3-top .offer-info__benefit--delivery .offer-benefit__sub { grid-area: sub; align-self: start; font-size: clamp(0.56rem, 6.4cqw, 0.72rem); font-weight: 500; text-align: left; padding: 0; border: 0; background: none; border-radius: 0; }
+}
+
+/* phones / tablets: the card is gold there, so the ink turns dark maroon */
+@media (max-width: 980px) {
+  .kt3-top .kt3-info .offer-info--offer {
+    --bn-ink: #4a1208;
+    --bn-note: #52160a;
+    --bn-line: rgba(74, 18, 8, 0.38);
+    --bn-pill-bg: rgba(255, 255, 255, 0.28);
+    --bn-pill-bd: rgba(74, 18, 8, 0.35);
+    padding: 8px;
+  }
+}

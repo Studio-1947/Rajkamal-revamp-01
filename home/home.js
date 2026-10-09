@@ -27,7 +27,7 @@
   }).join("");
   /* the big card: one Kitab Teras image (the same artwork as the Offers page it opens). Add entries to rotate more. */
   var BIG = [
-    { href: siteURL("../offers/"), img: siteURL("home/img/hero/kt-hero-3.png"), t: "Kitab Teras", s: "10–20 October · up to 40% off + free delivery" }
+    { href: siteURL("../offers/"), img: siteURL("home/img/hero/kt-hero-5.jpg"), t: "Kitab Teras", s: "11–22 October · up to 40% off + free delivery" }
   ];
   var newRel = (H.sections["New Releases"] || [])[0];
   var SMALL_HREF = "#hm-sec-new-releases", SMALL_T = "New Releases", SMALL_S = "Fresh picks weekly";

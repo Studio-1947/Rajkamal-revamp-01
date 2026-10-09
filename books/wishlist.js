@@ -6,7 +6,7 @@
   var BASE = script ? script.src.replace(/wishlist\.js.*$/, "") : "../books/";
 
   function css(href) { var l = document.createElement("link"); l.rel = "stylesheet"; l.href = href; document.head.appendChild(l); }
-  css(BASE + "cart.css?v=9"); // reuses the cart drawer's look
+  css(BASE + "cart.css?v=14"); // reuses the cart drawer's look
 
   function fmt(n) { return "₹" + (Math.round(n * 100) / 100).toLocaleString("en-IN", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }

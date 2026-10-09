@@ -4893,7 +4893,7 @@ html[data-theme="dark"] .hm-actions .bk-btn--cart.is-added { background: #7fd6a0
 @keyframes rkCartHop { 0% { transform: translateX(-8px) rotate(-12deg); opacity: 0.3; } 60% { transform: translateX(3px) rotate(4deg); opacity: 1; } 100% { transform: none; } }
 
 /* ---- footer: credit line (always visible) ---- */
-.footer-credit { margin: 6px 0 0; padding: 0 28px 16px; text-align: center; font-size: 0.72rem; letter-spacing: 0.06em; color: inherit; opacity: 0.55; }
+.footer-credit { margin: 6px 0 0; padding: 0 28px 16px; text-align: left; font-size: 0.72rem; letter-spacing: 0.06em; color: inherit; opacity: 0.55; }
 .footer-credit b { font-weight: 600; letter-spacing: 0.08em; }
 /* ---- footer: drawn social icons, in the footer's own cream / gold ---- */
 .social-row a { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; font-size: 0; color: #ffe9c9;
@@ -4939,7 +4939,7 @@ html[data-theme="dark"] .hm-actions .bk-btn--cart.is-added { background: #7fd6a0
 .hm-actions .bk-btn--cart span { white-space: nowrap; }
 @media (max-width: 720px) { .hm-actions .bk-btn--cart:not(.is-added) .bk-btn__cartic { display: none; } } /* narrow cards: the cart icon shows only in the "Added" state */
 /* footer credit: a link to the studio; on phones it sits well clear of the floating tab bar */
-.footer-credit a { color: inherit; font-weight: 600; letter-spacing: 0.08em; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+.footer-credit a { color: inherit; font-weight: 600; letter-spacing: 0.08em; text-decoration: none; border-bottom: 0; }
 .footer-credit a:hover, .footer-credit a:focus-visible { opacity: 1; color: #ffd9a0; outline: none; }
 .footer-credit:hover { opacity: 0.9; }
 @media (max-width: 720px) { html body .site-footer .footer-credit { margin-top: 18px; padding-bottom: calc(112px + env(safe-area-inset-bottom)); } }
@@ -4973,4 +4973,16 @@ html[data-theme="dark"] .hm-actions .bk-btn--cart.is-added { background: #7fd6a0
   html body .site-header .logo-img--scrolled, html body .site-header.scrolled .logo-img--scrolled { opacity: 0 !important; } /* 981–1199px used to show a cramped link row */
   html body .site-header .header-search, html body .site-header.scrolled .header-search { flex: 1 1 auto !important; max-width: none; }
   html body .site-footer { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+}
+/* Share the footer content container so the mobile credit follows its exact gutters. */
+.site-footer > .footer-credit-wrap { display: none; }
+.footer-brand .footer-credit { padding: 0; }
+@media (max-width: 720px) {
+  html body .site-footer .footer-brand .footer-credit { display: none; }
+  html body .site-footer > .footer-credit-wrap { display: block; }
+  html body .site-footer .footer-credit-wrap .footer-credit {
+    margin: 18px 0 0;
+    padding: 0 0 calc(112px + env(safe-area-inset-bottom));
+    text-align: left;
+  }
 }
