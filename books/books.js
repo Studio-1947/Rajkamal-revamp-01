@@ -4,6 +4,9 @@
   var slug = q.get("c") || "khud-se-judein";
   var from = q.get("from") || "home";
   var title = q.get("t");
+  if (q.has("c") && !q.has("g") && /^(offers|kt[23]|mobile)$/.test(from)) {
+    document.body.classList.add("offer-catalogue");
+  }
   var data = window.RK_COLLECTIONS || {};
   var col = data[slug] || data["khud-se-judein"];
   var MIN = 40;
@@ -43,6 +46,7 @@
 
   var grid = document.getElementById("bkGrid");
   var ALL = own.concat(filler);
+  document.getElementById("bkFilters").style.setProperty("--bk-count-width", Math.max(4, String(ALL.length).length) + "ch");
 
   /* ---- sort / filter ----
      Options are the ones this catalogue really has: books are 10% or 20% off (or not discounted), formats are
@@ -204,7 +208,14 @@
     function check() {
       raf = 0;
       var top = navH(); ban.style.setProperty("--bk-top", top + "px");
+      // Sticky elements move upward at their container's bottom. Keep the desktop
+      // banner below the navigation even after the catalogue gives way to the footer.
+      ban.style.transform = "";
       set(window.scrollY > 40 && ban.getBoundingClientRect().top <= top + 1);
+      if (stuck && window.innerWidth > 720) {
+        var offset = Math.max(0, top - ban.getBoundingClientRect().top);
+        if (offset) ban.style.transform = "translateY(" + offset + "px)";
+      }
     }
     window.addEventListener("scroll", function () { if (!raf) raf = requestAnimationFrame(check); }, { passive: true });
     window.addEventListener("resize", function () { set(false); check(); });

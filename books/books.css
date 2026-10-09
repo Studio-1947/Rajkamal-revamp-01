@@ -429,5 +429,150 @@ html[data-theme="dark"] .bk-pop__x:hover, html[data-theme="dark"] .bk-pop__x:foc
 /* ≥1280px: a long collection title plus the full filter bar can be wider than the page (it used to scroll the page
    sideways by up to 200px). When they don't fit on one line the bar drops under the title; short titles are unchanged. */
 @media (min-width: 1280px) { .bk-banner { flex-wrap: wrap; row-gap: 14px; } }
-/* only the chosen format shows its count, which shortens the bar enough for most titles to share its line */
-@media (min-width: 1280px) { .bk-banner .bk-seg__opt:not(.is-on) i { display: none; } }
+/* Reserve count slots for every format; selection changes visibility without changing width. */
+@media (min-width: 1280px) { .bk-banner .bk-seg__opt:not(.is-on) i { visibility: hidden; } }
+
+
+/* Offer catalogue books: match the home Hindi Divas cards on phones. */
+@media (max-width: 720px) {
+  body.offer-catalogue #bkGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px 6px;
+  }
+  /* Optimized card styling for 3-column mobile density */
+  body.offer-catalogue #bkGrid .hm-card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(122, 58, 29, 0.08);
+  }
+  body.offer-catalogue #bkGrid .hm-info {
+    padding: 6px 6px 8px;
+    gap: 2px;
+  }
+  /* Book title in one line (user request) */
+  body.offer-catalogue #bkGrid .hm-name {
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.25;
+    height: 1.25em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    -webkit-line-clamp: unset;
+  }
+  body.offer-catalogue #bkGrid .hm-name a {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  body.offer-catalogue #bkGrid .hm-author {
+    font-size: 0.62rem;
+    height: 1.25em;
+    line-height: 1.25;
+  }
+  body.offer-catalogue #bkGrid .hm-cat {
+    font-size: 0.55rem;
+    height: 1.15em;
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+  }
+  body.offer-catalogue #bkGrid .hm-price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 1px 4px;
+    margin: 2px 0 4px;
+    min-height: auto;
+  }
+  body.offer-catalogue #bkGrid .hm-price strong {
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+  body.offer-catalogue #bkGrid .hm-price s {
+    font-size: 0.62rem;
+  }
+  body.offer-catalogue #bkGrid .hm-off {
+    font-size: 0.55rem;
+    padding: 1px 4px;
+    border-radius: 4px;
+    line-height: 1.2;
+  }
+  body.offer-catalogue #bkGrid .hm-actions {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding-top: 0;
+  }
+  body.offer-catalogue #bkGrid .bk-btn--wish {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  body.offer-catalogue #bkGrid .bk-btn--wish svg {
+    width: 13px;
+    height: 13px;
+  }
+  body.offer-catalogue #bkGrid .bk-btn--cart {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 5px 3px;
+    font-size: 0.62rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  body.offer-catalogue #bkGrid .bk-btn--cart span {
+    font-size: 0.62rem;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  body.offer-catalogue #bkGrid .bk-btn--cart.is-added .bk-btn__cartic {
+    display: none;
+  }
+}
+@media (max-width: 360px) {
+  body.offer-catalogue #bkGrid .bk-btn--cart span {
+    font-size: 0;
+  }
+  body.offer-catalogue #bkGrid .bk-btn--cart span::before {
+    content: "+ Cart";
+    font-size: 0.6rem;
+  }
+  body.offer-catalogue #bkGrid .bk-btn--cart.is-added span::before {
+    content: "Added";
+    font-size: 0.6rem;
+  }
+}
+@media (max-width: 720px) {
+  body.offer-catalogue #bkGrid .hm-card { min-width: 0; }
+  body.offer-catalogue #bkGrid .hm-price .hm-off { grid-column: auto; }
+  body.offer-catalogue #bkGrid .bk-btn__cartic { display: none; }
+  body.offer-catalogue #bkGrid .hm-oos { padding: 5px 3px; font-size: 0.62rem; }
+}
+
+/* Filter updates keep the same control geometry and scrollbar space. */
+@media (min-width: 721px) {
+  html { scrollbar-gutter: stable; }
+  .bk-filters .bk-filt { white-space: nowrap; }
+  #bkSortLabel { display: inline-block; min-width: 14ch; }
+  #bkDiscLabel { display: inline-block; min-width: 9ch; }
+  .bk-filt__badge { box-sizing: border-box; width: 22px; min-width: 22px; padding: 0; font-variant-numeric: tabular-nums; }
+  .bk-seg__opt i, .bk-pop__chip i, .bk-pop__opt i {
+    display: inline-flex;
+    flex: 0 0 var(--bk-count-width, 4ch);
+    width: var(--bk-count-width, 4ch);
+    min-width: var(--bk-count-width, 4ch);
+    justify-content: center;
+  }
+  .bk-pop__opt { font-weight: 600; }
+}

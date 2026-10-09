@@ -5,6 +5,8 @@
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   var TARGET = ".site-footer";
+  var footer = document.querySelector(TARGET);
+  if (!footer) return;
   var GLYPHS = ["अ", "आ", "इ", "उ", "क", "ख", "ग", "च", "ज", "त", "द", "न", "प", "ब", "म", "य", "र", "ल", "व", "स", "ह"];
   var COUNT = 120;
   var SIZES = [6, 7, 8, 10, 12, 14, 17];
@@ -13,7 +15,7 @@
 
   var style = document.createElement("style");
   style.textContent =
-    ".cursor-letters{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}" +
+    ".cursor-letters{position:absolute;inset:0;pointer-events:none;z-index:60;overflow:hidden;border-radius:inherit}" +
     ".cursor-letters span{position:absolute;left:0;top:0;opacity:0;color:#fff;" +
     "font-family: 'Google Sans Flex', 'Noto Sans Devanagari', system-ui, -apple-system, 'Segoe UI', sans-serif;font-weight:600;line-height:1;" +
     "transition:opacity .35s ease;will-change:transform,opacity}" +
@@ -23,9 +25,15 @@
   var layer = document.createElement("div");
   layer.className = "cursor-letters";
   layer.setAttribute("aria-hidden", "true");
-  document.body.appendChild(layer);
+  footer.appendChild(layer);
 
   var mouse = { x: -200, y: -200 };
+  var pointer = { x: -200, y: -200 };
+  function updateMouse() {
+    var r = layer.getBoundingClientRect();
+    mouse.x = pointer.x - r.left;
+    mouse.y = pointer.y - r.top;
+  }
 
   // hand out letters to lanes in proportion to each lane's length
   var total = LANES.reduce(function (a, r) { return a + r; }, 0);
@@ -57,6 +65,7 @@
   var active = false, raf = 0, hideTimer = 0, seeded = false;
 
   function tick() {
+    updateMouse();
     var i, j, l, m;
     for (i = 0; i < letters.length; i++) {
       l = letters[i];
@@ -115,8 +124,9 @@
   }
 
   document.addEventListener("pointermove", function (e) {
-    mouse.x = e.clientX; mouse.y = e.clientY;
-    var over = e.target.closest && e.target.closest(TARGET);
+    pointer.x = e.clientX; pointer.y = e.clientY;
+    updateMouse();
+    var over = footer.contains(e.target);
     if (over && !active) start();
     else if (!over && active) stop();
   }, { passive: true });

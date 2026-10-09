@@ -254,7 +254,7 @@
     document.head.appendChild(el);
   };
   if (cartBtn) cartBtn.addEventListener("click", function () { Store.openCart(); });
-  var wishUrl = cartUrl ? cartUrl.replace(/cart\.js.*$/, "wishlist.js?v=4") : null;
+  var wishUrl = cartUrl ? cartUrl.replace(/cart\.js.*$/, "wishlist.js?v=8") : null;
   Store.openWishlist = function () {
     if (window.RKWishlist) return window.RKWishlist.open();
     if (!wishUrl) return;

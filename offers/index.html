@@ -11,7 +11,7 @@
 <script>try{var t=localStorage.getItem("rk-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../kt/styles.css?v=b65"><link rel="stylesheet" href="set2.css?v=4"><link rel="stylesheet" href="set3.css?v=89">
+<link rel="stylesheet" href="../kt/styles.css?v=b68"><link rel="stylesheet" href="set2.css?v=4"><link rel="stylesheet" href="set3.css?v=108">
 </head>
 <body>
 
@@ -94,7 +94,7 @@
 <section class="hero-wrap">
   <div class="hero">
     <picture>
-      <img class="hero-img" src="assets/hero/hero-side.jpg?v=2" alt="किताब तेरस — 10 से 20 अक्टूबर, सभी किताबों पर 40% तक की छूट + मुफ़्त डिलीवरी">
+      <img class="hero-img" src="assets/hero/hero-side.jpg?v=4" alt="किताब तेरस — 11 से 22 अक्टूबर, सभी किताबों पर 40% तक की छूट + मुफ़्त डिलीवरी">
     </picture>
   </div>
 </section>
@@ -107,17 +107,36 @@
       <path fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" d="M2 30c7 0 12 1.500 16 4M62 30c-7 0-12 1.500-16 4"/>
       <path fill="#FFE174" d="M24 56h16a2 2 0 0 1 0 4H24a2 2 0 0 1 0-4z" opacity="0"/>
     </svg>
-    <strong class="offer-info__dates" aria-label="10 to 20"><span>10</span><svg class="offer-info__arrow" viewBox="0 0 40 24" aria-hidden="true"><g fill="none" stroke="#FFE174" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path class="chev chev-1" d="M5 3l10 9-10 9"/><path class="chev chev-2" d="M21 3l10 9-10 9"/></g></svg><span>20</span></strong>
+    <strong class="offer-info__dates" aria-label="11th to 22nd October"><span>11</span><svg class="offer-info__arrow" viewBox="0 0 40 24" aria-hidden="true"><g fill="none" stroke="#FFE174" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path class="chev chev-1" d="M5 3l10 9-10 9"/><path class="chev chev-2" d="M21 3l10 9-10 9"/></g></svg><span>22</span></strong>
     <span class="offer-info__month">अक्टूबर</span>
     <span class="offer-info__left"><i></i><b id="saleLeft">&nbsp;</b></span>
   </div>
   <div class="offer-info offer-info--offer">
-    <span class="offer-info__label">सभी किताबों पर</span>
-    <strong class="offer-info__pct"><span class="offer-info__num" id="offerNum" data-to="40">40</span><small>%</small></strong>
-    <span class="offer-info__sub">तक की छूट</span>
+    <div class="offer-info__benefits">
+      <div class="offer-info__benefit offer-info__benefit--discount">
+        <span class="offer-benefit__tag">सभी किताबों पर</span>
+        <strong class="offer-info__pct"><span class="offer-info__num" id="offerNum" data-to="40">40</span><small>%</small></strong>
+        <span class="offer-benefit__sub">तक की छूट</span>
+      </div>
+      <div class="offer-info__benefit offer-info__benefit--delivery">
+        <div class="offer-benefit__badge" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 18H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v11"/>
+            <path d="M14 9h4l4 4v4a1 1 0 0 1-1 1h-2"/>
+            <circle cx="7" cy="18" r="2"/>
+            <circle cx="17" cy="18" r="2"/>
+          </svg>
+        </div>
+        <div class="offer-benefit__deliv-wrap">
+          <strong class="offer-benefit__deliv-title">Free Delivery</strong>
+        </div>
+        <span class="offer-benefit__sub">Orders above ₹499</span>
+      </div>
+    </div>
   </div>
 </div>
 <section class="offer-tiers">
+
   <!-- one offer = one thumbnail: a picture of all its gifts across the top, then the amount and the extra discount -->
   <div class="offer-tier-slot">
     <div class="offer-tier">
@@ -206,6 +225,7 @@
         <li><span class="fc-icon">📞</span> <span><a href="tel:+911142638228">011 4263 8228</a><br><a href="tel:+919810281912">+91 98102 81912</a></span></li>
       </ul>
       <p class="footer-copy">© 2026 राजकमल प्रकाशन प्राइवेट लिमिटेड.</p>
+      <p class="footer-credit">Designed by <a href="https://1947.io" target="_blank" rel="noopener">Studio 1947</a></p>
     </div>
 
     <div class="footer-connect">
@@ -337,7 +357,9 @@
 
 
     <p class="footer-copy footer-copy--end">© 2026 राजकमल प्रकाशन प्राइवेट लिमिटेड.</p>
-    <p class="footer-credit">Designed by <a href="https://1947.io" target="_blank" rel="noopener">Studio 1947</a></p>
+    <div class="footer-inner footer-credit-wrap">
+      <p class="footer-credit">Designed by <a href="https://1947.io" target="_blank" rel="noopener">Studio 1947</a></p>
+    </div>
 
   <button class="scroll-top" aria-label="Scroll to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i>→</i></button>
 </footer>
@@ -403,7 +425,7 @@
     window.addEventListener("resize", onScroll);
   })();
 </script>
-<script src="../kt/letters.js?v=6"></script>
+<script src="../kt/letters.js?v=7"></script>
 <script src="../kt/glow.js?v=4"></script>
 <script src="../kt/confetti.js?v=2"></script>
 <script>
@@ -439,7 +461,7 @@
 <script>
   (function () {
     var DAY = 86400000;
-    var start = new Date(2026, 9, 10), end = new Date(2026, 9, 20);
+    var start = new Date(2026, 9, 11), end = new Date(2026, 9, 22);
     var now = new Date(), today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     var leftEl = document.getElementById("saleLeft");
     if (leftEl) {
@@ -469,7 +491,7 @@
     io.observe(num);
   })();
 </script>
-<script src="../kt/mobile-nav.js?v=44"></script>
+<script src="../kt/mobile-nav.js?v=48"></script>
 <script src="../kt/all-books.js?v=9"></script>
 <script src="../kt/forms.js?v=3"></script>
 <script>
