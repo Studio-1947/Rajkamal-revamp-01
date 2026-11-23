@@ -4,41 +4,47 @@
   var hv = document.getElementById("hv");
   if (!hv) return;
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* site root, so the same paths work whether this is loaded from /home-v2/ or from the homepage (/) */
+  var BASE = (function () {
+    var el = document.currentScript || [].slice.call(document.getElementsByTagName("script")).filter(function (s) { return /(^|\/)hero\.js/.test(s.src); }).pop();
+    return el ? el.src.replace(/home-v2\/hero\.js.*$/, "") : "../";
+  })();
+  function site(p) { return BASE + p; }
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   function fmt(n) { return "₹" + (Math.round(n * 100) / 100).toLocaleString("en-IN", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); }
 
   /* ---------- content (same as the current hero) ---------- */
-  var EVENT_URL = function (id) { return "../events/event/?id=" + encodeURIComponent(id); };
-  var NEWREL = [1, 2, 3, 4, 5, 6].map(function (n) { return "../home/img/newrel/nr-" + n + ".png"; });
+  var EVENT_URL = function (id) { return site("events/event/?id=") + encodeURIComponent(id); };
+  var NEWREL = [1, 2, 3, 4, 5, 6].map(function (n) { return site("home/img/newrel/nr-") + n + ".png"; });
 
   /* `desk`: shown in the desktop row (in this order: outer-left, inner-left, inner-right, outer-right). All show on phones. */
   var SLABS = [
     {
       desk: true, side: "left",
-      imgs: ["../home/img/hero/kt-hero-5.jpg"], alt: "Kitab Teras",
-      eyebrow: "Kitab Teras", title: "11–22 October", href: "../offers/",
+      imgs: [site("home/img/hero/kt-hero-5.jpg")], alt: "Kitab Teras",
+      eyebrow: "Kitab Teras", title: "11–22 October", href: site("offers/"),
       back: { text: "11–22 October · up to 40% off + free delivery", details: [["calendar", "11–22 October"], ["tag", "Up to 40% off"], ["truck", "Free delivery"]], cta: "View offers" }
     },
     {
       desk: true, side: "left",
-      imgs: ["../events/img/kitab-utsav-bareilly-1.jpg"], alt: "Kitab Utsav : Barelly",
+      imgs: [site("events/img/kitab-utsav-bareilly-1.jpg")], alt: "Kitab Utsav : Barelly",
       eyebrow: "Events · 23–27 October", title: "Kitab Utsav : Barelly", href: EVENT_URL("kitab-utsav-bareilly"),
       back: { text: "Starting from 23rd October to 27th October", details: [["calendar", "23–27 October"], ["pin", "Widmere Thetre"]], cta: "View event" }
     },
     {
       desk: true, side: "right",
-      imgs: ["../events/img/kitab-utsav-indore-2026-1.jpg"], alt: "किताब उत्सव – इन्दौर", pos: "86% center",
+      imgs: [site("events/img/kitab-utsav-indore-2026-1.jpg")], alt: "किताब उत्सव – इन्दौर", pos: "86% center",
       eyebrow: "Events · 4–8 सितम्बर", title: "किताब उत्सव – इन्दौर", href: EVENT_URL("kitab-utsav-indore-2026"),
       back: { text: "पाठक-लेखक संवाद, बातचीत, पाठ, चर्चा, लोकार्पण · प्रवेश निःशुल्क", details: [["calendar", "4–8 सितम्बर"], ["pin", "प्रीतमलाल दुआ सभागृह, इन्दौर"]], cta: "View event" }
     },
     {
       desk: true, side: "right",
       imgs: NEWREL, alt: "New Releases",
-      eyebrow: "Fresh picks weekly", title: "New Releases", href: "../#hm-sec-new-releases"
+      eyebrow: "Fresh picks weekly", title: "New Releases", href: site("#hm-sec-new-releases")
     },
     {
       desk: false, side: "right",
-      imgs: ["../events/img/meri-maan-meri-gangster-discussion-and-book-signing-1.jpg"], alt: "मेरी माँ मेरी गैंगस्टर | बातचीत • बुक साइनिंग",
+      imgs: [site("events/img/meri-maan-meri-gangster-discussion-and-book-signing-1.jpg")], alt: "मेरी माँ मेरी गैंगस्टर | बातचीत • बुक साइनिंग",
       eyebrow: "Events · 3 अगस्त", title: "मेरी माँ मेरी गैंगस्टर", href: EVENT_URL("meri-maan-meri-gangster-discussion-and-book-signing")
     }
   ];
@@ -110,7 +116,7 @@
   });
   /* the "All events" link sits under the row on desktop, since the third event has no slot there */
   var more = document.createElement("a");
-  more.className = "hv-more"; more.href = "../events/";
+  more.className = "hv-more"; more.href = site("events/");
   more.innerHTML = 'All events <span aria-hidden="true">→</span>';
   row.parentNode.insertBefore(more, row.nextSibling);
 
@@ -193,11 +199,11 @@
       all.forEach(function (x) { if (x.hay.indexOf(v) > -1 && !seen[x.b[4]]) { seen[x.b[4]] = 1; out.push(x); } });
       return out.slice(0, 6);
     }
-    function url(x) { return "../books/product/?id=" + encodeURIComponent(x.b[4]) + "&c=" + encodeURIComponent(x.k) + "&from=home"; }
+    function url(x) { return site("books/product/?id=") + encodeURIComponent(x.b[4]) + "&c=" + encodeURIComponent(x.k) + "&from=home"; }
     function show() {
       if (q.value.trim().length < 2) { res.hidden = true; return; }
       var r = find(q.value);
-      res.innerHTML = r.length ? r.map(function (x) { return '<a href="' + url(x) + '"><img src="../books/covers/' + esc(x.b[4]) + '.jpg" alt="" width="34" height="50"><span><b>' + esc(x.b[0]) + "</b><i>" + esc(x.b[1]) + " · " + fmt(x.b[2]) + "</i></span></a>"; }).join("") : "<p>No matching books in this sample catalogue.</p>";
+      res.innerHTML = r.length ? r.map(function (x) { return '<a href="' + url(x) + '"><img src="' + site("books/covers/" + esc(x.b[4]) + ".jpg") + '" alt="" width="34" height="50"><span><b>' + esc(x.b[0]) + "</b><i>" + esc(x.b[1]) + " · " + fmt(x.b[2]) + "</i></span></a>"; }).join("") : "<p>No matching books in this sample catalogue.</p>";
       res.hidden = false;
     }
     q.addEventListener("input", show);

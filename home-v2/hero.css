@@ -30,16 +30,10 @@
   --hv-border: rgba(255, 230, 205, 0.16);
 }
 
-*, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; }
-body {
-  background: var(--hv-page);
-  color: var(--hv-ink);
-  font-family: "Google Sans Flex", "Noto Sans Devanagari", system-ui, -apple-system, "Segoe UI", sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-img { display: block; max-width: 100%; }
-button { font: inherit; }
+/* scoped to the hero so this file can also be loaded on the homepage (page-level resets live in home-v2/index.html) */
+.hv, .hv *, .hv *::before, .hv *::after { box-sizing: border-box; }
+.hv img { display: block; max-width: 100%; }
+.hv button { font: inherit; }
 
 /* ---------- section ---------- */
 .hv {

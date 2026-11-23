@@ -1,4 +1,4 @@
-/* Home page: hero slider, collection tiles and product shelves built from home-data.js (content of rajkamalprakashan.com). */
+/* Home page: hero (home-v2), collection tiles and product shelves built from home-data.js (content of rajkamalprakashan.com). */
 (function () {
   var H = window.RK_HOME, root = document.getElementById("hm");
   if (!H || !root) return;
@@ -20,43 +20,25 @@
   /* shelf → [eyebrow, heading, collection slug]; "View all" opens that collection's own page (books/?c=<slug>) */
   var TITLES = { "हिन्दी दिवस": ["Hindi Divas", "हिन्दी दिवस", "hindi-divas"], "New Releases": ["Just arrived", "New Releases", "new-releases"], "Bestsellers": ["Readers' favourites", "Bestsellers", "bestsellers"], "Award Winners": ["Honoured writing", "Award Winners", "award-winners"], "Children Books": ["For young readers", "Children Books", "children-books"], "World Classic": ["Across languages", "World Classic", "world-classic"], "Magazine": ["Periodicals", "Magazine", "magazine"] };
 
-  /* ---- hero slider ---- */
-  var slides = H.slides.map(function (s, i) {
-    var ext = /^https?:/.test(s.link) && s.link.indexOf("rajkamalprakashan.com") > -1;
-    return '<a class="hm-slide" href="' + esc(s.link) + '" ' + (ext ? 'target="_blank" rel="noopener noreferrer"' : "") + ' aria-label="' + esc(s.title) + '"><img src="' + esc(homeImg(s.img)) + '" alt="' + esc(s.alt) + '"' + (i ? ' loading="lazy"' : ' fetchpriority="high"') + '></a>';
-  }).join("");
-  /* the big card: one Kitab Teras image (the same artwork as the Offers page it opens). Add entries to rotate more. */
-  var BIG = [
-    { href: siteURL("../offers/"), img: siteURL("home/img/hero/kt-hero-5.jpg"), t: "Kitab Teras", s: "11–22 October · up to 40% off + free delivery" }
-  ];
-  var newRel = (H.sections["New Releases"] || [])[0];
-  var SMALL_HREF = "#hm-sec-new-releases", SMALL_T = "New Releases", SMALL_S = "Fresh picks weekly";
-  /* six new-release cover shots, blinking (crossfading) one by one in the small card */
-  var NEWREL = [1, 2, 3, 4, 5, 6].map(function (n) { return siteURL("home/img/newrel/nr-" + n + ".png"); });
-  function cap(x) { return '<span class="hm-feat__cap"><span class="hm-feat__txt"><b>' + esc(x.t) + '</b><i>' + esc(x.s) + '</i></span><span class="hm-go" aria-hidden="true"><svg class="hm-go__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></span>'; }
-  var bigHtml = '<div class="hm-feat__card is-big hm-carousel" id="hmBig" aria-roledescription="carousel" aria-label="Featured offers"><div class="hm-carousel__track" id="hmBigTrack">' +
-    BIG.map(function (x, i) { return '<a class="hm-carousel__slide" href="' + x.href + '"><img src="' + x.img + '" alt="' + esc(x.t) + '"' + (i ? ' loading="lazy"' : ' fetchpriority="high"') + '>' + cap(x) + '</a>'; }).join("") +
-    "</div>" + (BIG.length > 1 ? '<div class="hm-carousel__dots" id="hmBigDots">' + BIG.map(function (x, i) { return '<button type="button" data-i="' + i + '" aria-label="Show ' + esc(x.t) + '"></button>'; }).join("") + "</div>" : "") + "</div>";
-  var EVENTS = [
-["Kitab Utsav : Barelly", "23–27 October", "Widmere Thetre", "Starting from 23rd October to 27th October", "kitab-utsav-bareilly"],
-    ["किताब उत्सव – इन्दौर", "4–8 सितम्बर", "प्रीतमलाल दुआ सभागृह, इन्दौर", "पाठक-लेखक संवाद, बातचीत, पाठ, चर्चा, लोकार्पण · प्रवेश निःशुल्क", "kitab-utsav-indore-2026"],
-    ["मेरी माँ मेरी गैंगस्टर | बातचीत • बुक साइनिंग", "3 अगस्त", "इंडिया इंटरनेशनल सेंटर, नई दिल्ली", "अरुंधति रॉय की किताब पर बातचीत और बुक साइनिंग · प्रवेश निःशुल्क", "meri-maan-meri-gangster-discussion-and-book-signing"]
-  ];
-  var eventArt = '<div class="hm-event__art" aria-hidden="true"><svg viewBox="0 0 160 88" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="26" r="12"/><path d="M10 68c0-18 10-28 22-28s22 10 22 28"/><circle cx="128" cy="26" r="12"/><path d="M106 68c0-18 10-28 22-28s22 10 22 28"/><path d="M58 62 80 52 102 62"/><path d="M58 62v10l22-10 22 10V62"/><line x1="80" y1="52" x2="80" y2="72"/><circle cx="70" cy="34" r="2" fill="currentColor" stroke="none"/><circle cx="80" cy="30" r="2" fill="currentColor" stroke="none"/><circle cx="90" cy="34" r="2" fill="currentColor" stroke="none"/></svg></div>';
-  var eventHtml = '<article class="hm-feat__card hm-event" aria-label="Events"><div class="hm-event__body">' + eventArt + '<p class="hm-event__tag"><span></span>Events</p>' +
-    '<ul class="hm-event__list">' + EVENTS.map(function (e, i) {
-      return '<li' + (i ? '' : ' class="is-first"') + '><a href="' + siteURL("../events/event/?id=" + encodeURIComponent(e[4])) + '"><time>' + esc(e[1]) + '</time><b>' + esc(e[0]) + '</b><span class="hm-event__where">📍 ' + esc(e[2]) + '</span><span class="hm-event__desc">' + esc(e[3]) + '</span></a></li>';
-    }).join("") + '</ul><a class="hm-event__all" href="' + siteURL("../events/") + '"><span>All events</span><span class="hm-go" aria-hidden="true"><svg class="hm-go__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></div></article>';
-
-  var top = '<section class="hm-top"><div class="hm-wrap hm-top__grid">' +
-    '<div class="hm-intro"><h1 class="hm-intro__title">\u0938\u093e\u0925 <span class="hm-cycle"><span class="hm-cycle__word" id="hmCycleWord">\u091c\u0941\u0921\u093c\u0947\u0902</span></span></h1><p class="hm-intro__sub">\u0939\u0930 \u0915\u093f\u0924\u093e\u092c \u092e\u0947\u0902 \u0939\u0948 \u090f\u0915 \u0928\u0908 \u0926\u0941\u0928\u093f\u092f\u093e</p>' +
-    '<form class="hm-search" id="hmSearch" role="search" autocomplete="off">' +
-      '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span class="hm-field"><input id="hmQ" type="search" placeholder=" " aria-label="Search by title, author, publisher or category"><span class="hm-ph" aria-hidden="true">Search by <span class="hm-ph__win"><span class="hm-ph__track"><span>Title</span><span>Author</span><span>Publisher</span><span>Category</span><span>Title</span></span></span></span></span><button type="button" class="hm-mic" id="hmMic" aria-label="Voice search" title="Voice search"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 19v3"/></svg></button><button type="submit" aria-label="Search"><svg class="hm-search__go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><div class="hm-results" id="hmRes" hidden></div></form></div>' +
-    '<div class="hm-feat">' + bigHtml + eventHtml +
-    '<div class="hm-feat__card hm-carousel" id="hmSmall" aria-roledescription="carousel" aria-label="New releases"><div class="hm-carousel__track" id="hmSmallTrack">' +
-      NEWREL.map(function (img, i) { return '<a class="hm-carousel__slide' + (i ? '' : ' on') + '" href="' + SMALL_HREF + '"><img src="' + esc(img) + '" alt="' + esc(SMALL_T) + '" loading="lazy"></a>'; }).join("") +
-    '</div>' + cap({ t: SMALL_T, s: SMALL_S }) + '</div>' +
-    '</div></div></section>';
+  /* ---- hero: Kitab Dost in the middle, sloped flip slabs either side (same as home-v2/).
+     This is only the markup; the slabs, speech bubble, phone carousel and search are wired by home-v2/hero.js. ---- */
+  var DOST = siteURL("../home-v2/img/kitabdost.webp");
+  var top = '<section class="hv" id="hv" aria-labelledby="hvTitle"><span class="hv-glow" aria-hidden="true"></span>' +
+    '<h1 class="hv-sr" id="hvTitle">Rajkamal Prakashan Samuh</h1>' +
+    '<div class="hv-phone-dost" aria-hidden="true"><span class="hv-pbubble"><span class="hv-tw" data-fit></span><span class="hv-pbubble__tail"></span></span>' +
+      '<img class="hv-dost hv-float" src="' + DOST + '" alt="" width="600" height="986" draggable="false"></div>' +
+    '<form class="hv-search hv-reveal" id="hvSearch" role="search" autocomplete="off" style="--d:0s"><div class="hv-search__pill">' +
+      '<svg class="hv-search__ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>' +
+      '<span class="hv-field"><input id="hvQ" type="search" placeholder=" " aria-label="Search by title, author, publisher or category">' +
+      '<span class="hv-ph" aria-hidden="true">Search by <span class="hv-ph__win"><span class="hv-ph__track"><span>Title</span><span>Author</span><span>Publisher</span><span>Category</span><span>Title</span></span></span></span></span>' +
+      '<button type="button" class="hv-mic" id="hvMic" aria-label="Voice search" title="Voice search"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 19v3"/></svg></button>' +
+      '<button type="submit" class="hv-go" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>' +
+      '</div><div class="hv-results" id="hvRes" hidden></div></form>' +
+    '<div class="hv-row" id="hvRow"><div class="hv-row__dost hv-reveal" style="--d:.15s"><div class="hv-float">' +
+      '<img class="hv-dost" src="' + DOST + '" alt="Kitab Dost, the Kitab Utsav mascot, greeting you with folded hands and a bag of books" width="600" height="986" draggable="false" fetchpriority="high">' +
+      '<span class="hv-bubble" aria-hidden="true"><span class="hv-bubble__tail"></span><span class="hv-bubble__box"><span class="hv-tw"></span></span></span></div></div></div>' +
+    '<div class="hv-carousel"><div class="hv-carousel__track" id="hvTrack"></div><div class="hv-carousel__dots" id="hvDots" aria-hidden="true"></div></div>' +
+    '</section>';
 
   var html = top;
 
@@ -180,37 +162,11 @@
   });
   root.innerHTML = html;
 
-  /* generic crossfade carousel wiring: auto-advance, optional dots, swipe; pauses on hover / touch / hidden tab */
-  function wireCarousel(boxId, trackId, dotsId, intervalMs) {
-    var box = document.getElementById(boxId), track = document.getElementById(trackId);
-    if (!box || !track) return;
-    var dots = dotsId ? [].slice.call(document.querySelectorAll("#" + dotsId + " button")) : [];
-    var slideEls = [].slice.call(track.querySelectorAll(".hm-carousel__slide"));
-    var cur = 0, tm, hold = false, x0 = null;
-    function go(i) {
-      cur = (i + slideEls.length) % slideEls.length;
-      slideEls.forEach(function (sl, n) { sl.classList.toggle("on", n === cur); });
-      dots.forEach(function (d, n) { d.classList.toggle("on", n === cur); d.setAttribute("aria-current", n === cur ? "true" : "false"); });
-    }
-    function run() { clearInterval(tm); if (slideEls.length > 1 && !matchMedia("(prefers-reduced-motion: reduce)").matches) tm = setInterval(function () { if (!hold && !document.hidden) go(cur + 1); }, intervalMs); }
-    if (dotsId) document.getElementById(dotsId).addEventListener("click", function (e) { var d = e.target.closest("button"); if (d) { go(+d.dataset.i); run(); } });
-    box.addEventListener("mouseenter", function () { hold = true; }); box.addEventListener("mouseleave", function () { hold = false; });
-    box.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; hold = true; }, { passive: true });
-    box.addEventListener("touchend", function (e) { if (x0 !== null) { var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) { go(cur + (dx < 0 ? 1 : -1)); run(); } } x0 = null; setTimeout(function () { hold = false; }, 1500); });
-    function place() { var im = track.querySelector("img"); if (im) box.style.setProperty("--imgh", im.getBoundingClientRect().height + "px"); }
-    window.addEventListener("resize", place); window.addEventListener("load", place);
-    var firstImg = track.querySelector("img"); if (firstImg) firstImg.addEventListener("load", place);
-    place();
-    go(0); run();
-  }
-  wireCarousel("hmBig", "hmBigTrack", BIG.length > 1 ? "hmBigDots" : null, 4500);
-  wireCarousel("hmSmall", "hmSmallTrack", null, 2600);
-
-  /* smooth-scroll for feature cards that link to a section further down this page */
+  /* smooth-scroll for hero cards that link to a section further down this page */
   document.addEventListener("click", function (e) {
-    var a = e.target.closest('.hm-feat__card[href^="#"], .hm-carousel__slide[href^="#"]');
-    if (!a) return;
-    var target = document.getElementById(a.getAttribute("href").slice(1));
+    var a = e.target.closest(".hv-slab[href*='#']");
+    if (!a || a.pathname !== location.pathname || !a.hash) return;
+    var target = document.getElementById(a.hash.slice(1));
     if (!target) return;
     e.preventDefault();
     target.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -218,7 +174,7 @@
 
   /* navbar search stays hidden while the big search on the page is in view; it appears once you scroll past it */
   (function () {
-    var big = document.getElementById("hmSearch"), b = document.body;
+    var big = document.getElementById("hvSearch"), b = document.body;
     if (!big || !("IntersectionObserver" in window)) return;
     b.classList.add("home-nosearch");
     new IntersectionObserver(function (es) {
@@ -227,84 +183,12 @@
     }, { rootMargin: "-70px 0px 0px 0px" }).observe(big);
   })();
 
-  /* search: live results from the catalogue (up to 6), Enter opens the top result */
-  (function () {
-    var form = document.getElementById("hmSearch"), q = document.getElementById("hmQ"), res = document.getElementById("hmRes"), all = [];
-    var mic = document.getElementById("hmMic");
-    var Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (Rec) {
-      var rec = new Rec(); rec.lang = "hi-IN"; rec.interimResults = false; rec.maxAlternatives = 1;
-      rec.addEventListener("result", function (e) { q.value = e.results[0][0].transcript; q.dispatchEvent(new Event("input")); q.focus(); });
-      rec.addEventListener("end", function () { mic.classList.remove("is-listening"); });
-      rec.addEventListener("error", function () { mic.classList.remove("is-listening"); });
-      mic.addEventListener("click", function () {
-        if (mic.classList.contains("is-listening")) { rec.stop(); return; }
-        mic.classList.add("is-listening");
-        try { rec.start(); } catch (e) { mic.classList.remove("is-listening"); }
-      });
-    } else {
-      mic.disabled = true;
-      mic.title = "Voice search is not supported in this browser";
-    }
-    /* matches title, author, category (books-cats.js) and publisher / imprint (books-pubs.js) */
-    var CATS = window.RK_CATS || {}, PUBS = window.RK_PUBS;
-    Object.keys(C).forEach(function (k) { C[k].books.forEach(function (b) { all.push({ b: b, k: k, hay: [b[0], b[1], CATS[b[4]] || "", PUBS ? PUBS.of(b[4]) : ""].join(" ").toLowerCase() }); }); });
-    function find(v) {
-      v = v.trim().toLowerCase(); if (v.length < 2) return [];
-      var seen = {}, out = [];
-      all.forEach(function (x) { if (x.hay.indexOf(v) > -1 && !seen[x.b[4]]) { seen[x.b[4]] = 1; out.push(x); } });
-      return out.slice(0, 6);
-    }
-    function url(x) { return siteURL("../books/product/?id=" + encodeURIComponent(x.b[4]) + "&c=" + encodeURIComponent(x.k) + "&from=home"); }
-    function show() {
-      var r = find(q.value);
-      if (!q.value.trim() || q.value.trim().length < 2) { res.hidden = true; return; }
-      res.innerHTML = r.length ? r.map(function (x) { return '<a href="' + url(x) + '"><img src="' + coverURL("../books/covers/" + esc(x.b[4]) + ".jpg") + '" alt="" width="34" height="50"><span><b>' + esc(x.b[0]) + '</b><i>' + esc(x.b[1]) + ' · ' + fmt(x.b[2]) + '</i></span></a>'; }).join("") : '<p>No matching books in this sample catalogue.</p>';
-      res.hidden = false;
-    }
-    q.addEventListener("input", show);
-    q.addEventListener("focus", show);
-    form.addEventListener("submit", function (e) { e.preventDefault(); var r = find(q.value); if (r.length) location.href = url(r[0]); else show(); });
-    document.addEventListener("click", function (e) { if (!form.contains(e.target)) res.hidden = true; });
-  })();
-
-  /* hero shelf: gentle auto-advance, pauses on touch / hover / when out of view */
-  var hero = document.getElementById("hmHero"), timer, paused = false;
-  if (hero) {
-    var step = function () {
-      if (paused || document.hidden) return;
-      var r = hero.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > window.innerHeight) return;
-      var end = hero.scrollLeft + hero.clientWidth >= hero.scrollWidth - 4;
-      hero.scrollTo({ left: end ? 0 : hero.scrollLeft + hero.clientWidth * 0.8, behavior: "smooth" });
-    };
-    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) timer = setInterval(step, 5000);
-    ["mouseenter", "touchstart", "focusin"].forEach(function (ev) { hero.addEventListener(ev, function () { paused = true; }, { passive: true }); });
-    ["mouseleave", "touchend", "focusout"].forEach(function (ev) { hero.addEventListener(ev, function () { setTimeout(function () { paused = false; }, 1500); }, { passive: true }); });
-  }
-
   /* shelf arrows */
   root.addEventListener("click", function (e) {
     var n = e.target.closest(".hm-nav");
     if (n) { var sh = n.closest(".hm-sec").querySelector(".hm-shelf"); sh.scrollBy({ left: +n.dataset.dir * sh.clientWidth * 0.85, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); return; }
     /* card buttons (cart / wishlist / buy) are handled once, site-wide, in kt/book-card.js */
   });
-
-  /* headline word-cycle: "साथ" stays put, one JS-swapped word blinks between जुड़ें / पढ़ें.
-     A single element (never two overlapping ones) avoids the ghosting/double-stroke rendering
-     glitch that two co-located, independently gradient-animated spans produced. */
-  var cycleWord = document.getElementById("hmCycleWord");
-  if (cycleWord && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    var CYCLE_WORDS = ["जुड़ें", "पढ़ें"], ci = 0;
-    setInterval(function () {
-      cycleWord.classList.add("is-out");
-      setTimeout(function () {
-        ci = (ci + 1) % CYCLE_WORDS.length;
-        cycleWord.textContent = CYCLE_WORDS[ci];
-        cycleWord.classList.remove("is-out");
-      }, 260);
-    }, 2000);
-  }
 
   /* shelves: hide the arrow at each end, and move the phone position bar as the shelf scrolls */
   function railState(sh) {

@@ -827,3 +827,9 @@ html[data-theme="dark"] #hm-sec-bestsellers .hm-wrap::before { background: linea
 @media (min-width: 1340px) { #hm-sec-bestsellers .hm-rail .hm-nav--prev { left: -78px; } #hm-sec-bestsellers .hm-rail .hm-nav--next { right: -78px; } }
 /* 1340–1351px: the other shelves' arrows come in 6px so they don't push the page 6px wider than the screen */
 @media (min-width: 1340px) and (max-width: 1351px) { .hm-rail .hm-nav--prev { left: -58px; } .hm-rail .hm-nav--next { right: -58px; } }
+
+/* hero (home-v2/hero.css): the sticky navbar is transparent on the home page, so give the strip behind it the hero's
+   own colour, and keep hero + navbar inside one screen */
+html body.home-page.hp { background: var(--hv-page); }
+@media (max-width: 767px) { html body.home-page.hp { background: #1b0e0a; } }
+@media (min-width: 721px) { .home-page .hv { min-height: calc(100svh - 68px); padding-top: 24px; } }
