@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#fbf1e4">
+<meta name="robots" content="noindex">
+<title>Hero Variant — Rajkamal Prakashan Samuh</title>
+<script>try{var t=localStorage.getItem("rk-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hero.css?v=1">
+</head>
+<body>
+
+<!-- Hero variant (Kitab Dost + sloped slabs). Content is the same as the current homepage hero (home/home.js). -->
+<section class="hv" id="hv" aria-labelledby="hvTitle">
+  <span class="hv-glow" aria-hidden="true"></span>
+
+  <h1 class="hv-sr" id="hvTitle">Rajkamal Prakashan Samuh</h1>
+
+  <!-- Phone: mascot with bubble (desktop mascot sits in the slab row) -->
+  <div class="hv-phone-dost" aria-hidden="true">
+    <span class="hv-pbubble"><span class="hv-tw" data-fit></span><span class="hv-pbubble__tail"></span></span>
+    <img class="hv-dost hv-float" src="img/kitabdost.webp" alt="" width="600" height="986" draggable="false">
+  </div>
+
+  <form class="hv-search hv-reveal" id="hvSearch" role="search" autocomplete="off" style="--d:0s">
+    <div class="hv-search__pill">
+      <svg class="hv-search__ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <span class="hv-field">
+        <input id="hvQ" type="search" placeholder=" " aria-label="Search by title, author, publisher or category">
+        <span class="hv-ph" aria-hidden="true">Search by <span class="hv-ph__win"><span class="hv-ph__track"><span>Title</span><span>Author</span><span>Publisher</span><span>Category</span><span>Title</span></span></span></span>
+      </span>
+      <button type="button" class="hv-mic" id="hvMic" aria-label="Voice search" title="Voice search"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 19v3"/></svg></button>
+      <button type="submit" class="hv-go" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="hv-results" id="hvRes" hidden></div>
+  </form>
+
+  <!-- Desktop / tablet: 5-column row, Kitab Dost in the middle -->
+  <div class="hv-row" id="hvRow">
+    <div class="hv-row__dost hv-reveal" style="--d:.15s">
+      <div class="hv-float">
+        <img class="hv-dost" src="img/kitabdost.webp" alt="Kitab Dost, the Kitab Utsav mascot, greeting you with folded hands and a bag of books" width="600" height="986" draggable="false" fetchpriority="high">
+        <span class="hv-bubble" aria-hidden="true"><span class="hv-bubble__tail"></span><span class="hv-bubble__box"><span class="hv-tw"></span></span></span>
+      </div>
+    </div>
+    <!-- slabs are inserted by hero.js -->
+  </div>
+
+  <!-- Phone: swipe row of slabs -->
+  <div class="hv-carousel">
+    <div class="hv-carousel__track" id="hvTrack"></div>
+    <div class="hv-carousel__dots" id="hvDots" aria-hidden="true"></div>
+  </div>
+</section>
+
+<script src="../books/books-data.js?v=4"></script>
+<script src="../books/books-cats.js?v=2"></script>
+<script src="../books/books-pubs.js?v=2"></script>
+<script src="hero.js?v=1"></script>
+</body>
+</html>
