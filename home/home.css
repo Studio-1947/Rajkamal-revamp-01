@@ -835,4 +835,6 @@ html body.home-page.hp { background: var(--hv-page); }
 @media (min-width: 721px) { .home-page .hv { min-height: calc(100svh - 68px); padding-top: 24px; } }
 /* phone: the new Kitab Dost raises a book on the left, so move him a little further right of the speech bubble */
 /* (offset with `left`, not `transform`, so it does not fight the hv-float bob animation) */
-@media (max-width: 767px) { .home-page .hv-phone-dost .hv-dost { position: relative; left: 48px; transform: none; } }
+@media (max-width: 767px) { .home-page .hv-phone-dost .hv-dost { position: relative; left: 60px; transform: none; width: 160px; } }
+/* bigger Kitab Dost: widen the middle column of the slab row (was 1.15fr in home-v2/hero.css) */
+@media (min-width: 768px) { .home-page .hv-row { grid-template-columns: 1.32fr 1fr 1.45fr 1fr 1.32fr; } }

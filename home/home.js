@@ -22,7 +22,7 @@
 
   /* ---- hero: Kitab Dost in the middle, sloped flip slabs either side (same as home-v2/).
      This is only the markup; the slabs, speech bubble, phone carousel and search are wired by home-v2/hero.js. ---- */
-  var DOST = siteURL("../home-v2/img/kitabdost-book.png");
+  var DOST = siteURL("../home-v2/img/kitabdost-book.webp");
   var top = '<section class="hv" id="hv" aria-labelledby="hvTitle"><span class="hv-glow" aria-hidden="true"></span>' +
     '<h1 class="hv-sr" id="hvTitle">Rajkamal Prakashan Samuh</h1>' +
     '<div class="hv-phone-dost" aria-hidden="true"><span class="hv-pbubble"><span class="hv-tw" data-fit></span><span class="hv-pbubble__tail"></span></span>' +
