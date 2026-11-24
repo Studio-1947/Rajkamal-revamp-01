@@ -22,11 +22,11 @@
 
   /* ---- hero: Kitab Dost in the middle, sloped flip slabs either side (same as home-v2/).
      This is only the markup; the slabs, speech bubble, phone carousel and search are wired by home-v2/hero.js. ---- */
-  var DOST = siteURL("../home-v2/img/kitabdost.webp");
+  var DOST = siteURL("../home-v2/img/kitabdost-book.png");
   var top = '<section class="hv" id="hv" aria-labelledby="hvTitle"><span class="hv-glow" aria-hidden="true"></span>' +
     '<h1 class="hv-sr" id="hvTitle">Rajkamal Prakashan Samuh</h1>' +
     '<div class="hv-phone-dost" aria-hidden="true"><span class="hv-pbubble"><span class="hv-tw" data-fit></span><span class="hv-pbubble__tail"></span></span>' +
-      '<img class="hv-dost hv-float" src="' + DOST + '" alt="" width="600" height="986" draggable="false"></div>' +
+      '<img class="hv-dost hv-float" src="' + DOST + '" alt="" width="700" height="903" draggable="false"></div>' +
     '<form class="hv-search hv-reveal" id="hvSearch" role="search" autocomplete="off" style="--d:0s"><div class="hv-search__pill">' +
       '<svg class="hv-search__ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>' +
       '<span class="hv-field"><input id="hvQ" type="search" placeholder=" " aria-label="Search by title, author, publisher or category">' +
@@ -35,7 +35,7 @@
       '<button type="submit" class="hv-go" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>' +
       '</div><div class="hv-results" id="hvRes" hidden></div></form>' +
     '<div class="hv-row" id="hvRow"><div class="hv-row__dost hv-reveal" style="--d:.15s"><div class="hv-float">' +
-      '<img class="hv-dost" src="' + DOST + '" alt="Kitab Dost, the Kitab Utsav mascot, greeting you with folded hands and a bag of books" width="600" height="986" draggable="false" fetchpriority="high">' +
+      '<img class="hv-dost" src="' + DOST + '" alt="Kitab Dost, the Kitab Utsav mascot, holding up a book with a bag of books over one shoulder" width="700" height="903" draggable="false" fetchpriority="high">' +
       '<span class="hv-bubble" aria-hidden="true"><span class="hv-bubble__tail"></span><span class="hv-bubble__box"><span class="hv-tw"></span></span></span></div></div></div>' +
     '<div class="hv-carousel"><div class="hv-carousel__track" id="hvTrack"></div><div class="hv-carousel__dots" id="hvDots" aria-hidden="true"></div></div>' +
     '</section>';
