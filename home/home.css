@@ -831,10 +831,8 @@ html[data-theme="dark"] #hm-sec-bestsellers .hm-wrap::before { background: linea
 /* hero (home-v2/hero.css): the sticky navbar is transparent on the home page, so give the strip behind it the hero's
    own colour, and keep hero + navbar inside one screen */
 html body.home-page.hp { background: var(--hv-page); }
-@media (max-width: 767px) { html body.home-page.hp { background: #1b0e0a; } }
-@media (min-width: 721px) { .home-page .hv { min-height: calc(100svh - 68px); padding-top: 24px; } }
-/* phone: the new Kitab Dost raises a book on the left, so move him a little further right of the speech bubble */
-/* (offset with `left`, not `transform`, so it does not fight the hv-float bob animation) */
-@media (max-width: 767px) { .home-page .hv-phone-dost .hv-dost { position: relative; left: 60px; transform: none; width: 160px; } }
+/* from 768px (where the hero switches to its desktop row), not 721px: between 721 and 767 the hero is still the phone layout */
+@media (min-width: 768px) { .home-page .hv { min-height: calc(100svh - 68px); padding-top: 24px; } }
+/* phone Kitab Dost size / position and his speech bubble: see the phone block in home-v2/hero.css */
 /* bigger Kitab Dost: widen the middle column of the slab row (was 1.15fr in home-v2/hero.css) */
 @media (min-width: 768px) { .home-page .hv-row { grid-template-columns: 1.32fr 1fr 1.45fr 1fr 1.32fr; } }

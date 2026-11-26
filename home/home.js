@@ -25,7 +25,9 @@
   var DOST = siteURL("../home-v2/img/kitabdost-book.webp");
   var top = '<section class="hv" id="hv" aria-labelledby="hvTitle"><span class="hv-glow" aria-hidden="true"></span>' +
     '<h1 class="hv-sr" id="hvTitle">Rajkamal Prakashan Samuh</h1>' +
-    '<div class="hv-phone-dost" aria-hidden="true"><span class="hv-pbubble"><span class="hv-tw" data-fit></span><span class="hv-pbubble__tail"></span></span>' +
+    /* phone greeting: what Kitab Dost says, shown as the heading beside him (hidden on desktop, where he has the speech bubble) */
+    '<div class="hv-greet"><p class="hv-greet__eyebrow">75+ years of Hindi publishing</p><p class="hv-greet__title" lang="hi"><span class="hv-greet__line is-on"><span class="hv-greet__lead">मैं हूँ आपका</span><span class="hv-greet__main">किताब दोस्त</span></span><span class="hv-greet__line" aria-hidden="true"><span class="hv-greet__lead">साथ जुड़ें,</span><span class="hv-greet__main">साथ पढ़ें</span></span></p></div>' +
+    '<div class="hv-phone-dost" aria-hidden="true"><span class="hv-pbubble"><span class="hv-tw"></span><span class="hv-pbubble__tail"></span></span>' +
       '<img class="hv-dost hv-float" src="' + DOST + '" alt="" width="700" height="903" draggable="false"></div>' +
     '<form class="hv-search hv-reveal" id="hvSearch" role="search" autocomplete="off" style="--d:0s"><div class="hv-search__pill">' +
       '<svg class="hv-search__ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>' +
