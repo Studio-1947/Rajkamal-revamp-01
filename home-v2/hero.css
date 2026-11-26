@@ -220,7 +220,8 @@
 .hv-slab:focus-visible { outline: none; }
 .hv-slab:focus-visible .hv-slab__cap .hv-slab__arrow { outline: 2px solid var(--hv-gold); outline-offset: 2px; }
 @media (min-width: 768px) and (max-width: 1279px) { .hv-slab { aspect-ratio: 200 / 290; } }
-@media (max-width: 767px) { .hv-slab { aspect-ratio: 200 / 210; } }
+/* phones: the 2×2 grid uses the laptop card shape (and its photo slope below) */
+@media (max-width: 767px) { .hv-slab { aspect-ratio: 200 / 290; } }
 
 .hv-slab__inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 0.7s var(--hv-ease); }
 .hv-slab__front, .hv-slab__back { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
@@ -253,10 +254,10 @@
   .hv-slab--right .hv-slab__photo { --pm: var(--pm-r-md); }
 }
 @media (max-width: 767px) {
-  .hv-slab--left .hv-slab__photo { --pm: var(--pm-l-sm); }
-  .hv-slab--right .hv-slab__photo { --pm: var(--pm-r-sm); }
+  .hv-slab--left .hv-slab__photo { --pm: var(--pm-l-md); }
+  .hv-slab--right .hv-slab__photo { --pm: var(--pm-r-md); }
 }
-.hv-slab__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hv-slab__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, center); }
 .hv-fade { opacity: 0; transition: opacity 0.7s ease; }
 .hv-fade.on { opacity: 1; }
 .hv-slab__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(156, 23, 23, 0.05) 40%, rgba(110, 18, 18, 0.55)); }
@@ -329,57 +330,74 @@
 @media (hover: none) { .hv-slab__back { display: none; } }
 
 /* ---------- phone ---------- */
-.hv-phone-dost, .hv-carousel { display: none; }
+/* Phones: a greeting row (what Kitab Dost says, as a heading, with him beside it), the search bar with a trust line under it,
+   then the four slabs as a 2×2 grid that slopes towards the middle as on desktop. The greeting and trust line are phone-only;
+   on desktop he has the speech bubble instead. The older phone-only pieces (.hv-phone-dost, .hv-carousel) stay in the
+   markup because hero.js fills them, but are not shown. */
+.hv-phone-dost, .hv-carousel, .hv-greet { display: none; }
 
 @media (max-width: 767px) {
-  .hv { min-height: 100svh; justify-content: flex-start; padding: 28px 0 24px; background: #1b0e0a; color: #f7e8da; }
-  .hv-glow { left: 58%; top: 0; width: 380px; height: 380px; transform: translate(-50%, -8%); background: radial-gradient(circle, rgba(203, 35, 35, 0.28), transparent 62%); }
-
-  .hv-row, .hv-more { display: none; }
-
-  .hv-phone-dost { display: block; position: relative; height: 230px; padding-top: 10px; }
-  .hv-phone-dost .hv-dost { width: 132px; margin: 0 auto; transform: translateX(34px); }
-  .hv-pbubble {
-    position: absolute; left: 16px; top: 34px; z-index: 10;
-    display: block; width: max-content; max-width: 44vw;
-    padding: 10px 16px; border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.15); background: #3a2a25; color: #fff;
-    font-size: 0.95rem; font-weight: 600; line-height: 1.35;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  /* The hero becomes a 2-column grid and the row's children join it (display: contents), so the greeting, search and
+     cards can be ordered freely. Content capped at 488px wide on large phones / small tablets. */
+  .hv {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px 12px; align-items: start;
+    min-height: 0; /* no full-screen height on phones: the hero ends right under the cards */
+    padding: 20px max(16px, calc((100% - 488px) / 2)) 28px;
   }
-  .hv-pbubble__tail { position: absolute; bottom: -7px; right: 22%; width: 14px; height: 14px; transform: rotate(45deg); border-right: 1px solid rgba(255, 255, 255, 0.15); border-bottom: 1px solid rgba(255, 255, 255, 0.15); background: #3a2a25; }
+  .hv-glow { left: 22%; top: -40px; width: 360px; height: 360px; }
+  .hv-row { display: contents; }
 
-  .hv-search { width: calc(100% - 32px); max-width: none; }
-  .hv-search__pill { height: 54px; padding-left: 16px; border-color: rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.05); }
-  .hv-search__ic { color: #cdb9ae; }
-  .hv-field input { font-size: 16px; color: #f7e8da; }
-  .hv-ph { font-size: 16px; color: #a8968c; }
-  .hv-mic { border-color: rgba(255, 255, 255, 0.2); color: #f7e8da; }
-  .hv-go { width: 44px; height: 44px; background: #f08c78; color: #2a120c; box-shadow: none; }
-
-  .hv-carousel { display: block; position: relative; margin-top: 12px; }
-  .hv-carousel__track {
-    display: flex; gap: 12px;
-    overflow-x: auto; overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory; scroll-padding: 0 16px;
-    padding: 8px 16px 16px;
-    scrollbar-width: none;
+  /* greeting row: Kitab Dost on the left, looking at the heading on the right (both in row 1, spanning the full width) */
+  .hv-greet { display: block; order: 0; grid-row: 1; grid-column: 1 / -1; align-self: center; position: relative; z-index: 1; padding-left: 43%; }
+  .hv-greet__eyebrow { display: block; margin: 0 0 8px; color: var(--hv-accent); font-size: clamp(0.58rem, 2.6vw, 0.68rem); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+  /* his words: a quiet lead-in, then the main words big in a classic book serif (Tiro Devanagari Hindi), coloured like the slabs */
+  .hv-greet__title { margin: 0; display: grid; white-space: nowrap; }
+  .hv-greet__lead { display: block; color: var(--hv-ink); font-family: "Noto Sans Devanagari", sans-serif; font-size: clamp(1rem, 4.6vw, 1.3rem); font-weight: 500; line-height: 1.3; opacity: 0.85; }
+  .hv-greet__main {
+    /* extra room above and below: the gradient fill (background-clip: text) only paints inside the box, so marks like the
+       chandrabindu on ढ़ें (above the line) or matras below it would be cut off without it; the negative margin keeps the spacing */
+    display: block; margin: -0.25em 0 -0.15em; padding: 0.3em 0.05em 0.2em 0;
+    font-family: "Tiro Devanagari Hindi", "Noto Serif Devanagari", serif; font-size: clamp(2rem, 9.4vw, 2.7rem); font-weight: 400; line-height: 1.2; letter-spacing: 0.005em;
+    color: var(--hv-accent);
+    background: linear-gradient(100deg, #c1442a 0%, #8a1c1c 60%, #6e1414 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   }
-  .hv-carousel__track::-webkit-scrollbar { display: none; }
-  .hv-carousel__item { flex: none; width: 60.5vw; max-width: 260px; scroll-snap-align: start; transition: transform 0.5s var(--hv-ease); }
-  .hv-carousel__end { flex: none; width: 1px; }
-  .hv-carousel__dots { display: flex; justify-content: center; gap: 6px; }
-  .hv-carousel__dots span { width: 6px; height: 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.3); transition: width 0.3s, background-color 0.3s; }
-  .hv-carousel__dots span.on { width: 20px; background: #f08c78; }
+  :root[data-theme="dark"] .hv-greet__main { background-image: linear-gradient(100deg, #ffab98 0%, #ffe174 100%); }
+  /* the two lines share one spot; the old one leaves first, then the new one rises in, so they never overlap */
+  .hv-greet__line { grid-area: 1 / 1; opacity: 0; transform: translateY(-6px); transition: opacity 0.3s ease, transform 0.3s ease; }
+  .hv-greet__line.is-on { opacity: 1; transform: none; transition: opacity 0.45s ease 0.3s, transform 0.45s var(--hv-ease) 0.3s; }
+  @media (prefers-reduced-motion: reduce) { .hv-greet__line, .hv-greet__line.is-on { transition: none; } }
+  .hv-row__dost { order: 0; grid-row: 1; grid-column: 1 / -1; justify-self: start; width: min(40%, 200px); margin: 0; padding-bottom: 0; }
+  .hv-bubble { display: none; } /* his words are the heading on phones */
 
-  .hv-slab__cap { gap: 0.3em; padding: 0.6em 6% 7%; font-size: 0.95rem; }
-  .hv-slab__eyebrow { font-size: 0.7rem; letter-spacing: 0.08em; }
-  .hv-slab__title { font-size: 1.15rem; }
-  .hv-slab__arrow { width: 32px; height: 32px; font-size: 0.95rem; font-weight: 400; border: 1px solid rgba(255, 255, 255, 0.6); background: transparent; }
+  .hv-search { order: 1; grid-column: 1 / -1; width: 100%; max-width: none; margin: 6px 0 8px; }
+  .hv-search__pill { height: 56px; padding-left: 18px; box-shadow: 0 10px 24px -12px rgba(60, 20, 10, 0.35); }
+  .hv-field input, .hv-ph { font-size: 16px; } /* 16px stops iOS zooming into the field */
+  .hv-go { width: 46px; height: 46px; }
+
+
+  /* 2×2: left column = left-sloping slabs (Kitab Teras, Bareilly), right column = right-sloping (Indore, New Releases) */
+  .hv-row__cell:nth-child(1) { order: 2; }
+  .hv-row__cell:nth-child(4) { order: 3; }
+  .hv-row__cell:nth-child(2) { order: 4; }
+  .hv-row__cell:nth-child(5) { order: 5; }
+
+  /* phone-only image framing (set per slab in hero.js) */
+  .hv-slab__img { object-position: var(--pos-sm, var(--pos, center)); }
+  .hv-slab__img.is-zoom-sm { transform: scale(1.55); transform-origin: 50% 46%; }
+
+  .hv-more { order: 6; grid-column: 1 / -1; justify-self: center; margin-top: 4px; }
+
+  /* slab captions sized for a half-width card */
+  .hv-slab__cap { gap: 0.25em; padding: 0.55em 8% 11%; font-size: 0.85rem; }
+  .hv-slab__eyebrow { font-size: 0.62rem; letter-spacing: 0.07em; }
+  .hv-slab__title { font-size: 1rem; align-items: flex-end; }
+  .hv-slab__arrow { width: 26px; height: 26px; font-size: 0.85rem; }
 }
-@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
-  .hv-carousel__item.is-next { transform: perspective(900px) rotateY(-8deg) rotateZ(1.5deg); }
-  .hv-carousel__item.is-prev { transform: perspective(900px) rotateY(8deg) rotateZ(-1.5deg); }
+/* small phones: slightly narrower bubble and a touch less offset */
+@media (max-width: 360px) {
+  .hv-slab__title { font-size: 0.92rem; }
+  /* small phones: the eyebrow wraps to two lines instead of being cut off */
+  .hv-greet__eyebrow { white-space: normal; line-height: 1.35; }
 }
 
 /* tablets: Kitab Dost row stays, just tighter */

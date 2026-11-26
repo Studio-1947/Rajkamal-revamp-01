@@ -33,13 +33,13 @@
     },
     {
       desk: true, side: "right",
-      imgs: [site("events/img/kitab-utsav-indore-2026-1.jpg")], alt: "किताब उत्सव – इन्दौर", pos: "86% center",
+      imgs: [site("events/img/kitab-utsav-indore-2026-1.jpg")], alt: "किताब उत्सव – इन्दौर", pos: "86% center", posSm: "100% center", /* phones: right half only (no cut-off logo) */
       eyebrow: "Events · 4–8 सितम्बर", title: "किताब उत्सव – इन्दौर", href: EVENT_URL("kitab-utsav-indore-2026"),
       back: { text: "पाठक-लेखक संवाद, बातचीत, पाठ, चर्चा, लोकार्पण · प्रवेश निःशुल्क", details: [["calendar", "4–8 सितम्बर"], ["pin", "प्रीतमलाल दुआ सभागृह, इन्दौर"]], cta: "View event" }
     },
     {
       desk: true, side: "right",
-      imgs: NEWREL, alt: "New Releases",
+      imgs: NEWREL, alt: "New Releases", zoomSm: true, /* phones: zoom into the cover (it fills only half the mockup) */
       eyebrow: "Fresh picks weekly", title: "New Releases", href: site("#hm-sec-new-releases")
     },
     {
@@ -86,7 +86,7 @@
   function slab(s, i, eager) {
     var multi = s.imgs.length > 1;
     var imgs = s.imgs.map(function (src, k) {
-      return '<img class="hv-slab__img' + (multi ? " hv-fade" + (k ? "" : " on") : "") + '"' + (s.pos ? ' style="object-position:' + s.pos + '"' : "") + ' src="' + esc(src) + '" alt="' + (k ? "" : esc(s.alt)) + '"' + (eager && !k ? ' fetchpriority="high"' : ' loading="lazy"') + ' draggable="false">';
+      return '<img class="hv-slab__img' + (multi ? " hv-fade" + (k ? "" : " on") : "") + (s.zoomSm ? " is-zoom-sm" : "") + '"' + (s.pos ? ' style="--pos:' + s.pos + (s.posSm ? ";--pos-sm:" + s.posSm : "") + '"' : "") + ' src="' + esc(src) + '" alt="' + (k ? "" : esc(s.alt)) + '"' + (eager && !k ? ' fetchpriority="high"' : ' loading="lazy"') + ' draggable="false">';
     }).join("");
     var b = s.back, back = "";
     if (b) {
@@ -148,31 +148,52 @@
   }
 
   /* ---------- Kitab Dost speech bubble: types, holds, erases, next line ---------- */
-  var LINES = [{ text: "Mai Hu Aapka Kitab Dost", lang: "hi-Latn" }, { text: "साथ जुड़ें, साथ पढ़ें", lang: "hi", center: true }];
+  /* each line = a small lead-in + the main words. On desktop they read as one line; on phones the lead sits small on top
+     and the main words bold underneath ("Mai Hu Aapka" / "Kitab Dost"). The trailing space in `lead` is what joins them on desktop. */
+  var LINES = [{ lead: "Mai Hu Aapka ", main: "Kitab Dost", lang: "hi-Latn" }, { lead: "साथ जुड़ें, ", main: "साथ पढ़ें", lang: "hi", center: true }];
   function letters(t) {
     if (window.Intl && Intl.Segmenter) return Array.from(new Intl.Segmenter(undefined, { granularity: "grapheme" }).segment(t), function (s) { return s.segment; });
     return Array.from(t);
   }
+  var CARET = '<span class="hv-tw__caret"></span>';
+  function twoPart(l, n, caret) { /* first n letters of the line, split into lead / main */
+    var all = letters(l.lead + l.main), k = letters(l.lead).length, c = caret ? CARET : "";
+    if (n == null) n = all.length;
+    var lead = esc(all.slice(0, Math.min(n, k)).join("")), main = esc(all.slice(k, Math.max(n, k)).join(""));
+    return '<span class="hv-tw__lead">' + lead + (n <= k ? c : "") + '</span><span class="hv-tw__main">' + main + (n > k ? c : "") + "</span>";
+  }
   document.querySelectorAll(".hv-tw").forEach(function (el) {
     var fit = el.hasAttribute("data-fit");
-    if (reduce) { el.innerHTML = LINES.map(function (l) { return '<span lang="' + l.lang + '" style="display:block' + (l.center ? ";text-align:center" : "") + '">' + esc(l.text) + "</span>"; }).join(""); return; }
-    el.innerHTML = (fit ? "" : LINES.map(function (l) { return '<span class="hv-tw__hold" lang="' + l.lang + '">' + esc(l.text) + '<span style="display:inline-block;width:.5em"></span></span>'; }).join("")) +
-      '<span class="hv-tw__live"><span class="hv-tw__txt"></span><span class="hv-tw__caret"></span></span>';
-    var live = el.querySelector(".hv-tw__live"), txt = el.querySelector(".hv-tw__txt");
-    var line = 0, count = 0, erasing = false, cur = letters(LINES[0].text);
+    if (reduce) { el.innerHTML = LINES.map(function (l) { return '<span class="hv-tw__line" lang="' + l.lang + '" style="display:block' + (l.center ? ";text-align:center" : "") + '">' + twoPart(l) + "</span>"; }).join(""); return; }
+    el.innerHTML = (fit ? "" : LINES.map(function (l) { return '<span class="hv-tw__hold" lang="' + l.lang + '">' + twoPart(l) + '<span style="display:inline-block;width:.5em"></span></span>'; }).join("")) +
+      '<span class="hv-tw__live"></span>';
+    var live = el.querySelector(".hv-tw__live");
+    var line = 0, count = 0, erasing = false, total = letters(LINES[0].lead + LINES[0].main).length;
     function tick() {
       var delay;
-      if (!erasing && count < cur.length) { count++; delay = 85; }
+      if (!erasing && count < total) { count++; delay = 85; }
       else if (!erasing) { erasing = true; delay = 1600; }
       else if (count > 0) { count--; delay = 40; }
-      else { erasing = false; line = (line + 1) % LINES.length; cur = letters(LINES[line].text); delay = 350; }
-      txt.textContent = cur.slice(0, count).join("");
+      else { erasing = false; line = (line + 1) % LINES.length; total = letters(LINES[line].lead + LINES[line].main).length; delay = 350; }
+      live.innerHTML = twoPart(LINES[line], count, true);
       live.setAttribute("lang", LINES[line].lang);
       live.style.textAlign = LINES[line].center && !fit ? "center" : "";
       setTimeout(tick, delay);
     }
     tick();
   });
+
+  /* ---------- phone greeting: his two lines take turns ("मैं हूँ आपका किताब दोस्त" ↔ "साथ जुड़ें, साथ पढ़ें") ---------- */
+  (function () {
+    var lines = hv.querySelectorAll(".hv-greet__line");
+    if (lines.length < 2 || reduce) return;
+    var i = 0;
+    setInterval(function () {
+      lines[i].classList.remove("is-on"); lines[i].setAttribute("aria-hidden", "true");
+      i = (i + 1) % lines.length;
+      lines[i].classList.add("is-on"); lines[i].removeAttribute("aria-hidden");
+    }, 3600);
+  })();
 
   /* ---------- search (same behaviour as the current hero: title / author / category / publisher) ---------- */
   (function () {

@@ -8,8 +8,8 @@
 <title>Hero Variant — Rajkamal Prakashan Samuh</title>
 <script>try{var t=localStorage.getItem("rk-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="hero.css?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hero.css?v=16">
 <style>
 html, body { margin: 0; }
 body { background: var(--hv-page); color: var(--hv-ink); font-family: "Google Sans Flex", "Noto Sans Devanagari", system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
@@ -23,9 +23,12 @@ body { background: var(--hv-page); color: var(--hv-ink); font-family: "Google Sa
 
   <h1 class="hv-sr" id="hvTitle">Rajkamal Prakashan Samuh</h1>
 
+  <!-- phone greeting: what Kitab Dost says, as a heading beside him (hidden on desktop) -->
+  <div class="hv-greet"><p class="hv-greet__eyebrow">75+ years of Hindi publishing</p><p class="hv-greet__title" lang="hi"><span class="hv-greet__line is-on"><span class="hv-greet__lead">मैं हूँ आपका</span><span class="hv-greet__main">किताब दोस्त</span></span><span class="hv-greet__line" aria-hidden="true"><span class="hv-greet__lead">साथ जुड़ें,</span><span class="hv-greet__main">साथ पढ़ें</span></span></p></div>
+
   <!-- Phone: mascot with bubble (desktop mascot sits in the slab row) -->
   <div class="hv-phone-dost" aria-hidden="true">
-    <span class="hv-pbubble"><span class="hv-tw" data-fit></span><span class="hv-pbubble__tail"></span></span>
+    <span class="hv-pbubble"><span class="hv-tw"></span><span class="hv-pbubble__tail"></span></span>
     <img class="hv-dost hv-float" src="img/kitabdost.webp" alt="" width="600" height="986" draggable="false">
   </div>
 
@@ -63,6 +66,6 @@ body { background: var(--hv-page); color: var(--hv-ink); font-family: "Google Sa
 <script src="../books/books-data.js?v=4"></script>
 <script src="../books/books-cats.js?v=2"></script>
 <script src="../books/books-pubs.js?v=2"></script>
-<script src="hero.js?v=2"></script>
+<script src="hero.js?v=5"></script>
 </body>
 </html>
